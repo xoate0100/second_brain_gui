@@ -45,7 +45,9 @@ export class ReviewApiClient {
   /**
    * Build query string from parameters
    */
-  private buildQueryString(params: Record<string, unknown> | ReviewQueueParams | SuggestionParams): string {
+  private buildQueryString(
+    params: Record<string, unknown> | ReviewQueueParams | SuggestionParams
+  ): string {
     const searchParams = new URLSearchParams();
 
     for (const [key, value] of Object.entries(params)) {
