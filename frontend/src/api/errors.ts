@@ -57,31 +57,6 @@ export function parseApiError(response: unknown): ApiError {
   };
 }
 
-/**
- * Get error code from HTTP status
- */
-function getErrorCodeFromStatus(status: number): ErrorCode {
-  switch (status) {
-    case 400:
-      return 'VALIDATION_ERROR';
-    case 401:
-      return 'AUTHENTICATION_ERROR';
-    case 403:
-      return 'AUTHORIZATION_ERROR';
-    case 404:
-      return 'NOT_FOUND';
-    case 409:
-      return 'CONFLICT';
-    case 429:
-      return 'RATE_LIMIT_EXCEEDED';
-    case 500:
-      return 'INTERNAL_ERROR';
-    case 503:
-      return 'SERVICE_UNAVAILABLE';
-    default:
-      return 'UNKNOWN_ERROR';
-  }
-}
 
 /**
  * API Error Handler
