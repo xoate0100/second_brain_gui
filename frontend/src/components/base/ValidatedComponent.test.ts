@@ -28,7 +28,7 @@ class TestValidatedComponent extends ValidatedComponent {
 
   getValidationRules(): ValidationRules {
     return {
-      testField: (value: unknown) => {
+      testField: (value: unknown): string | null => {
         if (!value || (typeof value === 'string' && value.trim() === '')) {
           return 'Field is required';
         }
