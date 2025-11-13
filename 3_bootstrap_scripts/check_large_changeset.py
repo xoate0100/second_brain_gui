@@ -7,6 +7,12 @@ import sys
 import subprocess
 import pathlib
 
+# Fix Windows console encoding for emojis
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
 # Threshold for warning (configurable)
 WARN_THRESHOLD = 20
 
@@ -60,7 +66,7 @@ def main():
     count, modified, untracked = get_files_since_last_commit()
     
     if count > WARN_THRESHOLD:
-        print(f"[large-changeset] ⚠️  WARNING: {count} files changed since last commit (threshold: {WARN_THRESHOLD})")
+        print(f"[large-changeset] WARNING: {count} files changed since last commit (threshold: {WARN_THRESHOLD})")
         print(f"[large-changeset] Consider committing incrementally to avoid large uncommitted changesets.")
         print(f"[large-changeset] Modified files: {len(modified)}")
         print(f"[large-changeset] Untracked files: {len(untracked)}")

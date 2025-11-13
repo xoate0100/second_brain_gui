@@ -14,8 +14,17 @@ repos:
       - id: check-added-large-files
         args: ["--maxkb=1024"]
 
+
   - repo: local
     hooks:
+      - id: eslint
+        name: ESLint
+        entry: bash -c 'if [ -f "frontend/package.json" ] && (cd frontend && npx --yes eslint --version >/dev/null 2>&1); then cd frontend && npx eslint --fix --max-warnings=0 "$@"; else echo "[eslint] Skipping - ESLint not configured"; exit 0; fi' --
+        language: system
+        files: ^frontend/.*\.(ts|tsx|js|jsx)$
+        pass_filenames: true
+        require_serial: true
+
       - id: syntax-checks
         name: Syntax & Structural Validation
         entry: 3_bootstrap_scripts/validate_syntax.sh
@@ -93,3 +102,19 @@ repos:
         pass_filenames: false
         always_run: true
         verbose: true
+
+      - id: accessibility-check
+        name: Accessibility (WCAG 2.1 AA)
+        entry: 3_bootstrap_scripts/accessibility_check.sh
+        language: system
+        files: ^frontend/.*\.(html|ts|tsx)$
+        pass_filenames: false
+        always_run: false
+
+      - id: e2e-validation
+        name: E2E Tests (Playwright)
+        entry: 3_bootstrap_scripts/e2e_validation.sh
+        language: system
+        files: ^frontend/.*\.(ts|tsx|html)$
+        pass_filenames: false
+        always_run: false

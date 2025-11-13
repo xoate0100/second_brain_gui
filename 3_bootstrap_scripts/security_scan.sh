@@ -2,7 +2,8 @@
 set -euo pipefail
 STATUS=0
 # Secrets scan (basic): grep common patterns; replace with gitleaks if available.
-if git grep -nE "(AWS_SECRET|BEGIN RSA PRIVATE KEY|password\s*=|api_key\s*=)" -- . ':!*.md' ; then
+# Exclude package.json files as they may contain dependency names with "api_key"
+if git grep -nE "(AWS_SECRET|BEGIN RSA PRIVATE KEY|password\s*=|api_key\s*=)" -- . ':!*.md' ':!package.json' ':!package-lock.json' ; then
   echo "Secret-like patterns found."
   STATUS=1
 fi
