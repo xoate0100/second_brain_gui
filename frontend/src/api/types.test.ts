@@ -6,17 +6,8 @@
 import { describe, it, expect } from 'vitest';
 import type {
   ReviewQueueParams,
-  ReviewQueueResponse,
   ReviewItem,
-  Pagination,
-  NoteDetailResponse,
-  StatusUpdateRequest,
-  StatusUpdateResponse,
-  NoteUpdateRequest,
-  NoteUpdateResponse,
-  BatchUpdateRequest,
-  BatchUpdateResponse,
-  SuggestionResponse
+  StatusUpdateRequest
 } from './types';
 
 describe('API Types', () => {

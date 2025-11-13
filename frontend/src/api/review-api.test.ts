@@ -74,7 +74,8 @@ describe('ReviewApiClient', () => {
       await reviewApi.getQueue(params);
 
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/api/v1/review/queue?stage=unreviewed&venture=SWS&limit=25&offset=50&sort_by=momentum_score&order=desc'
+        '/api/v1/review/queue?stage=unreviewed&venture=SWS&limit=25&' +
+          'offset=50&sort_by=momentum_score&order=desc'
       );
     });
   });
