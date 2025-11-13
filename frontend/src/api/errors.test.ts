@@ -5,7 +5,6 @@
 
 import { describe, it, expect, vi } from 'vitest';
 import { parseApiError, ApiErrorHandler } from './errors';
-import type { ApiError } from '../types/api';
 
 describe('parseApiError', () => {
   it('should parse standard error response', () => {

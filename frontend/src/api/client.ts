@@ -13,7 +13,7 @@
  * - DIP: Implements ApiClient interface
  */
 
-import type { ApiClient, ApiResponse, ApiError } from '../types/api';
+import type { ApiClient, ApiResponse } from '../types/api';
 import { parseApiError } from './errors';
 import { v4 as uuidv4 } from 'uuid';
 
