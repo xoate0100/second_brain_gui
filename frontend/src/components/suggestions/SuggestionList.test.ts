@@ -152,19 +152,21 @@ describe('SuggestionList', () => {
       container.appendChild(element);
 
       let appliedSuggestion: Suggestion | null = null;
-      // Listen on the list element which emits the forwarded events
-      element.addEventListener('suggestion:apply', ((e: CustomEvent) => {
+      // Listen on container - events bubble from itemContainer through list to container
+      const handler = ((e: CustomEvent) => {
         appliedSuggestion = e.detail.suggestion;
-      }) as EventListener);
+      }) as EventListener;
+      container.addEventListener('suggestion:apply', handler);
 
       const applyButton = element.querySelector('[data-action="apply"]') as HTMLButtonElement;
       expect(applyButton).toBeTruthy();
       if (applyButton) {
         applyButton.click();
-        // Wait for event to propagate through itemContainer to list element
-        await new Promise((resolve) => setTimeout(resolve, 50));
+        // Wait for event to propagate
+        await new Promise((resolve) => setTimeout(resolve, 100));
         expect(appliedSuggestion).toBeTruthy();
         expect(appliedSuggestion?.note_id).toBe('note-1');
+        container.removeEventListener('suggestion:apply', handler);
       }
     });
 
@@ -184,18 +186,20 @@ describe('SuggestionList', () => {
       container.appendChild(element);
 
       let dismissedId: string | null = null;
-      // Listen on the list element which emits the forwarded events
-      element.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
+      // Listen on container - events bubble from itemContainer through list to container
+      const handler = ((e: CustomEvent) => {
         dismissedId = e.detail.note_id;
-      }) as EventListener);
+      }) as EventListener;
+      container.addEventListener('suggestion:dismiss', handler);
 
       const dismissButton = element.querySelector('[data-action="dismiss"]') as HTMLButtonElement;
       expect(dismissButton).toBeTruthy();
       if (dismissButton) {
         dismissButton.click();
-        // Wait for event to propagate through itemContainer to list element
-        await new Promise((resolve) => setTimeout(resolve, 50));
+        // Wait for event to propagate
+        await new Promise((resolve) => setTimeout(resolve, 100));
         expect(dismissedId).toBe('note-1');
+        container.removeEventListener('suggestion:dismiss', handler);
       }
     });
   });
