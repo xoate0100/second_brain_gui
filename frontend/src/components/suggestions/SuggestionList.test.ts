@@ -160,12 +160,14 @@ describe('SuggestionList', () => {
       expect(applyButton).toBeTruthy();
       if (applyButton) {
         applyButton.click();
+        // Wait for event to propagate
+        await new Promise((resolve) => setTimeout(resolve, 10));
         expect(appliedSuggestion).toBeTruthy();
         expect(appliedSuggestion?.note_id).toBe('note-1');
       }
     });
 
-    it('should emit dismiss event when suggestion is dismissed', () => {
+    it('should emit dismiss event when suggestion is dismissed', async () => {
       const suggestions: Suggestion[] = [
         {
           note_id: 'note-1',
@@ -189,6 +191,8 @@ describe('SuggestionList', () => {
       expect(dismissButton).toBeTruthy();
       if (dismissButton) {
         dismissButton.click();
+        // Wait for event to propagate
+        await new Promise((resolve) => setTimeout(resolve, 10));
         expect(dismissedId).toBe('note-1');
       }
     });

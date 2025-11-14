@@ -38,7 +38,7 @@ describe('SuggestionItem', () => {
       const element = component.render();
       expect(element).toBeInstanceOf(HTMLElement);
       expect(element.textContent).toContain('archive');
-      expect(element.textContent).toContain('0.85');
+      expect(element.textContent).toContain('85%'); // Confidence displayed as percentage
       expect(element.textContent).toContain('Note has been inactive for over 90 days');
       expect(element.textContent).toContain('Test note summary');
     });
