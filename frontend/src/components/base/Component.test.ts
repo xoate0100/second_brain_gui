@@ -49,14 +49,14 @@ describe('Component', () => {
   it('should emit custom events', () => {
     const handler = vi.fn();
     container.addEventListener('test-event', handler);
-    
+
     component['emit']('test-event', { data: 'test' });
-    
+
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler).toHaveBeenCalledWith(
       expect.objectContaining({
         type: 'test-event',
-        detail: { data: 'test' }
+        detail: { data: 'test' },
       })
     );
   });
@@ -66,5 +66,3 @@ describe('Component', () => {
     expect(container.parentNode).toBeNull();
   });
 });
-
-

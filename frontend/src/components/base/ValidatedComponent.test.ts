@@ -33,7 +33,7 @@ class TestValidatedComponent extends ValidatedComponent {
           return 'Field is required';
         }
         return null;
-      }
+      },
     };
   }
 }
@@ -62,14 +62,14 @@ describe('ValidatedComponent', () => {
     const result = component['validateField']('testField', '');
     expect(result).toBe('Field is required');
     expect(component['errors']).toEqual({
-      testField: 'Field is required'
+      testField: 'Field is required',
     });
   });
 
   it('should validate all fields', () => {
     const form = component.render() as HTMLFormElement;
     container.appendChild(form);
-    
+
     const isValid = component['validateAll']();
     expect(isValid).toBe(false);
     expect(component['errors']).toHaveProperty('testField');
@@ -93,4 +93,3 @@ describe('ValidatedComponent', () => {
     expect(component.hasError('nonExistent')).toBe(false);
   });
 });
-

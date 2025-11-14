@@ -107,7 +107,7 @@ export class NoteEditor extends ValidatedComponent {
     });
 
     // Add cancel handler
-    const cancelButton = form.querySelector('.cancel-button') as HTMLButtonElement;
+    const cancelButton = form.querySelector('.btn.btn--secondary') as HTMLButtonElement;
     if (cancelButton) {
       cancelButton.addEventListener('click', () => {
         this.emit('editor:cancel', {});

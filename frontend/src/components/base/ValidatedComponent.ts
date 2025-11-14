@@ -1,12 +1,12 @@
 /**
  * Validated Component Base Class
  * Extends Component with form validation capabilities
- * 
+ *
  * Responsibilities:
  * - Provides field validation
  * - Manages validation errors
  * - Exposes validation state to subclasses
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - form validation
  * - OCP: Open for extension via abstract getValidationRules method
@@ -43,7 +43,7 @@ export abstract class ValidatedComponent extends Component {
     }
 
     const error = validator(value);
-    
+
     if (error) {
       this.errors[fieldName] = error;
     } else {
@@ -107,5 +107,3 @@ export abstract class ValidatedComponent extends Component {
     return fieldName in this.errors;
   }
 }
-
-
