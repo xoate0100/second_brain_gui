@@ -66,12 +66,6 @@
 - Status update workflow
 - Batch operations workflow
 
-### Task 11: E2E Testing
-- Playwright tests for critical user flows
-- Review queue workflow
-- Status update workflow
-- Batch operations workflow
-
 ### Task 12: Docker & Deployment
 - Dockerfile configuration
 - docker-compose.yml

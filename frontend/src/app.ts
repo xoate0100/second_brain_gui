@@ -152,6 +152,37 @@ export class App {
   }
 
   /**
+   * Render the suggestions view
+   */
+  private renderSuggestionsView(): void {
+    const suggestionsContainer = document.createElement('div');
+    suggestionsContainer.className = 'app-view app-view--suggestions';
+    this.container.appendChild(suggestionsContainer);
+
+    this.suggestionList = new SuggestionList(suggestionsContainer, this.reviewApi, this.apiClient);
+    this.suggestionList.render();
+
+    // Listen for suggestion apply events
+    suggestionsContainer.addEventListener('suggestion:apply', ((e: CustomEvent) => {
+      const { suggestion } = e.detail;
+      // TODO: Implement suggestion application logic
+      console.log('Apply suggestion:', suggestion);
+    }) as EventListener);
+
+    // Listen for suggestion dismiss events
+    suggestionsContainer.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
+      const { note_id } = e.detail;
+      // TODO: Implement suggestion dismissal logic
+      console.log('Dismiss suggestion:', note_id);
+    }) as EventListener);
+
+    // Load initial suggestions
+    this.suggestionList.loadSuggestions();
+
+    this.currentView = suggestionsContainer;
+  }
+
+  /**
    * Handle state changes
    */
   private handleStateChange(state: AppState): void {
