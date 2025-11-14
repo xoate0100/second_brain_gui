@@ -8,7 +8,8 @@ import { BatchActions } from './BatchActions';
 import { ApiClientImpl } from '../../api/client';
 import { NotesApiClient } from '../../api/notes-api';
 import type { BatchUpdateRequest, NoteStatus } from '../../api/types';
-import type { ApiResponse, BatchUpdateResponse } from '../../api/types';
+import type { BatchUpdateResponse } from '../../api/types';
+import type { ApiResponse } from '../../types/api';
 
 describe('BatchActions', () => {
   let container: HTMLElement;

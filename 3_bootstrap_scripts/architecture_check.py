@@ -78,7 +78,7 @@ def check_srp_single_responsibility():
                     continue
 
                 try:
-                content = file_path.read_text(encoding="utf-8", errors="ignore")
+                    content = file_path.read_text(encoding="utf-8", errors="ignore")
                 lines = content.splitlines()
 
                 # Simple heuristic: count function definitions and their lengths

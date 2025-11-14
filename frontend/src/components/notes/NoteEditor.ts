@@ -35,7 +35,18 @@ export class NoteEditor extends ValidatedComponent {
     form.setAttribute('role', 'form');
     form.setAttribute('aria-label', 'Edit note metadata');
 
-    const frontmatter = this.noteData?.frontmatter || {};
+    const frontmatter = this.noteData?.frontmatter || {
+      id: '',
+      title: '',
+      status: '',
+      venture: '',
+      domain: '',
+      tags: [],
+      ai_summary: '',
+      momentum_score: 0,
+      age_days: 0,
+      aging_stage: ''
+    };
 
     form.innerHTML = `
       <div class="note-editor__field">

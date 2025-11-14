@@ -146,7 +146,11 @@ export class NoteDetail extends ApiComponent {
           message: 'Failed to load note',
           details: {}
         };
-        this.handleError(error);
+        this.handleError({
+          code: error.code,
+          message: error.message,
+          details: error.details || {}
+        });
         return;
       }
 

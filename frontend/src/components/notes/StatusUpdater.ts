@@ -99,7 +99,7 @@ export class StatusUpdater extends ValidatedComponent {
     const statusSelect = form.querySelector('[name="status"]') as HTMLSelectElement;
     if (statusSelect) {
       statusSelect.addEventListener('change', () => {
-        this.validateForm(form);
+        this.validateAll();
       });
     }
 
@@ -210,9 +210,12 @@ export class StatusUpdater extends ValidatedComponent {
     await this.submitStatusUpdate(request);
   }
 
-  protected getValidationRules(): Record<string, (value: string) => string | null> {
+  protected getValidationRules(): Record<string, (value: unknown) => string | null> {
     return {
-      status: (value: string): string | null => {
+      status: (value: unknown): string | null => {
+        if (typeof value !== 'string') {
+          return 'Status must be a string';
+        }
         if (!value) {
           return 'Status is required';
         }

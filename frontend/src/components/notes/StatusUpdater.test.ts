@@ -8,7 +8,8 @@ import { StatusUpdater } from './StatusUpdater';
 import { ApiClientImpl } from '../../api/client';
 import { NotesApiClient } from '../../api/notes-api';
 import type { StatusUpdateRequest } from '../../api/types';
-import type { ApiResponse, StatusUpdateResponse } from '../../api/types';
+import type { StatusUpdateResponse } from '../../api/types';
+import type { ApiResponse } from '../../types/api';
 
 describe('StatusUpdater', () => {
   let container: HTMLElement;
@@ -84,12 +85,20 @@ describe('StatusUpdater', () => {
         review_notes: 'Starting work'
       };
 
+      let updatedEmitted = false;
+      container.addEventListener('status:updated', () => {
+        updatedEmitted = true;
+      });
+
       await component.submitStatusUpdate(request);
 
       expect(notesApi.updateStatus).toHaveBeenCalledWith(noteId, request);
+      expect(updatedEmitted).toBe(true);
     });
 
     it('should handle API errors', async () => {
+      component.update('ready'); // Set valid starting state
+      
       const mockResponse: ApiResponse<StatusUpdateResponse> = {
         success: false,
         error: {
@@ -102,18 +111,56 @@ describe('StatusUpdater', () => {
       vi.spyOn(notesApi, 'updateStatus').mockResolvedValueOnce(mockResponse);
 
       const request: StatusUpdateRequest = {
-        status: 'ready'
+        status: 'in-progress'
       };
 
-      await component.submitStatusUpdate(request);
-
-      // Should emit error event
       let errorEmitted = false;
       container.addEventListener('status:error', () => {
         errorEmitted = true;
       });
 
-      expect(errorEmitted).toBeDefined();
+      await component.submitStatusUpdate(request);
+
+      expect(errorEmitted).toBe(true);
+    });
+
+    it('should handle network errors', async () => {
+      component.update('ready'); // Set valid starting state
+      
+      vi.spyOn(notesApi, 'updateStatus').mockRejectedValueOnce(new Error('Network error'));
+
+      const request: StatusUpdateRequest = {
+        status: 'in-progress'
+      };
+
+      let errorEmitted = false;
+      container.addEventListener('status:error', () => {
+        errorEmitted = true;
+      });
+
+      await component.submitStatusUpdate(request);
+
+      expect(errorEmitted).toBe(true);
+    });
+
+    it('should reject invalid status transitions', async () => {
+      component.update('inbox');
+      
+      const updateStatusSpy = vi.spyOn(notesApi, 'updateStatus');
+      
+      let validationErrorEmitted = false;
+      container.addEventListener('status:validation-error', () => {
+        validationErrorEmitted = true;
+      });
+
+      const request: StatusUpdateRequest = {
+        status: 'ready' // Requires first_action and effort_estimate_min
+      };
+
+      await component.submitStatusUpdate(request);
+
+      expect(validationErrorEmitted).toBe(true);
+      expect(updateStatusSpy).not.toHaveBeenCalled();
     });
   });
 
@@ -131,7 +178,88 @@ describe('StatusUpdater', () => {
       const validation = component.validateTransition('ready');
       expect(validation.valid).toBe(false);
       expect(validation.errors.length).toBeGreaterThan(0);
+      expect(validation.requirements).toContain('effort_estimate_min');
+    });
+
+    it('should validate in-progress to paused requires resume_hint', () => {
+      component.update('in-progress');
+      const validation = component.validateTransition('paused');
+      expect(validation.valid).toBe(false);
+      expect(validation.requirements).toContain('resume_hint');
+    });
+
+    it('should allow valid transitions', () => {
+      component.update('ready');
+      const validation = component.validateTransition('in-progress');
+      expect(validation.valid).toBe(true);
+      expect(validation.errors.length).toBe(0);
+    });
+
+    it('should allow transition to done from any status', () => {
+      component.update('inbox');
+      const validation = component.validateTransition('done');
+      expect(validation.valid).toBe(true);
+    });
+  });
+
+  describe('form submission', () => {
+    it('should submit form with all fields', async () => {
+      component.update('ready');
+      const element = component.render();
+      container.appendChild(element);
+
+      const mockResponse: ApiResponse<StatusUpdateResponse> = {
+        success: true,
+        data: {
+          note_id: noteId,
+          status: 'done',
+          previous_status: 'ready',
+          momentum_delta: 0.2,
+          updated_at: '2025-01-31T00:00:00Z'
+        }
+      };
+
+      const updateStatusSpy = vi
+        .spyOn(notesApi, 'updateStatus')
+        .mockResolvedValueOnce(mockResponse);
+
+      const form = element as HTMLFormElement;
+      const statusSelect = form.querySelector('[name="status"]') as HTMLSelectElement;
+      if (statusSelect) {
+        statusSelect.value = 'done';
+      }
+
+      const reviewNotes = form.querySelector('[name="review_notes"]') as HTMLTextAreaElement;
+      if (reviewNotes) {
+        reviewNotes.value = 'Completed';
+      }
+
+      const followUpDate = form.querySelector('[name="follow_up_date"]') as HTMLInputElement;
+      if (followUpDate) {
+        followUpDate.value = '2025-02-01';
+      }
+
+      form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+
+      // Wait for async operation
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      expect(updateStatusSpy).toHaveBeenCalled();
+    });
+
+    it('should handle cancel button', () => {
+      const element = component.render();
+      container.appendChild(element);
+
+      let cancelEmitted = false;
+      container.addEventListener('status:cancel', () => {
+        cancelEmitted = true;
+      });
+
+      const cancelButton = element.querySelector('.cancel-button') as HTMLButtonElement;
+      cancelButton.click();
+
+      expect(cancelEmitted).toBe(true);
     });
   });
 });
-
