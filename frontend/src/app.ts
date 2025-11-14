@@ -8,6 +8,7 @@ import { ReviewApiClient } from './api/review-api';
 import { NotesApiClient } from './api/notes-api';
 import { ReviewQueue } from './components/review/ReviewQueue';
 import { NoteDetail } from './components/notes/NoteDetail';
+import { SuggestionList } from './components/suggestions/SuggestionList';
 import { StateManager, type AppState } from './services/state-manager';
 import type { ApiClient } from './types/api';
 
@@ -29,6 +30,7 @@ export class App {
   private container: HTMLElement;
   private reviewQueue: ReviewQueue | null = null;
   private noteDetail: NoteDetail | null = null;
+  private suggestionList: SuggestionList | null = null;
   private currentView: HTMLElement | null = null;
 
   constructor(container: HTMLElement, config: AppConfig) {
@@ -72,8 +74,7 @@ export class App {
         }
         break;
       case 'suggestions':
-        // TODO: Implement suggestions view in future task
-        this.renderQueueView();
+        this.renderSuggestionsView();
         break;
       default:
         this.renderQueueView();
@@ -183,6 +184,9 @@ export class App {
     }
     if (this.noteDetail) {
       this.noteDetail.destroy();
+    }
+    if (this.suggestionList) {
+      this.suggestionList.destroy();
     }
     while (this.container.firstChild) {
       this.container.removeChild(this.container.firstChild);
