@@ -152,11 +152,12 @@ describe('SuggestionList', () => {
       container.appendChild(element);
 
       let appliedSuggestion: Suggestion | null = null;
-      container.addEventListener('suggestion:apply', ((e: CustomEvent) => {
+      element.addEventListener('suggestion:apply', ((e: CustomEvent) => {
         appliedSuggestion = e.detail.suggestion;
       }) as EventListener);
 
       const applyButton = element.querySelector('[data-action="apply"]') as HTMLButtonElement;
+      expect(applyButton).toBeTruthy();
       if (applyButton) {
         applyButton.click();
         expect(appliedSuggestion).toBeTruthy();
@@ -180,11 +181,12 @@ describe('SuggestionList', () => {
       container.appendChild(element);
 
       let dismissedId: string | null = null;
-      container.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
+      element.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
         dismissedId = e.detail.note_id;
       }) as EventListener);
 
       const dismissButton = element.querySelector('[data-action="dismiss"]') as HTMLButtonElement;
+      expect(dismissButton).toBeTruthy();
       if (dismissButton) {
         dismissButton.click();
         expect(dismissedId).toBe('note-1');
