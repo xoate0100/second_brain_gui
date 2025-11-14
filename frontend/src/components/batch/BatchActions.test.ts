@@ -72,9 +72,9 @@ describe('BatchActions', () => {
           results: [
             { note_id: 'note1', success: true },
             { note_id: 'note2', success: true },
-            { note_id: 'note3', success: false, error: 'Not found' }
-          ]
-        }
+            { note_id: 'note3', success: false, error: 'Not found' },
+          ],
+        },
       };
 
       vi.spyOn(notesApi, 'batchUpdate').mockResolvedValueOnce(mockResponse);
@@ -82,8 +82,8 @@ describe('BatchActions', () => {
       const request: BatchUpdateRequest = {
         note_ids: selectedIds,
         updates: {
-          status: 'done' as NoteStatus
-        }
+          status: 'done' as NoteStatus,
+        },
       };
 
       const result = await component.executeBatchUpdate(request);
@@ -94,4 +94,3 @@ describe('BatchActions', () => {
     });
   });
 });
-

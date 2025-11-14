@@ -5,6 +5,12 @@
  * Initializes the application and mounts it to the DOM.
  */
 
+// Import styles
+import './styles/variables.css';
+import './styles/base.css';
+import './styles/layout.css';
+import './styles/components.css';
+
 import { App } from './app';
 
 /**

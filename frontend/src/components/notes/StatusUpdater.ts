@@ -1,13 +1,13 @@
 /**
  * StatusUpdater Component
  * Form component for updating note status with validation
- * 
+ *
  * Responsibilities:
  * - Display status update form
  * - Validate status transitions
  * - Submit status updates via API
  * - Emit events for status changes
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - status updates
  * - DIP: Depends on NotesApiClient interface
@@ -54,7 +54,7 @@ export class StatusUpdater extends ValidatedComponent {
         <select id="status-select" name="status" required aria-label="Select status">
           <option value="inbox" ${this.currentStatus === 'inbox' ? 'selected' : ''}>Inbox</option>
           <option value="ready" ${this.currentStatus === 'ready' ? 'selected' : ''}>Ready</option>
-          <option value="in-progress" 
+          <option value="in-progress"
                   ${this.currentStatus === 'in-progress' ? 'selected' : ''}>
             In Progress
           </option>
@@ -66,17 +66,17 @@ export class StatusUpdater extends ValidatedComponent {
       </div>
       <div class="status-updater__field">
         <label for="review-notes">Review Notes</label>
-        <textarea id="review-notes" name="review_notes" 
+        <textarea id="review-notes" name="review_notes"
                   rows="3" placeholder="Optional review notes"></textarea>
       </div>
       <div class="status-updater__field">
         <label for="follow-up-date">Follow-up Date</label>
-        <input type="date" id="follow-up-date" name="follow_up_date" 
+        <input type="date" id="follow-up-date" name="follow_up_date"
                aria-label="Follow-up date (optional)">
       </div>
       <div class="status-updater__actions">
-        <button type="submit">Update Status</button>
-        <button type="button" class="cancel-button">Cancel</button>
+        <button type="submit" class="btn btn--primary">Update Status</button>
+        <button type="button" class="btn btn--secondary">Cancel</button>
       </div>
       <div class="status-updater__validation" role="alert" aria-live="polite"></div>
     `;
@@ -136,7 +136,7 @@ export class StatusUpdater extends ValidatedComponent {
         const error = response.error || {
           code: 'UNKNOWN_ERROR',
           message: 'Failed to update status',
-          details: {}
+          details: {},
         };
         ApiErrorHandler.handle(error);
         this.emit('status:error', { error });
@@ -148,13 +148,13 @@ export class StatusUpdater extends ValidatedComponent {
         note_id: response.data.note_id,
         status: response.data.status,
         previous_status: response.data.previous_status,
-        momentum_delta: response.data.momentum_delta
+        momentum_delta: response.data.momentum_delta,
       });
     } catch (error) {
       const apiError = {
         code: 'UNKNOWN_ERROR',
         message: error instanceof Error ? error.message : 'Network error',
-        details: {}
+        details: {},
       };
       ApiErrorHandler.handle(apiError);
       this.emit('status:error', { error: apiError });
@@ -185,7 +185,7 @@ export class StatusUpdater extends ValidatedComponent {
     return {
       valid: errors.length === 0,
       errors,
-      requirements: requirements.length > 0 ? requirements : undefined
+      requirements: requirements.length > 0 ? requirements : undefined,
     };
   }
 
@@ -196,7 +196,7 @@ export class StatusUpdater extends ValidatedComponent {
     const followUpDate = formData.get('follow_up_date') as string;
 
     const request: StatusUpdateRequest = {
-      status
+      status,
     };
 
     if (reviewNotes) {
@@ -219,19 +219,12 @@ export class StatusUpdater extends ValidatedComponent {
         if (!value) {
           return 'Status is required';
         }
-        const validStatuses: NoteStatus[] = [
-          'inbox',
-          'ready',
-          'in-progress',
-          'paused',
-          'done'
-        ];
+        const validStatuses: NoteStatus[] = ['inbox', 'ready', 'in-progress', 'paused', 'done'];
         if (!validStatuses.includes(value as NoteStatus)) {
           return 'Invalid status';
         }
         return null;
-      }
+      },
     };
   }
 }
-

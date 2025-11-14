@@ -1,13 +1,13 @@
 /**
  * NoteDetail Component
  * Main component for displaying and editing note details
- * 
+ *
  * Responsibilities:
  * - Display full note content (frontmatter + body)
  * - Coordinate NoteEditor and StatusUpdater components
  * - Load note data from API
  * - Handle note updates
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - note detail display and coordination
  * - DIP: Depends on NotesApiClient and ApiClient interfaces
@@ -106,9 +106,7 @@ export class NoteDetail extends ApiComponent {
       });
     }
 
-    const updateStatusButton = detail.querySelector(
-      '.update-status-button'
-    ) as HTMLButtonElement;
+    const updateStatusButton = detail.querySelector('.update-status-button') as HTMLButtonElement;
     if (updateStatusButton) {
       updateStatusButton.addEventListener('click', () => {
         this.showStatusUpdater();
@@ -136,20 +134,18 @@ export class NoteDetail extends ApiComponent {
     this.element.appendChild(this.render());
 
     try {
-      const response: ApiResponse<NoteDetailResponse> = await this.notesApi.getNote(
-        this.noteId
-      );
+      const response: ApiResponse<NoteDetailResponse> = await this.notesApi.getNote(this.noteId);
 
       if (!response.success || !response.data) {
         const error = response.error || {
           code: 'UNKNOWN_ERROR',
           message: 'Failed to load note',
-          details: {}
+          details: {},
         };
         this.handleError({
           code: error.code,
           message: error.message,
-          details: error.details || {}
+          details: error.details || {},
         });
         return;
       }
@@ -168,7 +164,7 @@ export class NoteDetail extends ApiComponent {
       this.handleError({
         code: 'UNKNOWN_ERROR',
         message: error instanceof Error ? error.message : 'Network error',
-        details: {}
+        details: {},
       });
     }
   }
@@ -277,4 +273,3 @@ export class NoteDetail extends ApiComponent {
     return div.innerHTML;
   }
 }
-

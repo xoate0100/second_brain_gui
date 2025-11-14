@@ -1,12 +1,12 @@
 /**
  * NoteEditor Component
  * Form component for editing note metadata
- * 
+ *
  * Responsibilities:
  * - Display and edit note metadata fields
  * - Submit metadata updates via API
  * - Emit events for updates
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - note metadata editing
  * - DIP: Depends on NotesApiClient interface
@@ -45,7 +45,7 @@ export class NoteEditor extends ValidatedComponent {
       ai_summary: '',
       momentum_score: 0,
       age_days: 0,
-      aging_stage: ''
+      aging_stage: '',
     };
 
     form.innerHTML = `
@@ -56,7 +56,7 @@ export class NoteEditor extends ValidatedComponent {
           <option value="CRL" ${frontmatter.venture === 'CRL' ? 'selected' : ''}>CRL</option>
           <option value="ERA" ${frontmatter.venture === 'ERA' ? 'selected' : ''}>ERA</option>
           <option value="SAE" ${frontmatter.venture === 'SAE' ? 'selected' : ''}>SAE</option>
-          <option value="Personal" 
+          <option value="Personal"
                   ${frontmatter.venture === 'Personal' ? 'selected' : ''}>
             Personal
           </option>
@@ -64,26 +64,26 @@ export class NoteEditor extends ValidatedComponent {
       </div>
       <div class="note-editor__field">
         <label for="domain">Domain</label>
-        <input type="text" id="domain" name="domain" 
+        <input type="text" id="domain" name="domain"
                value="${this.escapeHtml(frontmatter.domain || '')}"
                aria-label="Domain">
       </div>
       <div class="note-editor__field">
         <label for="tags">Tags (comma-separated)</label>
-        <input type="text" id="tags" name="tags" 
-               value="${this.escapeHtml((frontmatter.tags || []).join(', '))}" 
+        <input type="text" id="tags" name="tags"
+               value="${this.escapeHtml((frontmatter.tags || []).join(', '))}"
                aria-label="Tags">
       </div>
       <div class="note-editor__field">
         <label for="first-action">First Action</label>
-        <input type="text" id="first-action" name="first_action" 
-               value="${this.escapeHtml(frontmatter.first_action || '')}" 
+        <input type="text" id="first-action" name="first_action"
+               value="${this.escapeHtml(frontmatter.first_action || '')}"
                aria-label="First action">
       </div>
       <div class="note-editor__field">
         <label for="effort-estimate">Effort Estimate (min)</label>
-        <input type="number" id="effort-estimate" name="effort_estimate_min" 
-               value="${frontmatter.effort_estimate_min || ''}" 
+        <input type="number" id="effort-estimate" name="effort_estimate_min"
+               value="${frontmatter.effort_estimate_min || ''}"
                min="0" aria-label="Effort estimate in minutes">
       </div>
       <div class="note-editor__field">
@@ -94,8 +94,8 @@ export class NoteEditor extends ValidatedComponent {
         </textarea>
       </div>
       <div class="note-editor__actions">
-        <button type="submit">Save Changes</button>
-        <button type="button" class="cancel-button">Cancel</button>
+        <button type="submit" class="btn btn--primary">Save Changes</button>
+        <button type="button" class="btn btn--secondary">Cancel</button>
       </div>
       <div class="note-editor__validation" role="alert" aria-live="polite"></div>
     `;
@@ -140,7 +140,7 @@ export class NoteEditor extends ValidatedComponent {
         const error = response.error || {
           code: 'UNKNOWN_ERROR',
           message: 'Failed to update note',
-          details: {}
+          details: {},
         };
         ApiErrorHandler.handle(error);
         this.emit('editor:error', { error });
@@ -150,13 +150,13 @@ export class NoteEditor extends ValidatedComponent {
       this.emit('editor:updated', {
         note_id: response.data.note_id,
         updated_fields: response.data.updated_fields,
-        updated_at: response.data.updated_at
+        updated_at: response.data.updated_at,
       });
     } catch (error) {
       const apiError = {
         code: 'UNKNOWN_ERROR',
         message: error instanceof Error ? error.message : 'Network error',
-        details: {}
+        details: {},
       };
       ApiErrorHandler.handle(apiError);
       this.emit('editor:error', { error: apiError });
@@ -179,7 +179,10 @@ export class NoteEditor extends ValidatedComponent {
 
     const tags = formData.get('tags') as string;
     if (tags) {
-      request.tags = tags.split(',').map((t) => t.trim()).filter((t) => t.length > 0);
+      request.tags = tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
     }
 
     const firstAction = formData.get('first_action') as string;
@@ -213,7 +216,7 @@ export class NoteEditor extends ValidatedComponent {
           return 'Effort estimate must be a number';
         }
         return null;
-      }
+      },
     };
   }
 
@@ -237,4 +240,3 @@ export class NoteEditor extends ValidatedComponent {
     );
   }
 }
-

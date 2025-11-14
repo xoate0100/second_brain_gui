@@ -30,11 +30,11 @@ describe('NoteDetail', () => {
       ai_summary: 'Test summary',
       momentum_score: 0.5,
       age_days: 10,
-      aging_stage: 'fresh'
+      aging_stage: 'fresh',
     },
     body: 'Note body content',
     created_at: '2025-01-01T00:00:00Z',
-    updated_at: '2025-01-01T00:00:00Z'
+    updated_at: '2025-01-01T00:00:00Z',
   };
 
   beforeEach(() => {
@@ -77,7 +77,7 @@ describe('NoteDetail', () => {
     it('should fetch and display note data', async () => {
       const mockResponse: ApiResponse<NoteDetailResponse> = {
         success: true,
-        data: mockNoteData
+        data: mockNoteData,
       };
 
       vi.spyOn(notesApi, 'getNote').mockResolvedValueOnce(mockResponse);
@@ -96,8 +96,8 @@ describe('NoteDetail', () => {
         error: {
           code: 'NOT_FOUND',
           message: 'Note not found',
-          details: {}
-        }
+          details: {},
+        },
       };
 
       vi.spyOn(notesApi, 'getNote').mockResolvedValueOnce(mockResponse);
@@ -125,7 +125,7 @@ describe('NoteDetail', () => {
       const newNoteId = 'new-note-456';
       const mockResponse: ApiResponse<NoteDetailResponse> = {
         success: true,
-        data: { ...mockNoteData, note_id: newNoteId }
+        data: { ...mockNoteData, note_id: newNoteId },
       };
 
       vi.spyOn(notesApi, 'getNote').mockResolvedValueOnce(mockResponse);
@@ -140,7 +140,7 @@ describe('NoteDetail', () => {
     it('should show editor when edit button clicked', async () => {
       const mockResponse: ApiResponse<NoteDetailResponse> = {
         success: true,
-        data: mockNoteData
+        data: mockNoteData,
       };
 
       vi.spyOn(notesApi, 'getNote').mockResolvedValueOnce(mockResponse);
@@ -159,16 +159,14 @@ describe('NoteDetail', () => {
     it('should show status updater when update status button clicked', async () => {
       const mockResponse: ApiResponse<NoteDetailResponse> = {
         success: true,
-        data: mockNoteData
+        data: mockNoteData,
       };
 
       vi.spyOn(notesApi, 'getNote').mockResolvedValueOnce(mockResponse);
       await component.loadNote();
 
       const element = component.render();
-      const statusButton = element.querySelector(
-        '.update-status-button'
-      ) as HTMLButtonElement;
+      const statusButton = element.querySelector('.update-status-button') as HTMLButtonElement;
       statusButton.click();
 
       const statusContainer = container.querySelector('.note-detail__status-container');

@@ -44,9 +44,7 @@ describe('StatusUpdater', () => {
 
     it('should display current status', () => {
       const element = component.render();
-      const statusSelect = element.querySelector(
-        'select[name="status"]'
-      ) as HTMLSelectElement;
+      const statusSelect = element.querySelector('select[name="status"]') as HTMLSelectElement;
       expect(statusSelect.value).toBe('inbox');
     });
   });
@@ -55,9 +53,7 @@ describe('StatusUpdater', () => {
     it('should update current status', () => {
       component.update('ready');
       const element = component.render();
-      const statusSelect = element.querySelector(
-        'select[name="status"]'
-      ) as HTMLSelectElement;
+      const statusSelect = element.querySelector('select[name="status"]') as HTMLSelectElement;
       expect(statusSelect.value).toBe('ready');
     });
   });
@@ -66,7 +62,7 @@ describe('StatusUpdater', () => {
     it('should submit status update via API', async () => {
       // Use a valid transition: ready → in-progress (no validation required)
       component.update('ready');
-      
+
       const mockResponse: ApiResponse<StatusUpdateResponse> = {
         success: true,
         data: {
@@ -74,15 +70,15 @@ describe('StatusUpdater', () => {
           status: 'in-progress',
           previous_status: 'ready',
           momentum_delta: 0.1,
-          updated_at: '2025-01-31T00:00:00Z'
-        }
+          updated_at: '2025-01-31T00:00:00Z',
+        },
       };
 
       vi.spyOn(notesApi, 'updateStatus').mockResolvedValueOnce(mockResponse);
 
       const request: StatusUpdateRequest = {
         status: 'in-progress',
-        review_notes: 'Starting work'
+        review_notes: 'Starting work',
       };
 
       let updatedEmitted = false;
@@ -98,20 +94,20 @@ describe('StatusUpdater', () => {
 
     it('should handle API errors', async () => {
       component.update('ready'); // Set valid starting state
-      
+
       const mockResponse: ApiResponse<StatusUpdateResponse> = {
         success: false,
         error: {
           code: 'VALIDATION_ERROR',
           message: 'Invalid status transition',
-          details: {}
-        }
+          details: {},
+        },
       };
 
       vi.spyOn(notesApi, 'updateStatus').mockResolvedValueOnce(mockResponse);
 
       const request: StatusUpdateRequest = {
-        status: 'in-progress'
+        status: 'in-progress',
       };
 
       let errorEmitted = false;
@@ -126,11 +122,11 @@ describe('StatusUpdater', () => {
 
     it('should handle network errors', async () => {
       component.update('ready'); // Set valid starting state
-      
+
       vi.spyOn(notesApi, 'updateStatus').mockRejectedValueOnce(new Error('Network error'));
 
       const request: StatusUpdateRequest = {
-        status: 'in-progress'
+        status: 'in-progress',
       };
 
       let errorEmitted = false;
@@ -145,16 +141,16 @@ describe('StatusUpdater', () => {
 
     it('should reject invalid status transitions', async () => {
       component.update('inbox');
-      
+
       const updateStatusSpy = vi.spyOn(notesApi, 'updateStatus');
-      
+
       let validationErrorEmitted = false;
       container.addEventListener('status:validation-error', () => {
         validationErrorEmitted = true;
       });
 
       const request: StatusUpdateRequest = {
-        status: 'ready' // Requires first_action and effort_estimate_min
+        status: 'ready', // Requires first_action and effort_estimate_min
       };
 
       await component.submitStatusUpdate(request);
@@ -215,8 +211,8 @@ describe('StatusUpdater', () => {
           status: 'done',
           previous_status: 'ready',
           momentum_delta: 0.2,
-          updated_at: '2025-01-31T00:00:00Z'
-        }
+          updated_at: '2025-01-31T00:00:00Z',
+        },
       };
 
       const updateStatusSpy = vi

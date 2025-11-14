@@ -1,12 +1,12 @@
 /**
  * BatchActions Component
  * Action buttons for batch operations
- * 
+ *
  * Responsibilities:
  * - Display batch action buttons
  * - Execute batch operations via API
  * - Emit batch operation events
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - batch action execution
  * - DIP: Depends on NotesApiClient interface
@@ -37,17 +37,17 @@ export class BatchActions extends Component {
     const hasSelection = this.selectedIds.length > 0;
 
     actions.innerHTML = `
-      <button type="button" data-action="update-status" 
+      <button type="button" class="btn btn--primary" data-action="update-status" 
               ${hasSelection ? '' : 'disabled'}
               aria-label="Update status for selected items">
         Update Status
       </button>
-      <button type="button" data-action="update-metadata" 
+      <button type="button" class="btn btn--primary" data-action="update-metadata" 
               ${hasSelection ? '' : 'disabled'}
               aria-label="Update metadata for selected items">
         Update Metadata
       </button>
-      <button type="button" data-action="archive" 
+      <button type="button" class="btn btn--danger" data-action="archive" 
               ${hasSelection ? '' : 'disabled'}
               aria-label="Archive selected items">
         Archive
@@ -103,7 +103,7 @@ export class BatchActions extends Component {
         const error = response.error || {
           code: 'UNKNOWN_ERROR',
           message: 'Failed to execute batch update',
-          details: {}
+          details: {},
         };
         ApiErrorHandler.handle(error);
         this.emit('batch:error', { error });
@@ -114,7 +114,7 @@ export class BatchActions extends Component {
         total: response.data.total,
         succeeded: response.data.succeeded,
         failed: response.data.failed,
-        results: response.data.results
+        results: response.data.results,
       });
 
       return response.data;
@@ -122,7 +122,7 @@ export class BatchActions extends Component {
       const apiError = {
         code: 'UNKNOWN_ERROR',
         message: error instanceof Error ? error.message : 'Network error',
-        details: {}
+        details: {},
       };
       ApiErrorHandler.handle(apiError);
       this.emit('batch:error', { error: apiError });
@@ -130,4 +130,3 @@ export class BatchActions extends Component {
     }
   }
 }
-

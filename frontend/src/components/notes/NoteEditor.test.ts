@@ -34,11 +34,11 @@ describe('NoteEditor', () => {
       aging_stage: 'fresh',
       first_action: 'Do something',
       effort_estimate_min: 30,
-      resume_hint: 'Continue from here'
+      resume_hint: 'Continue from here',
     },
     body: 'Note body content',
     created_at: '2025-01-01T00:00:00Z',
-    updated_at: '2025-01-01T00:00:00Z'
+    updated_at: '2025-01-01T00:00:00Z',
   };
 
   beforeEach(() => {
@@ -67,9 +67,7 @@ describe('NoteEditor', () => {
 
     it('should render with default values when no note data', () => {
       const element = component.render();
-      const ventureSelect = element.querySelector(
-        'select[name="venture"]'
-      ) as HTMLSelectElement;
+      const ventureSelect = element.querySelector('select[name="venture"]') as HTMLSelectElement;
       expect(ventureSelect).toBeTruthy();
     });
   });
@@ -78,9 +76,7 @@ describe('NoteEditor', () => {
     it('should update with note data', () => {
       component.update(mockNoteData);
       const element = component.render();
-      const ventureSelect = element.querySelector(
-        'select[name="venture"]'
-      ) as HTMLSelectElement;
+      const ventureSelect = element.querySelector('select[name="venture"]') as HTMLSelectElement;
       expect(ventureSelect.value).toBe('SWS');
       const domainInput = element.querySelector('input[name="domain"]') as HTMLInputElement;
       expect(domainInput.value).toBe('test-domain');
@@ -94,15 +90,15 @@ describe('NoteEditor', () => {
         data: {
           note_id: noteId,
           updated_fields: ['venture', 'domain'],
-          updated_at: '2025-01-31T00:00:00Z'
-        }
+          updated_at: '2025-01-31T00:00:00Z',
+        },
       };
 
       vi.spyOn(notesApi, 'updateNote').mockResolvedValueOnce(mockResponse);
 
       const request: NoteUpdateRequest = {
         venture: 'CRL',
-        domain: 'new-domain'
+        domain: 'new-domain',
       };
 
       await component.submitUpdate(request);
@@ -116,14 +112,14 @@ describe('NoteEditor', () => {
         error: {
           code: 'VALIDATION_ERROR',
           message: 'Invalid data',
-          details: {}
-        }
+          details: {},
+        },
       };
 
       vi.spyOn(notesApi, 'updateNote').mockResolvedValueOnce(mockResponse);
 
       const request: NoteUpdateRequest = {
-        venture: 'CRL'
+        venture: 'CRL',
       };
 
       let errorEmitted = false;
@@ -140,7 +136,7 @@ describe('NoteEditor', () => {
       vi.spyOn(notesApi, 'updateNote').mockRejectedValueOnce(new Error('Network error'));
 
       const request: NoteUpdateRequest = {
-        venture: 'CRL'
+        venture: 'CRL',
       };
 
       let errorEmitted = false;
@@ -165,8 +161,8 @@ describe('NoteEditor', () => {
         data: {
           note_id: noteId,
           updated_fields: ['venture', 'domain', 'tags'],
-          updated_at: '2025-01-31T00:00:00Z'
-        }
+          updated_at: '2025-01-31T00:00:00Z',
+        },
       };
 
       vi.spyOn(notesApi, 'updateNote').mockResolvedValueOnce(mockResponse);
