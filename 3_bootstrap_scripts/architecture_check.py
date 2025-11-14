@@ -79,81 +79,80 @@ def check_srp_single_responsibility():
 
                 try:
                     content = file_path.read_text(encoding="utf-8", errors="ignore")
-                lines = content.splitlines()
+                    lines = content.splitlines()
 
-                # Simple heuristic: count function definitions and their lengths
-                in_function = False
-                function_start = 0
-                function_name = ""
-                brace_count = 0
-                paren_count = 0
+                    # Simple heuristic: count function definitions and their lengths
+                    in_function = False
+                    function_start = 0
+                    function_name = ""
+                    brace_count = 0
+                    paren_count = 0
 
-                for i, line in enumerate(lines, 1):
-                    # Detect function start (Python)
-                    if re.match(r'^\s*(def|async def)\s+\w+', line):
-                        if in_function:
-                            # Previous function ended without explicit return
-                            if i - function_start > 50:
-                                violations.append(
-                                    f"{file_path}:{function_start} SRP violation: "
-                                    f"Function '{function_name}' is {i - function_start} lines (>50). "
-                                    f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
-                                )
-                        in_function = True
-                        function_start = i
-                        function_name = re.search(r'(def|async def)\s+(\w+)', line).group(2)
-                        brace_count = 0
-                        paren_count = line.count('(') - line.count(')')
-
-                    # Detect function start (TypeScript/JavaScript)
-                    elif re.match(r'^\s*(export\s+)?(function|const|let|var)\s+\w+.*[=:]\s*\(', line):
-                        if in_function and i - function_start > 50:
-                            violations.append(
-                                f"{file_path}:{function_start} SRP violation: "
-                                f"Function '{function_name}' is {i - function_start} lines (>50). "
-                                f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
-                            )
-                        in_function = True
-                        function_start = i
-                        match = re.search(r'(?:function|const|let|var)\s+(\w+)', line)
-                        function_name = match.group(1) if match else "anonymous"
-                        brace_count = line.count('{') - line.count('}')
-                        paren_count = line.count('(') - line.count(')')
-
-                    if in_function:
-                        # Track braces and parentheses
-                        brace_count += line.count('{') - line.count('}')
-                        paren_count += line.count('(') - line.count(')')
-
-                        # Function ends when braces/parentheses balance and we hit a dedent or semicolon
-                        if file_path.suffix == ".py":
-                            # Python: function ends at next def/class or significant dedent
-                            if i > function_start and re.match(r'^\s*(def|class|async def)', line):
-                                if i - 1 - function_start > 50:
-                                    violations.append(
-                                        f"{file_path}:{function_start} SRP violation: "
-                                        f"Function '{function_name}' is {i - 1 - function_start} lines (>50). "
-                                        f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
-                                    )
-                                in_function = False
-                        else:
-                            # TypeScript/JS: function ends when braces balance
-                            if brace_count == 0 and paren_count == 0 and i > function_start:
-                                if i - function_start > 50:
+                    for i, line in enumerate(lines, 1):
+                        # Detect function start (Python)
+                        if re.match(r'^\s*(def|async def)\s+\w+', line):
+                            if in_function:
+                                # Previous function ended without explicit return
                                     violations.append(
                                         f"{file_path}:{function_start} SRP violation: "
                                         f"Function '{function_name}' is {i - function_start} lines (>50). "
                                         f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
                                     )
-                                in_function = False
+                            in_function = True
+                            function_start = i
+                            function_name = re.search(r'(def|async def)\s+(\w+)', line).group(2)
+                            brace_count = 0
+                            paren_count = line.count('(') - line.count(')')
 
-                # Check last function if still open
-                if in_function and len(lines) - function_start > 50:
-                    violations.append(
-                        f"{file_path}:{function_start} SRP violation: "
-                        f"Function '{function_name}' is {len(lines) - function_start} lines (>50). "
-                        f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
-                    )
+                        # Detect function start (TypeScript/JavaScript)
+                        elif re.match(r'^\s*(export\s+)?(function|const|let|var)\s+\w+.*[=:]\s*\(', line):
+                            if in_function and i - function_start > 50:
+                                violations.append(
+                                    f"{file_path}:{function_start} SRP violation: "
+                                    f"Function '{function_name}' is {i - function_start} lines (>50). "
+                                    f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
+                                )
+                            in_function = True
+                            function_start = i
+                            match = re.search(r'(?:function|const|let|var)\s+(\w+)', line)
+                            function_name = match.group(1) if match else "anonymous"
+                            brace_count = line.count('{') - line.count('}')
+                            paren_count = line.count('(') - line.count(')')
+
+                        if in_function:
+                            # Track braces and parentheses
+                            brace_count += line.count('{') - line.count('}')
+                            paren_count += line.count('(') - line.count(')')
+
+                            # Function ends when braces/parentheses balance and we hit a dedent or semicolon
+                            if file_path.suffix == ".py":
+                                # Python: function ends at next def/class or significant dedent
+                                if i > function_start and re.match(r'^\s*(def|class|async def)', line):
+                                    if i - 1 - function_start > 50:
+                                        violations.append(
+                                            f"{file_path}:{function_start} SRP violation: "
+                                            f"Function '{function_name}' is {i - 1 - function_start} lines (>50). "
+                                            f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
+                                        )
+                                    in_function = False
+                            else:
+                                # TypeScript/JS: function ends when braces balance
+                                if brace_count == 0 and paren_count == 0 and i > function_start:
+                                    if i - function_start > 50:
+                                        violations.append(
+                                            f"{file_path}:{function_start} SRP violation: "
+                                            f"Function '{function_name}' is {i - function_start} lines (>50). "
+                                            f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
+                                        )
+                                    in_function = False
+
+                    # Check last function if still open
+                    if in_function and len(lines) - function_start > 50:
+                        violations.append(
+                            f"{file_path}:{function_start} SRP violation: "
+                            f"Function '{function_name}' is {len(lines) - function_start} lines (>50). "
+                            f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
+                        )
 
             except Exception as e:
                 # Skip files that can't be parsed
@@ -270,11 +269,11 @@ def check_dip_dependency_inversion():
             # Exclude node_modules and other third-party directories
             if "node_modules" in str(file_path) or "dist" in str(file_path) or ".git" in str(file_path):
                 continue
-            
+
             try:
                 content = file_path.read_text(encoding="utf-8", errors="ignore")
                 lines = content.splitlines()
-                
+
                 for i, line in enumerate(lines, 1):
                     # Skip if importing from interfaces/abstract
                     if re.search(r'(interfaces|abstract|interfaces/)', line, re.IGNORECASE):

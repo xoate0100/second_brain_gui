@@ -61,11 +61,12 @@ describe('StateManager', () => {
 
       expect(notifiedState).not.toBeNull();
       expect(notifiedState).toBeTruthy();
-      // TypeScript control flow analysis requires explicit check
-      const state = notifiedState;
-      expect(state).not.toBeNull();
-      if (state !== null) {
+      // TypeScript control flow analysis - use type assertion after null check
+      if (notifiedState !== null) {
+        const state = notifiedState as AppState;
         expect(state.currentView).toBe('detail');
+      } else {
+        throw new Error('State should not be null');
       }
 
       unsubscribe();
