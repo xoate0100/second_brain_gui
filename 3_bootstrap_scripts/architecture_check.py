@@ -213,8 +213,8 @@ def check_isp_interface_segregation():
                             # Update brace count for current line (including closing brace)
                             brace_count += current_line.count('{') - current_line.count('}')
 
-                            # Check if we've closed the interface (brace_count < 0 means we hit closing brace)
-                            if brace_count < 0:
+                            # Check if we've closed the interface (brace_count <= 0 means we hit closing brace)
+                            if brace_count <= 0:
                                 break
 
                             # Skip empty lines
