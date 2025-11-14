@@ -183,7 +183,8 @@ describe('SuggestionList', () => {
       container.appendChild(element);
 
       let dismissedId: string | null = null;
-      element.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
+      // Listen on container since events bubble from itemContainer
+      container.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
         dismissedId = e.detail.note_id;
       }) as EventListener);
 
