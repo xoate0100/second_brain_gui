@@ -136,7 +136,7 @@ describe('SuggestionList', () => {
   });
 
   describe('events', () => {
-    it('should emit apply event when suggestion is applied', () => {
+    it('should emit apply event when suggestion is applied', async () => {
       const suggestions: Suggestion[] = [
         {
           note_id: 'note-1',
