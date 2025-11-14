@@ -201,7 +201,7 @@ def check_isp_interface_segregation():
                             brace_count += current_line.count('{') - current_line.count('}')
 
                             # Count method/property definitions - only match actual property definitions
-                            # Pattern: property name (word), optional ?, colon, type (ending with ; or , or } or newline)
+                            # Pattern: property name, optional ?, colon, type, semicolon or comma
                             # Exclude comments, empty lines, closing braces, and index signatures
                             stripped = current_line.strip()
                             if (stripped and 
@@ -210,8 +210,9 @@ def check_isp_interface_segregation():
                                 not stripped.startswith('*') and
                                 not stripped.startswith('}') and
                                 not stripped.startswith('[') and  # Exclude index signatures like [key: string]
-                                # Match: word, optional ?, colon, type (must end with ; or , or be last line before })
-                                re.search(r'^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\??\s*:\s*[^;{}]+[;,]?\s*$', current_line)):
+                                # Match: word, optional ?, colon, type ending with ; or ,
+                                # This pattern ensures we match complete property definitions
+                                re.search(r'^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\??\s*:\s*.+[;,]\s*', current_line)):
                                 method_count += 1
 
                             if brace_count < 0:
