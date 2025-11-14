@@ -198,26 +198,28 @@ def check_isp_interface_segregation():
                         j = i  # i is 1-indexed (line number), lines is 0-indexed
 
                         # Iterate through lines starting from interface declaration
-                        while j < len(lines) and brace_count >= 0:
+                        while j <= len(lines) and brace_count >= 0:
+                            if j > len(lines):
+                                break
+                            
                             # j is 1-indexed, so lines[j-1] is the actual line
                             current_line = lines[j - 1]
                             
-                            # Update brace count (don't count the opening brace from declaration line twice)
-                            if j > i:
-                                brace_count += current_line.count('{') - current_line.count('}')
-
-                            # Check if we've closed the interface
-                            if brace_count < 0:
-                                break
-
                             # Skip the interface declaration line itself
                             if j == i:
                                 j += 1
                                 continue
+                            
+                            # Update brace count for current line (including closing brace)
+                            brace_count += current_line.count('{') - current_line.count('}')
 
-                            # Skip empty lines, comments, closing braces
+                            # Check if we've closed the interface (brace_count < 0 means we hit closing brace)
+                            if brace_count < 0:
+                                break
+
+                            # Skip empty lines
                             stripped = current_line.strip()
-                            if not stripped or stripped == '}':
+                            if not stripped:
                                 j += 1
                                 continue
 
