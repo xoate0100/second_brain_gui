@@ -63,12 +63,12 @@ export class SuggestionList extends ApiComponent {
       const itemElement = item.render();
       itemContainer.appendChild(itemElement);
 
-      // Listen for item events and forward them
-      itemElement.addEventListener('suggestion:apply', ((e: CustomEvent) => {
+      // Listen for item events on the container and forward them
+      itemContainer.addEventListener('suggestion:apply', ((e: CustomEvent) => {
         this.emit('suggestion:apply', { suggestion: e.detail.suggestion });
       }) as EventListener);
 
-      itemElement.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
+      itemContainer.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
         this.emit('suggestion:dismiss', { note_id: e.detail.note_id });
       }) as EventListener);
 
