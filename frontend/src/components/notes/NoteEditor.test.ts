@@ -196,7 +196,7 @@ describe('NoteEditor', () => {
         cancelEmitted = true;
       });
 
-      const cancelButton = element.querySelector('.cancel-button') as HTMLButtonElement;
+      const cancelButton = element.querySelector('.btn.btn--secondary') as HTMLButtonElement;
       cancelButton.click();
 
       expect(cancelEmitted).toBe(true);
