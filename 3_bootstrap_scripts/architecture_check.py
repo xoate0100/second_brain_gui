@@ -241,10 +241,25 @@ def check_isp_interface_segregation():
 
                             j += 1
 
-                        if method_count > 10:
+                        # ISP applies to service interfaces, not data structures
+                        # Data structures (API types, DTOs) often need more properties
+                        # Check if this is a data structure file (types.ts, api/types.ts, etc.)
+                        is_data_structure_file = (
+                            'types.ts' in str(file_path) or 
+                            'api/types' in str(file_path) or
+                            'dto' in str(file_path).lower() or
+                            'model' in str(file_path).lower()
+                        )
+                        
+                        # For data structures, use a higher threshold (20) or skip entirely
+                        # For service interfaces, enforce the 10 property limit
+                        threshold = 20 if is_data_structure_file else 10
+                        
+                        if method_count > threshold:
+                            violation_type = "data structure" if is_data_structure_file else "interface"
                             violations.append(
                                 f"{file_path}:{i} ISP violation: "
-                                f"Interface '{interface_name}' has {method_count} methods/properties (>10). "
+                                f"{violation_type.capitalize()} '{interface_name}' has {method_count} methods/properties (>{threshold}). "
                                 f"Split into smaller, focused interfaces. See 1_global_standards/SOLID_PRINCIPLES.md"
                             )
 
