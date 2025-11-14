@@ -192,31 +192,51 @@ def check_isp_interface_segregation():
                     if interface_match:
                         interface_name = interface_match.group(1)
                         # Count methods/properties in interface
+                        # Start brace count from interface declaration line
                         brace_count = line.count('{') - line.count('}')
                         method_count = 0
-                        j = i
+                        j = i  # i is 1-indexed (line number), lines is 0-indexed
 
+                        # Iterate through lines starting from interface declaration
                         while j < len(lines) and brace_count >= 0:
-                            current_line = lines[j]
-                            brace_count += current_line.count('{') - current_line.count('}')
+                            # j is 1-indexed, so lines[j-1] is the actual line
+                            current_line = lines[j - 1]
+                            
+                            # Update brace count (don't count the opening brace from declaration line twice)
+                            if j > i:
+                                brace_count += current_line.count('{') - current_line.count('}')
 
-                            # Count method/property definitions - only match actual property definitions
-                            # Pattern: property name, optional ?, colon, type, semicolon or comma
-                            # Exclude comments, empty lines, closing braces, and index signatures
-                            stripped = current_line.strip()
-                            if (stripped and 
-                                not stripped.startswith('//') and 
-                                not stripped.startswith('/*') and 
-                                not stripped.startswith('*') and
-                                not stripped.startswith('}') and
-                                not stripped.startswith('[') and  # Exclude index signatures like [key: string]
-                                # Match: word, optional ?, colon, type ending with ; or ,
-                                # This pattern ensures we match complete property definitions
-                                re.search(r'^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\??\s*:\s*.+[;,]\s*', current_line)):
-                                method_count += 1
-
+                            # Check if we've closed the interface
                             if brace_count < 0:
                                 break
+
+                            # Skip the interface declaration line itself
+                            if j == i:
+                                j += 1
+                                continue
+
+                            # Skip empty lines, comments, closing braces
+                            stripped = current_line.strip()
+                            if not stripped or stripped == '}':
+                                j += 1
+                                continue
+
+                            # Skip comments
+                            if stripped.startswith('//') or stripped.startswith('/*') or stripped.startswith('*'):
+                                j += 1
+                                continue
+
+                            # Skip index signatures like [key: string]: unknown;
+                            if stripped.startswith('[') and ']:' in stripped:
+                                j += 1
+                                continue
+
+                            # Match property definition: identifier, optional ?, colon, type, semicolon/comma
+                            # Pattern: start of line, whitespace, identifier, optional ?, colon, type ending with ; or ,
+                            property_pattern = r'^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\??\s*:\s*.+[;,]\s*'
+                            if re.search(property_pattern, current_line):
+                                method_count += 1
+
                             j += 1
 
                         if method_count > 10:

@@ -55,7 +55,7 @@ ai_guardrails:
   enforce_task_scope: true
   forbid_folder_creation_outside_scope: true
   enforce_tdd_cycle: true  # BLOCKING: Commits blocked if code modified without tests
-  enforce_solid_principles: true  # BLOCKING: Commits blocked on SOLID violations (SRP, ISP, DIP)
+  enforce_solid_principles: true  # Re-enabled after ISP algorithm refinement
   require_doc_sync: true
   require_commit_plan_tags: true
 
