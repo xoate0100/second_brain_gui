@@ -17,7 +17,7 @@ describe('App', () => {
   let app: App;
   const config = {
     apiBaseUrl: 'http://localhost:8000',
-    apiKey: 'test-api-key'
+    apiKey: 'test-api-key',
   };
 
   beforeEach(() => {
@@ -43,11 +43,7 @@ describe('App', () => {
     });
 
     it('should create API clients', () => {
-      expect(ApiClientImpl).toHaveBeenCalledWith(
-        config.apiBaseUrl,
-        config.apiKey,
-        undefined
-      );
+      expect(ApiClientImpl).toHaveBeenCalledWith(config.apiBaseUrl, config.apiKey, undefined);
     });
   });
 
@@ -110,4 +106,3 @@ describe('App', () => {
     });
   });
 });
-

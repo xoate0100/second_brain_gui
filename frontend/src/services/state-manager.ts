@@ -31,7 +31,7 @@ export class StateManager {
       selectedItemIds: new Set(),
       filters: {},
       pagination: null,
-      ...initialState
+      ...initialState,
     };
   }
 
@@ -48,7 +48,7 @@ export class StateManager {
   setState(updates: Partial<AppState>): void {
     this.state = {
       ...this.state,
-      ...updates
+      ...updates,
     };
     this.notifyListeners();
   }
@@ -83,7 +83,7 @@ export class StateManager {
   navigateTo(view: AppState['currentView'], noteId?: string): void {
     this.setState({
       currentView: view,
-      selectedNoteId: noteId || null
+      selectedNoteId: noteId || null,
     });
   }
 
@@ -133,4 +133,3 @@ export class StateManager {
     this.setState({ pagination });
   }
 }
-

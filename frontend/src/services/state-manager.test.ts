@@ -26,7 +26,7 @@ describe('StateManager', () => {
     it('should initialize with custom state', () => {
       const customState = new StateManager({
         currentView: 'detail',
-        selectedNoteId: 'note-123'
+        selectedNoteId: 'note-123',
       });
       const state = customState.getState();
       expect(state.currentView).toBe('detail');
@@ -159,7 +159,7 @@ describe('StateManager', () => {
       const pagination = {
         page: 2,
         pageSize: 20,
-        total: 100
+        total: 100,
       };
       stateManager.updatePagination(pagination);
       const state = stateManager.getState();
@@ -167,4 +167,3 @@ describe('StateManager', () => {
     });
   });
 });
-

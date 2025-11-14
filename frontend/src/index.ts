@@ -22,16 +22,14 @@ function init(): void {
   const jwtToken = import.meta.env.VITE_JWT_TOKEN;
 
   if (!apiKey) {
-    console.warn(
-      'VITE_API_KEY not set. API calls may fail. Set it in .env file or environment.'
-    );
+    console.warn('VITE_API_KEY not set. API calls may fail. Set it in .env file or environment.');
   }
 
   // Initialize application
   const app = new App(container, {
     apiBaseUrl,
     apiKey,
-    jwtToken
+    jwtToken,
   });
 
   // Make app available globally for debugging (development only)
