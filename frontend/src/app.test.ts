@@ -82,7 +82,12 @@ describe('App', () => {
 
     it('should fallback to queue if detail view has no note ID', () => {
       // Access private stateManager for testing
-      const stateManager = (app as unknown as { stateManager: { setState: (updates: { currentView: string; selectedNoteId: null }) => void } }).stateManager;
+      type AppWithStateManager = {
+        stateManager: {
+          setState: (updates: { currentView: string; selectedNoteId: null }) => void;
+        };
+      };
+      const stateManager = (app as unknown as AppWithStateManager).stateManager;
       stateManager.setState({ currentView: 'detail', selectedNoteId: null });
       app.render();
       expect(container.querySelector('.app-view--queue')).toBeTruthy();

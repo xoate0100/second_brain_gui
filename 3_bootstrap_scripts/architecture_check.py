@@ -197,8 +197,16 @@ def check_isp_interface_segregation():
                             current_line = lines[j]
                             brace_count += current_line.count('{') - current_line.count('}')
 
-                            # Count method/property definitions
-                            if re.search(r'^\s*\w+.*[:?]\s*[^;]', current_line) or re.search(r'^\s*\w+\s*\(', current_line):
+                            # Count method/property definitions - only match actual property definitions
+                            # Pattern: optional access modifier, property name, optional ?, colon, type
+                            # Exclude comments, empty lines, closing braces, and nested object literals
+                            stripped = current_line.strip()
+                            if (stripped and 
+                                not stripped.startswith('//') and 
+                                not stripped.startswith('/*') and 
+                                not stripped.startswith('*') and
+                                not stripped.startswith('}') and
+                                re.search(r'^\s*\w+\s*\??\s*:\s*[^;{}]+', current_line)):
                                 method_count += 1
 
                             if brace_count < 0:
@@ -224,7 +232,8 @@ def check_isp_interface_segregation():
                             current_line = lines[j]
                             brace_count += current_line.count('{') - current_line.count('}')
 
-                            if re.search(r'^\s*\w+.*[:?]\s*[^;]', current_line):
+                            # Only count actual property/method definitions, not comments or empty lines
+                            if re.search(r'^\s*\w+.*[:?]\s*[^;{}]', current_line) and not re.search(r'^\s*//|^\s*/\*|^\s*\*', current_line):
                                 method_count += 1
 
                             if brace_count < 0:
