@@ -154,9 +154,9 @@ def check_srp_single_responsibility():
                             f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
                         )
 
-            except Exception as e:
-                # Skip files that can't be parsed
-                continue
+                except Exception as e:
+                    # Skip files that can't be parsed
+                    continue
 
 
 def check_isp_interface_segregation():
