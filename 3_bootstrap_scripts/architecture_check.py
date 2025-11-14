@@ -36,6 +36,9 @@ def check_cross_component_imports():
         for p in root.rglob("*"):
             if p.suffix not in extensions:
                 continue
+            # Exclude node_modules and other third-party directories
+            if "node_modules" in str(p) or "dist" in str(p) or ".git" in str(p):
+                continue
             try:
                 text = p.read_text(encoding="utf-8", errors="ignore")
             except:
