@@ -152,6 +152,7 @@ describe('SuggestionList', () => {
       container.appendChild(element);
 
       let appliedSuggestion: Suggestion | null = null;
+      // Listen on the list element which emits the forwarded events
       element.addEventListener('suggestion:apply', ((e: CustomEvent) => {
         appliedSuggestion = e.detail.suggestion;
       }) as EventListener);
@@ -160,8 +161,8 @@ describe('SuggestionList', () => {
       expect(applyButton).toBeTruthy();
       if (applyButton) {
         applyButton.click();
-        // Wait for event to propagate
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        // Wait for event to propagate through itemContainer to list element
+        await new Promise((resolve) => setTimeout(resolve, 50));
         expect(appliedSuggestion).toBeTruthy();
         expect(appliedSuggestion?.note_id).toBe('note-1');
       }
@@ -183,8 +184,8 @@ describe('SuggestionList', () => {
       container.appendChild(element);
 
       let dismissedId: string | null = null;
-      // Listen on container since events bubble from itemContainer
-      container.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
+      // Listen on the list element which emits the forwarded events
+      element.addEventListener('suggestion:dismiss', ((e: CustomEvent) => {
         dismissedId = e.detail.note_id;
       }) as EventListener);
 
@@ -192,8 +193,8 @@ describe('SuggestionList', () => {
       expect(dismissButton).toBeTruthy();
       if (dismissButton) {
         dismissButton.click();
-        // Wait for event to propagate
-        await new Promise((resolve) => setTimeout(resolve, 10));
+        // Wait for event to propagate through itemContainer to list element
+        await new Promise((resolve) => setTimeout(resolve, 50));
         expect(dismissedId).toBe('note-1');
       }
     });
