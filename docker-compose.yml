@@ -5,19 +5,34 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        # Backend is Python API running on port 8080 (separate "SecondBrain" project)
+        # Use localhost:8080 since browser runs on host and makes requests from host
+        # NOTE: Using explicit value to avoid shell environment variable override
+        VITE_API_BASE_URL: http://localhost:8080
+        # API key for backend authentication (embedded at build time)
+        # NOTE: Using explicit value to ensure it's always set
+        VITE_API_KEY: sb_test_RZbK4LCvhQm1kHMBPDXlT7BvNMIncEiH:read:notes,write:notes,read:review,write:review
     container_name: review-gui-frontend
     ports:
       - "3000:80"
     environment:
-      - VITE_API_BASE_URL=http://backend:8000
-      - VITE_API_KEY=${API_KEY:-}
+      # NOTE: These runtime environment variables are for reference/documentation only
+      # Vite embeds environment variables at BUILD TIME, not runtime
+      # The actual values are baked into the JavaScript bundle during docker build
+      # These are kept here for documentation purposes only
+      - VITE_API_BASE_URL=http://localhost:8080
+      - VITE_API_KEY=sb_test_RZbK4LCvhQm1kHMBPDXlT7BvNMIncEiH:read:notes,write:notes,read:review,write:review
       - VITE_JWT_TOKEN=${JWT_TOKEN:-}
-    volumes:
-      - ./frontend/dist:/usr/share/nginx/html:ro
-    depends_on:
-      - backend
-    networks:
-      - review-gui-network
+    # Volume mount removed - using files from Docker image instead
+    # The dist files are baked into the image during build
+    # If you need to mount for development, uncomment below and rebuild locally:
+    # volumes:
+    #   - ./frontend/dist:/usr/share/nginx/html:ro
+    # Removed depends_on: backend since backend is in separate project
+    extra_hosts:
+      # Add host.docker.internal for Windows/Mac Docker Desktop
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
@@ -26,27 +41,14 @@ services:
       retries: 3
       start_period: 5s
 
-  backend:
-    # Backend service placeholder
-    # Replace with actual backend image when available
-    image: review-gui-backend:latest
-    container_name: review-gui-backend
-    ports:
-      - "8000:8000"
-    environment:
-      - API_KEY=${API_KEY:-}
-      - DATABASE_URL=${DATABASE_URL:-}
-    networks:
-      - review-gui-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 10s
+  # Backend is managed in separate "SecondBrain" project
+  # Remove this service definition if backend is always external
+  # backend:
+  #   image: review-gui-backend:latest
+  #   container_name: review-gui-backend
+  #   ports:
+  #     - "8000:8000"
 
 networks:
   review-gui-network:
     driver: bridge
-

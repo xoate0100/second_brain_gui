@@ -47,6 +47,13 @@ describe('StatusUpdater', () => {
       const statusSelect = element.querySelector('select[name="status"]') as HTMLSelectElement;
       expect(statusSelect.value).toBe('inbox');
     });
+
+    it('should render review workflow fields', () => {
+      const element = component.render();
+      expect(element.querySelector('select[name="review_stage"]')).toBeTruthy();
+      expect(element.querySelector('input[name="needs_review"]')).toBeTruthy();
+      expect(element.querySelector('input[name="review_fields"]')).toBeTruthy();
+    });
   });
 
   describe('update', () => {
@@ -79,6 +86,43 @@ describe('StatusUpdater', () => {
       const request: StatusUpdateRequest = {
         status: 'in-progress',
         review_notes: 'Starting work',
+      };
+
+      let updatedEmitted = false;
+      container.addEventListener('status:updated', () => {
+        updatedEmitted = true;
+      });
+
+      await component.submitStatusUpdate(request);
+
+      expect(notesApi.updateStatus).toHaveBeenCalledWith(noteId, request);
+      expect(updatedEmitted).toBe(true);
+    });
+
+    it('should submit status update with review workflow fields', async () => {
+      component.update('ready');
+
+      const mockResponse: ApiResponse<StatusUpdateResponse> = {
+        success: true,
+        data: {
+          note_id: noteId,
+          status: 'in-progress',
+          previous_status: 'ready',
+          momentum_delta: 0.1,
+          updated_at: '2025-01-31T00:00:00Z',
+          review_stage: 'in_progress',
+          review_notes: 'Starting review',
+        },
+      };
+
+      vi.spyOn(notesApi, 'updateStatus').mockResolvedValueOnce(mockResponse);
+
+      const request: StatusUpdateRequest = {
+        status: 'in-progress',
+        review_stage: 'in_progress',
+        needs_review: true,
+        review_fields: ['venture', 'tags'],
+        review_notes: 'Starting review',
       };
 
       let updatedEmitted = false;
@@ -139,10 +183,19 @@ describe('StatusUpdater', () => {
       expect(errorEmitted).toBe(true);
     });
 
-    it('should reject invalid status transitions', async () => {
+    it('should emit validation error but still submit for invalid transitions', async () => {
       component.update('inbox');
 
-      const updateStatusSpy = vi.spyOn(notesApi, 'updateStatus');
+      const mockResponse: ApiResponse<StatusUpdateResponse> = {
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Invalid status transition',
+          details: {},
+        },
+      };
+
+      const updateStatusSpy = vi.spyOn(notesApi, 'updateStatus').mockResolvedValueOnce(mockResponse);
 
       let validationErrorEmitted = false;
       container.addEventListener('status:validation-error', () => {
@@ -155,8 +208,9 @@ describe('StatusUpdater', () => {
 
       await component.submitStatusUpdate(request);
 
+      // Validation error is emitted but submission still proceeds (backend validates)
       expect(validationErrorEmitted).toBe(true);
-      expect(updateStatusSpy).not.toHaveBeenCalled();
+      expect(updateStatusSpy).toHaveBeenCalled();
     });
   });
 

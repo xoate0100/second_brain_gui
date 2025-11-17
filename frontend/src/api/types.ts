@@ -1,11 +1,11 @@
 /**
  * API Request/Response Types
  * Type definitions for all API endpoints
- * 
+ *
  * Responsibilities:
  * - Define request/response types for all endpoints
  * - Ensure type safety across API calls
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - type definitions
  * - ISP: Focused interfaces for each endpoint
@@ -30,6 +30,11 @@ export interface ReviewItem {
   status: string;
   age_days: number;
   momentum_score: number;
+  // Review workflow fields
+  review_stage?: 'unreviewed' | 'in_progress' | 'complete';
+  needs_review?: boolean;
+  review_fields?: string[];
+  review_notes?: string;
 }
 
 export interface Pagination {
@@ -64,6 +69,10 @@ export interface NoteFrontmatter {
   completion_date?: string;
   review_notes?: string;
   follow_up_date?: string;
+  // Review workflow fields
+  review_stage?: 'unreviewed' | 'in_progress' | 'complete';
+  needs_review?: boolean;
+  review_fields?: string[];
   [key: string]: unknown; // Allow other frontmatter fields
 }
 
@@ -83,6 +92,10 @@ export interface StatusUpdateRequest {
   status: NoteStatus;
   review_notes?: string;
   follow_up_date?: string; // ISO format
+  // Review workflow fields
+  review_stage?: 'unreviewed' | 'in_progress' | 'complete';
+  needs_review?: boolean;
+  review_fields?: string[];
 }
 
 export interface StatusUpdateResponse {
@@ -91,6 +104,9 @@ export interface StatusUpdateResponse {
   previous_status: string;
   momentum_delta: number;
   updated_at: string;
+  // Review workflow fields (if updated)
+  review_stage?: 'unreviewed' | 'in_progress' | 'complete';
+  review_notes?: string;
 }
 
 // Note Update Types
@@ -103,6 +119,10 @@ export interface NoteUpdateRequest {
   resume_hint?: string;
   review_notes?: string;
   follow_up_date?: string;
+  // Review workflow fields
+  review_stage?: 'unreviewed' | 'in_progress' | 'complete';
+  needs_review?: boolean;
+  review_fields?: string[];
   [key: string]: unknown; // Allow other updatable fields
 }
 
@@ -110,6 +130,11 @@ export interface NoteUpdateResponse {
   note_id: string;
   updated_fields: string[];
   updated_at: string;
+  // Review workflow fields (if updated)
+  review_stage?: 'unreviewed' | 'in_progress' | 'complete';
+  needs_review?: boolean;
+  review_fields?: string[];
+  review_notes?: string;
 }
 
 // Batch Update Types
@@ -153,5 +178,3 @@ export interface SuggestionParams {
 export interface SuggestionResponse {
   suggestions: Suggestion[];
 }
-
-

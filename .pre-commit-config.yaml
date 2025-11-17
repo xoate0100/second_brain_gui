@@ -74,6 +74,8 @@ repos:
         name: Tests & Coverage
         entry: 3_bootstrap_scripts/tests_coverage.sh
         language: system
+        pass_filenames: true
+        require_serial: true
 
       - id: documentation-sync
         name: Documentation Sync

@@ -93,6 +93,38 @@ export class NoteEditor extends ValidatedComponent {
           ${this.escapeHtml(frontmatter.resume_hint || '')}
         </textarea>
       </div>
+      <div class="note-editor__section">
+        <h3>Review Workflow</h3>
+        <div class="note-editor__field">
+          <label for="review-stage">Review Stage</label>
+          <select id="review-stage" name="review_stage" aria-label="Review stage (optional)">
+            <option value="">-- No change --</option>
+            <option value="unreviewed" ${frontmatter.review_stage === 'unreviewed' ? 'selected' : ''}>Unreviewed</option>
+            <option value="in_progress" ${frontmatter.review_stage === 'in_progress' ? 'selected' : ''}>In Progress</option>
+            <option value="complete" ${frontmatter.review_stage === 'complete' ? 'selected' : ''}>Complete</option>
+          </select>
+        </div>
+        <div class="note-editor__field">
+          <label for="needs-review">
+            <input type="checkbox" id="needs-review" name="needs_review" value="true"
+                   ${frontmatter.needs_review ? 'checked' : ''}>
+            Needs Review
+          </label>
+        </div>
+        <div class="note-editor__field">
+          <label for="review-fields">Review Fields (comma-separated)</label>
+          <input type="text" id="review-fields" name="review_fields"
+                 value="${this.escapeHtml((frontmatter.review_fields || []).join(', '))}"
+                 placeholder="e.g., venture, tags, domain" aria-label="Fields requiring review (optional)">
+        </div>
+        <div class="note-editor__field">
+          <label for="review-notes">Review Notes</label>
+          <textarea id="review-notes" name="review_notes" rows="3"
+                    aria-label="Review notes (optional)">
+            ${this.escapeHtml(frontmatter.review_notes || '')}
+          </textarea>
+        </div>
+      </div>
       <div class="note-editor__actions">
         <button type="submit" class="btn btn--primary">Save Changes</button>
         <button type="button" class="btn btn--secondary">Cancel</button>
@@ -198,6 +230,29 @@ export class NoteEditor extends ValidatedComponent {
     const resumeHint = formData.get('resume_hint') as string;
     if (resumeHint) {
       request.resume_hint = resumeHint;
+    }
+
+    // Review workflow fields
+    const reviewStage = formData.get('review_stage') as string;
+    if (reviewStage) {
+      request.review_stage = reviewStage as 'unreviewed' | 'in_progress' | 'complete';
+    }
+
+    if (formData.has('needs_review')) {
+      request.needs_review = formData.get('needs_review') === 'true';
+    }
+
+    const reviewFieldsStr = formData.get('review_fields') as string;
+    if (reviewFieldsStr) {
+      request.review_fields = reviewFieldsStr
+        .split(',')
+        .map(f => f.trim())
+        .filter(f => f.length > 0);
+    }
+
+    const reviewNotes = formData.get('review_notes') as string;
+    if (reviewNotes) {
+      request.review_notes = reviewNotes;
     }
 
     await this.submitUpdate(request);

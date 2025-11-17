@@ -1,11 +1,11 @@
 /**
  * Review API Client
  * Client for review-related API endpoints
- * 
+ *
  * Responsibilities:
  * - Provide typed methods for review queue and suggestions
  * - Handle query parameter serialization
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - review API endpoints
  * - DIP: Depends on ApiClient interface
@@ -16,7 +16,7 @@ import type {
   ReviewQueueParams,
   ReviewQueueResponse,
   SuggestionParams,
-  SuggestionResponse
+  SuggestionResponse,
 } from './types';
 
 export class ReviewApiClient {
@@ -34,9 +34,7 @@ export class ReviewApiClient {
   /**
    * Get smart suggestions for review items
    */
-  async getSuggestions(
-    params: SuggestionParams = {}
-  ): Promise<ApiResponse<SuggestionResponse>> {
+  async getSuggestions(params: SuggestionParams = {}): Promise<ApiResponse<SuggestionResponse>> {
     const queryString = this.buildQueryString(params);
     const url = `/api/v1/review/suggestions${queryString}`;
     return this.apiClient.get<SuggestionResponse>(url);
@@ -60,4 +58,3 @@ export class ReviewApiClient {
     return queryString ? `?${queryString}` : '';
   }
 }
-

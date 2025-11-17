@@ -22,14 +22,35 @@ function init(): void {
     throw new Error('Application container not found. Expected element with id="app"');
   }
 
-  // Get configuration from environment variables or defaults
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-  const apiKey = import.meta.env.VITE_API_KEY || '';
-  const jwtToken = import.meta.env.VITE_JWT_TOKEN;
+  // Get configuration from runtime config (config.js) or environment variables or defaults
+  // Priority: window.__APP_CONFIG__ > import.meta.env > defaults
+  const runtimeConfig = (
+    window as unknown as {
+      __APP_CONFIG__?: { apiBaseUrl?: string; apiKey?: string; jwtToken?: string };
+    }
+  ).__APP_CONFIG__;
+  const apiBaseUrl =
+    runtimeConfig?.apiBaseUrl || import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+  const apiKey = runtimeConfig?.apiKey || import.meta.env.VITE_API_KEY || '';
+  const jwtToken = runtimeConfig?.jwtToken || import.meta.env.VITE_JWT_TOKEN;
+
+  // Log configuration source for debugging
+  if (runtimeConfig) {
+    console.log('[Config] Using runtime config from config.js');
+  } else if (import.meta.env.VITE_API_KEY || import.meta.env.VITE_API_BASE_URL) {
+    console.log('[Config] Using Vite environment variables');
+  } else {
+    console.log('[Config] Using default values');
+  }
 
   if (!apiKey) {
-    console.warn('VITE_API_KEY not set. API calls may fail. Set it in .env file or environment.');
+    console.error('❌ API key not set! Check config.js or environment variables.');
+    console.error('Expected: window.__APP_CONFIG__.apiKey or VITE_API_KEY');
+  } else {
+    console.log('✅ API key loaded:', apiKey.substring(0, 20) + '...');
   }
+
+  console.log('✅ API Base URL:', apiBaseUrl);
 
   // Initialize application
   const app = new App(container, {

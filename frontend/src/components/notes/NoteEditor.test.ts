@@ -70,6 +70,37 @@ describe('NoteEditor', () => {
       const ventureSelect = element.querySelector('select[name="venture"]') as HTMLSelectElement;
       expect(ventureSelect).toBeTruthy();
     });
+
+    it('should render review workflow fields', () => {
+      const element = component.render();
+      expect(element.querySelector('select[name="review_stage"]')).toBeTruthy();
+      expect(element.querySelector('input[name="needs_review"]')).toBeTruthy();
+      expect(element.querySelector('input[name="review_fields"]')).toBeTruthy();
+      expect(element.querySelector('textarea[name="review_notes"]')).toBeTruthy();
+    });
+
+    it('should display review workflow values from note data', () => {
+      const noteDataWithReview: NoteDetailResponse = {
+        ...mockNoteData,
+        frontmatter: {
+          ...mockNoteData.frontmatter,
+          review_stage: 'in_progress',
+          needs_review: true,
+          review_fields: ['venture', 'tags'],
+          review_notes: 'Reviewing classification',
+        },
+      };
+      component.update(noteDataWithReview);
+      const element = component.render();
+      const reviewStageSelect = element.querySelector('select[name="review_stage"]') as HTMLSelectElement;
+      expect(reviewStageSelect.value).toBe('in_progress');
+      const needsReviewCheckbox = element.querySelector('input[name="needs_review"]') as HTMLInputElement;
+      expect(needsReviewCheckbox.checked).toBe(true);
+      const reviewFieldsInput = element.querySelector('input[name="review_fields"]') as HTMLInputElement;
+      expect(reviewFieldsInput.value).toBe('venture, tags');
+      const reviewNotesTextarea = element.querySelector('textarea[name="review_notes"]') as HTMLTextAreaElement;
+      expect(reviewNotesTextarea.value.trim()).toBe('Reviewing classification');
+    });
   });
 
   describe('update', () => {
@@ -99,6 +130,35 @@ describe('NoteEditor', () => {
       const request: NoteUpdateRequest = {
         venture: 'CRL',
         domain: 'new-domain',
+      };
+
+      await component.submitUpdate(request);
+
+      expect(notesApi.updateNote).toHaveBeenCalledWith(noteId, request);
+    });
+
+    it('should submit note update with review workflow fields', async () => {
+      const mockResponse: ApiResponse<NoteUpdateResponse> = {
+        success: true,
+        data: {
+          note_id: noteId,
+          updated_fields: ['review_stage', 'needs_review', 'review_fields', 'review_notes'],
+          updated_at: '2025-01-31T00:00:00Z',
+          review_stage: 'complete',
+          needs_review: false,
+          review_fields: [],
+          review_notes: 'Review completed',
+        },
+      };
+
+      vi.spyOn(notesApi, 'updateNote').mockResolvedValueOnce(mockResponse);
+
+      const request: NoteUpdateRequest = {
+        venture: 'CRL',
+        review_stage: 'complete',
+        needs_review: false,
+        review_fields: [],
+        review_notes: 'Review completed',
       };
 
       await component.submitUpdate(request);
@@ -185,6 +245,51 @@ describe('NoteEditor', () => {
       await new Promise((resolve) => setTimeout(resolve, 100));
 
       expect(notesApi.updateNote).toHaveBeenCalled();
+    });
+
+    it('should submit form with review workflow fields', async () => {
+      const noteDataWithReview: NoteDetailResponse = {
+        ...mockNoteData,
+        frontmatter: {
+          ...mockNoteData.frontmatter,
+          review_stage: 'in_progress',
+          needs_review: true,
+          review_fields: ['venture'],
+        },
+      };
+      component.update(noteDataWithReview);
+      const element = component.render();
+      container.appendChild(element);
+
+      const mockResponse: ApiResponse<NoteUpdateResponse> = {
+        success: true,
+        data: {
+          note_id: noteId,
+          updated_fields: ['review_stage', 'needs_review', 'review_fields'],
+          updated_at: '2025-01-31T00:00:00Z',
+        },
+      };
+
+      vi.spyOn(notesApi, 'updateNote').mockResolvedValueOnce(mockResponse);
+
+      const form = element as HTMLFormElement;
+      const reviewStageSelect = form.querySelector('[name="review_stage"]') as HTMLSelectElement;
+      if (reviewStageSelect) {
+        reviewStageSelect.value = 'complete';
+      }
+
+      const needsReviewCheckbox = form.querySelector('[name="needs_review"]') as HTMLInputElement;
+      if (needsReviewCheckbox) {
+        needsReviewCheckbox.checked = false;
+      }
+
+      form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      expect(notesApi.updateNote).toHaveBeenCalled();
+      const callArgs = (notesApi.updateNote as ReturnType<typeof vi.fn>).mock.calls[0];
+      expect(callArgs[1]).toHaveProperty('review_stage');
     });
 
     it('should handle cancel button', () => {

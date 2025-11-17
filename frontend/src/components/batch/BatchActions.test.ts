@@ -92,5 +92,38 @@ describe('BatchActions', () => {
       expect(result?.succeeded).toBe(2);
       expect(result?.failed).toBe(1);
     });
+
+    it('should execute batch update with review workflow fields', async () => {
+      const mockResponse: ApiResponse<BatchUpdateResponse> = {
+        success: true,
+        data: {
+          total: 2,
+          succeeded: 2,
+          failed: 0,
+          results: [
+            { note_id: 'note1', success: true },
+            { note_id: 'note2', success: true },
+          ],
+        },
+      };
+
+      vi.spyOn(notesApi, 'batchUpdate').mockResolvedValueOnce(mockResponse);
+
+      const request: BatchUpdateRequest = {
+        note_ids: selectedIds.slice(0, 2),
+        updates: {
+          review_stage: 'complete',
+          needs_review: false,
+          review_fields: [],
+          review_notes: 'Batch review completed',
+        },
+      };
+
+      const result = await component.executeBatchUpdate(request);
+
+      expect(notesApi.batchUpdate).toHaveBeenCalledWith(request);
+      expect(result?.succeeded).toBe(2);
+      expect(result?.failed).toBe(0);
+    });
   });
 });

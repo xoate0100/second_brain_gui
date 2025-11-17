@@ -43,11 +43,11 @@ export class SuggestionItem extends Component {
         <div class="suggestion-item__reason">${this.escapeHtml(this.suggestionData.reason)}</div>
       </div>
       <div class="suggestion-item__actions">
-        <button type="button" class="btn btn--primary" data-action="apply" 
+        <button type="button" class="btn btn--primary" data-action="apply"
                 aria-label="Apply suggestion for ${this.suggestionData.note_id}">
           Apply
         </button>
-        <button type="button" class="btn btn--secondary" data-action="dismiss" 
+        <button type="button" class="btn btn--secondary" data-action="dismiss"
                 aria-label="Dismiss suggestion for ${this.suggestionData.note_id}">
           Dismiss
         </button>
@@ -102,4 +102,3 @@ export class SuggestionItem extends Component {
     );
   }
 }
-

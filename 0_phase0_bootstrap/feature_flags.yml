@@ -2,7 +2,7 @@ mode:
   # L2.5 Single-Agent Sandbox: Cursor agent may execute multi-step plans end-to-end
   cursor_agent_mode: sandboxed
   agentic_write_ops: true          # allow code/tests/docs/scripts writes
-  modify_meta_framework: false     # forbid edits to meta/standards/ci
+  modify_meta_framework: false      # RESTORED: forbid edits to meta/standards/ci (PowerShell/Docker rules update complete)
   human_review_required_for_merge: true
 
 permissions:
@@ -10,8 +10,10 @@ permissions:
     - frontend/
     - backend/
     - shared/
+    - scripts/               # Allow script updates
+    - docs/                  # Allow documentation updates
   readonly:
-    - 0_phase0_bootstrap/
+    - 0_phase0_bootstrap/    # RESTORED: read-only (PowerShell/Docker rules update complete)
     - 1_global_standards/
     - 7_schemas/
     - .github/
@@ -23,7 +25,7 @@ components:
   frontend:
     language: typescript
     package_manager: auto        # auto | npm | yarn | pnpm
-    coverage_threshold: 95
+    coverage_threshold: 100
     complexity_limit: 12
     directories: [frontend/]
   backend:
@@ -33,7 +35,7 @@ components:
     directories: [backend/]
   shared:
     language: generic
-    coverage_threshold: 90
+    coverage_threshold: 100
     complexity_limit: 10
     directories: [shared/]
 

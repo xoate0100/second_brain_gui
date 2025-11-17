@@ -19,7 +19,7 @@ export default defineConfig({
     cors: true,
     proxy: {
       '/api': {
-        target: process.env.VITE_API_BASE_URL || 'http://localhost:8000',
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '/api'),
@@ -29,10 +29,18 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/e2e/**', // E2E tests are Playwright, not vitest
+      '**/*.spec.ts', // Playwright spec files
+      '**/*.config.ts',
+      '**/*.config.js',
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      exclude: ['node_modules/', 'tests/', '*.config.ts', '*.config.js'],
+      exclude: ['node_modules/', 'tests/', 'e2e/', '*.config.ts', '*.config.js'],
     },
   },
 });

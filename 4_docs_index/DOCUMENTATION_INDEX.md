@@ -6,4 +6,5 @@
 - Components: frontend/ | backend/ | shared/
 - Plans: 6_ai_runtime_context/ACTIVE_PLAN.yaml
 - Architecture: 5_reference_architectures/LAYER_RULES.yaml
+- Integration Guides: docs/FRONTEND_REVIEW_WORKFLOW_INTEGRATION.md
 

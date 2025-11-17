@@ -28,17 +28,17 @@ describe('ApiClientImpl', () => {
     it('should make GET request with correct headers', async () => {
       const mockResponse: ApiResponse<{ id: string }> = {
         success: true,
-        data: { id: '123' }
+        data: { id: '123' },
       };
 
       const mockHeaders = new Headers();
       mockHeaders.set('content-type', 'application/json');
-      
+
       (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         status: 200,
         json: async () => mockResponse,
-        headers: mockHeaders
+        headers: mockHeaders,
       });
 
       const result = await client.get<{ id: string }>('/api/v1/test');
@@ -48,9 +48,9 @@ describe('ApiClientImpl', () => {
         expect.objectContaining({
           method: 'GET',
           headers: expect.objectContaining({
-            'X-API-Key': apiKey,
-            'Content-Type': 'application/json'
-          })
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          }),
         })
       );
 
@@ -61,17 +61,17 @@ describe('ApiClientImpl', () => {
     it('should include X-Request-ID header', async () => {
       const mockResponse: ApiResponse<unknown> = {
         success: true,
-        data: {}
+        data: {},
       };
 
       const mockHeaders = new Headers();
       mockHeaders.set('content-type', 'application/json');
-      
+
       (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         status: 200,
         json: async () => mockResponse,
-        headers: mockHeaders
+        headers: mockHeaders,
       });
 
       await client.get('/api/v1/test');
@@ -90,17 +90,17 @@ describe('ApiClientImpl', () => {
 
       const mockResponse: ApiResponse<unknown> = {
         success: true,
-        data: {}
+        data: {},
       };
 
       const mockHeaders = new Headers();
       mockHeaders.set('content-type', 'application/json');
-      
+
       (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         status: 200,
         json: async () => mockResponse,
-        headers: mockHeaders
+        headers: mockHeaders,
       });
 
       await client.get('/api/v1/test');
@@ -113,12 +113,12 @@ describe('ApiClientImpl', () => {
     it('should handle non-JSON responses', async () => {
       const mockHeaders = new Headers();
       mockHeaders.set('content-type', 'text/plain');
-      
+
       (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         status: 200,
         json: async () => ({ unexpected: 'format' }),
-        headers: mockHeaders
+        headers: mockHeaders,
       });
 
       const result = await client.get('/api/v1/test');
@@ -130,7 +130,7 @@ describe('ApiClientImpl', () => {
     it('should handle HTTP error responses', async () => {
       const mockHeaders = new Headers();
       mockHeaders.set('content-type', 'application/json');
-      
+
       (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: false,
         status: 404,
@@ -140,10 +140,10 @@ describe('ApiClientImpl', () => {
           error: {
             code: 'NOT_FOUND',
             message: 'Resource not found',
-            details: {}
-          }
+            details: {},
+          },
         }),
-        headers: mockHeaders
+        headers: mockHeaders,
       });
 
       const result = await client.get('/api/v1/test');
@@ -169,17 +169,17 @@ describe('ApiClientImpl', () => {
     it('should make POST request with body', async () => {
       const mockResponse: ApiResponse<{ id: string }> = {
         success: true,
-        data: { id: '123' }
+        data: { id: '123' },
       };
 
       const mockHeaders = new Headers();
       mockHeaders.set('content-type', 'application/json');
-      
+
       (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         status: 200,
         json: async () => mockResponse,
-        headers: mockHeaders
+        headers: mockHeaders,
       });
 
       const requestData = { name: 'Test' };
@@ -195,17 +195,17 @@ describe('ApiClientImpl', () => {
     it('should make PUT request with body', async () => {
       const mockResponse: ApiResponse<{ id: string }> = {
         success: true,
-        data: { id: '123' }
+        data: { id: '123' },
       };
 
       const mockHeaders = new Headers();
       mockHeaders.set('content-type', 'application/json');
-      
+
       (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         status: 200,
         json: async () => mockResponse,
-        headers: mockHeaders
+        headers: mockHeaders,
       });
 
       const requestData = { name: 'Updated' };
@@ -221,17 +221,17 @@ describe('ApiClientImpl', () => {
     it('should make DELETE request', async () => {
       const mockResponse: ApiResponse<unknown> = {
         success: true,
-        data: {}
+        data: {},
       };
 
       const mockHeaders = new Headers();
       mockHeaders.set('content-type', 'application/json');
-      
+
       (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         ok: true,
         status: 200,
         json: async () => mockResponse,
-        headers: mockHeaders
+        headers: mockHeaders,
       });
 
       await client.delete('/api/v1/test');
@@ -265,19 +265,19 @@ describe('ApiClientImpl', () => {
         { status: 409, expectedCode: 'CONFLICT' },
         { status: 429, expectedCode: 'RATE_LIMIT_EXCEEDED' },
         { status: 500, expectedCode: 'INTERNAL_ERROR' },
-        { status: 503, expectedCode: 'SERVICE_UNAVAILABLE' }
+        { status: 503, expectedCode: 'SERVICE_UNAVAILABLE' },
       ];
 
       for (const { status, expectedCode } of statusCodes) {
         const mockHeaders = new Headers();
         mockHeaders.set('content-type', 'application/json');
-        
+
         (fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
           ok: false,
           status,
           statusText: 'Error',
           json: async () => ({ message: 'Error' }),
-          headers: mockHeaders
+          headers: mockHeaders,
         });
 
         const result = await client.get('/api/v1/test');

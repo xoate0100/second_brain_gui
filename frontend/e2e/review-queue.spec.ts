@@ -80,12 +80,16 @@ test.describe('Review Queue Workflow', () => {
     await page.locator('button:has-text("Apply Filters")').click();
 
     // Verify filtered results (mock should return filtered data)
-    await expect(page.locator('.review-item')).toBeVisible();
+    // Use .first() to avoid strict mode violation when multiple items exist
+    await expect(page.locator('.review-item').first()).toBeVisible();
   });
 
   test('should navigate to note detail when clicking review item', async ({ page }) => {
+    let noteDetailApiCalled = false;
+    
     // Mock note detail API
     await page.route('**/api/v1/notes/test-note-1**', async (route) => {
+      noteDetailApiCalled = true;
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -116,12 +120,21 @@ test.describe('Review Queue Workflow', () => {
 
     await page.goto('/');
 
-    // Click on first review item
-    await page.locator('.review-item').first().click();
+    // Wait for review queue to load
+    await expect(page.locator('.review-queue')).toBeVisible();
 
-    // Wait for note detail to load
-    await expect(page.locator('.note-detail')).toBeVisible();
+    // Click on first review item (click anywhere on the item except checkbox)
+    const reviewItem = page.locator('.review-item').first();
+    // Click on the title area to ensure we're not clicking the checkbox
+    await reviewItem.locator('.review-item__title').click();
+
+    // Wait for note detail component to load (navigation triggers API call)
+    // The route mock will fulfill the request, so we just wait for the UI
+    await expect(page.locator('.note-detail')).toBeVisible({ timeout: 10000 });
     await expect(page.locator('.note-detail__title')).toContainText('Test Note 1');
+    
+    // Verify API was called (route mock should have been triggered)
+    expect(noteDetailApiCalled).toBe(true);
   });
 
   test('should paginate review queue', async ({ page }) => {
@@ -134,4 +147,3 @@ test.describe('Review Queue Workflow', () => {
     await expect(page.locator('.review-pagination__info')).toBeVisible();
   });
 });
-

@@ -40,7 +40,14 @@ export abstract class Component {
    * @param data - Event data
    */
   protected emit(event: string, data: unknown): void {
-    this.element.dispatchEvent(new CustomEvent(event, { detail: data }));
+    // CustomEvent bubbles by default, but explicitly set it for clarity
+    this.element.dispatchEvent(
+      new CustomEvent(event, {
+        detail: data,
+        bubbles: true,
+        cancelable: true,
+      })
+    );
   }
 
   /**

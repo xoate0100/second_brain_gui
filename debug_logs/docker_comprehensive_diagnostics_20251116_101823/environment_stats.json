@@ -1,0 +1,122 @@
+﻿{
+    "PATH":  {
+                 "TotalEntries":  36,
+                 "TotalLength":  1513,
+                 "Entries":  [
+                                 "C:\\Program Files\\PowerShell\\7",
+                                 "C:\\Program Files (x86)\\Common Files\\Intel\\Shared Libraries\\redist\\intel64\\compiler",
+                                 "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath",
+                                 "C:\\Windows\\system32",
+                                 "C:\\Windows",
+                                 "C:\\Windows\\System32\\Wbem",
+                                 "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\",
+                                 "C:\\Windows\\System32\\OpenSSH\\",
+                                 "C:\\Program Files\\PuTTY\\",
+                                 "C:\\ProgramData\\chocolatey\\bin",
+                                 "C:\\Program Files (x86)\\Smart Projects\\IsoBuster",
+                                 "C:\\Program Files\\dotnet\\",
+                                 "C:\\Program Files\\WireGuard\\",
+                                 "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin",
+                                 "C:\\Program Files\\PowerShell\\7\\",
+                                 "C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\DAL",
+                                 "C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\DAL",
+                                 "C:\\Program Files\\Docker\\Docker\\resources\\bin",
+                                 "C:\\Program Files\\cursor\\resources\\app\\bin",
+                                 "C:\\Users\\Andy\\scoop\\apps\\nvm\\current",
+                                 "C:\\Users\\Andy\\scoop\\apps\\nvm\\current\\nodejs\\nodejs",
+                                 "C:\\Users\\Andy\\scoop\\apps\\composer\\current\\home\\vendor\\bin",
+                                 "C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin\\",
+                                 "C:\\Users\\Andy\\scoop\\apps\\nodejs\\current\\bin",
+                                 "C:\\Users\\Andy\\scoop\\apps\\nodejs\\current",
+                                 "C:\\Users\\Andy\\scoop\\apps\\ruby\\current\\bin",
+                                 "C:\\Users\\Andy\\scoop\\apps\\ruby\\current\\gems\\bin",
+                                 "C:\\Users\\Andy\\scoop\\apps\\python\\current\\Scripts",
+                                 "C:\\Users\\Andy\\scoop\\apps\\python\\current",
+                                 "C:\\Users\\Andy\\scoop\\apps\\openssl\\current\\bin",
+                                 "C:\\Users\\Andy\\scoop\\shims",
+                                 "C:\\Users\\Andy\\AppData\\Local\\Microsoft\\WindowsApps",
+                                 "C:\\Users\\Andy\\AppData\\Local\\GitHubDesktop\\bin",
+                                 "C:\\Program Files (x86)\\Nmap",
+                                 "C:\\Users\\Andy\\AppData\\Local\\Programs\\Microsoft VS Code\\bin",
+                                 "C:\\Users\\Andy\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+                             ]
+             },
+    "Permissions":  {
+                        "UserName":  "DESKTOP-59KRGT8\\Andy",
+                        "AuthenticationType":  "NTLM",
+                        "IsAdministrator":  false
+                    },
+    "DiskSpace":  [
+                      {
+                          "FreeGB":  60.16,
+                          "Drive":  "C",
+                          "PercentFree":  6.31,
+                          "TotalGB":  953.19,
+                          "UsedGB":  893.03
+                      },
+                      {
+                          "FreeGB":  596.61,
+                          "Drive":  "F",
+                          "PercentFree":  32.02,
+                          "TotalGB":  1863.01,
+                          "UsedGB":  1266.4
+                      },
+                      {
+                          "FreeGB":  1701,
+                          "Drive":  "L",
+                          "PercentFree":  61.57,
+                          "TotalGB":  2762.55,
+                          "UsedGB":  1061.55
+                      },
+                      {
+                          "FreeGB":  2446.1,
+                          "Drive":  "M",
+                          "PercentFree":  88.55,
+                          "TotalGB":  2762.55,
+                          "UsedGB":  316.45
+                      },
+                      {
+                          "FreeGB":  2633.72,
+                          "Drive":  "N",
+                          "PercentFree":  95.34,
+                          "TotalGB":  2762.55,
+                          "UsedGB":  128.83
+                      }
+                  ],
+    "PowerShell":  {
+                       "Version":  "5.1.19041.6456",
+                       "ScriptRoot":  "C:\\Users\\Andy\\source\\repos\\second_brain_gui\\scripts",
+                       "RunspaceId":  1,
+                       "HostVersion":  "5.1.19041.6456",
+                       "Host":  "ConsoleHost",
+                       "CurrentDirectory":  "C:\\Users\\Andy\\source\\repos\\second_brain_gui",
+                       "ExecutionPolicy":  4,
+                       "Edition":  "Desktop"
+                   },
+    "System":  {
+                   "BuildNumber":  "19045",
+                   "FreePhysicalMemory":  34.57,
+                   "ComputerName":  "DESKTOP-59KRGT8",
+                   "UserName":  "Andy",
+                   "ProcessorCount":  "4",
+                   "OSName":  "Microsoft Windows 10 Pro",
+                   "OSVersion":  "10.0.19045",
+                   "OSArchitecture":  "64-bit",
+                   "TotalPhysicalMemory":  63.88,
+                   "ProcessorArchitecture":  "AMD64",
+                   "UserDomain":  "DESKTOP-59KRGT8"
+               },
+    "DockerEnvironment":  {
+                              "COMPOSER_HOME":  "C:\\Users\\Andy\\scoop\\persist\\composer\\home",
+                              "COMPOSER_TIMEOUT":  "300",
+                              "COMPOSER_NO_INTERACTION":  "1"
+                          },
+    "Network":  {
+                    "ActiveAdapters":  4,
+                    "Adapters":  "[\r\n    {\r\n        \"Name\":  \"Ethernet 2\",\r\n        \"InterfaceDescription\":  \"Intel(R) Ethernet Connection (2) I219-LM\",\r\n        \"LinkSpeed\":  \"100 Mbps\",\r\n        \"Status\":  \"Up\"\r\n    },\r\n    {\r\n        \"Name\":  \"VirtualBox Host-Only Network\",\r\n        \"InterfaceDescription\":  \"VirtualBox Host-Only Ethernet Adapter\",\r\n        \"LinkSpeed\":  \"1 Gbps\",\r\n        \"Status\":  \"Up\"\r\n    },\r\n    {\r\n        \"Name\":  \"vEthernet (Default Switch)\",\r\n        \"InterfaceDescription\":  \"Hyper-V Virtual Ethernet Adapter\",\r\n        \"LinkSpeed\":  \"10 Gbps\",\r\n        \"Status\":  \"Up\"\r\n    },\r\n    {\r\n        \"Name\":  \"vEthernet (WSL)\",\r\n        \"InterfaceDescription\":  \"Hyper-V Virtual Ethernet Adapter #2\",\r\n        \"LinkSpeed\":  \"10 Gbps\",\r\n        \"Status\":  \"Up\"\r\n    }\r\n]"
+                },
+    "DockerProcesses":  {
+                            "Count":  14,
+                            "Processes":  "[\r\n    {\r\n        \"ProcessName\":  \"com.docker.backend\",\r\n        \"Id\":  66420,\r\n        \"CPU\":  175.625,\r\n        \"WorkingSet\":  52715520,\r\n        \"StartTime\":  \"\\/Date(1763146168843)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"com.docker.backend\",\r\n        \"Id\":  71692,\r\n        \"CPU\":  17745.5,\r\n        \"WorkingSet\":  652488704,\r\n        \"StartTime\":  \"\\/Date(1763146169301)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"com.docker.build\",\r\n        \"Id\":  17632,\r\n        \"CPU\":  18.328125,\r\n        \"WorkingSet\":  37228544,\r\n        \"StartTime\":  \"\\/Date(1763146177625)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"com.docker.service\",\r\n        \"Id\":  99732,\r\n        \"CPU\":  null,\r\n        \"WorkingSet\":  41009152,\r\n        \"StartTime\":  null\r\n    },\r\n    {\r\n        \"ProcessName\":  \"docker\",\r\n        \"Id\":  16348,\r\n        \"CPU\":  0.046875,\r\n        \"WorkingSet\":  20287488,\r\n        \"StartTime\":  \"\\/Date(1763309988219)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"docker\",\r\n        \"Id\":  52852,\r\n        \"CPU\":  2.234375,\r\n        \"WorkingSet\":  19693568,\r\n        \"StartTime\":  \"\\/Date(1763246440364)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"docker\",\r\n        \"Id\":  61516,\r\n        \"CPU\":  0.0625,\r\n        \"WorkingSet\":  20123648,\r\n        \"StartTime\":  \"\\/Date(1763309987273)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"docker\",\r\n        \"Id\":  82768,\r\n        \"CPU\":  0.078125,\r\n        \"WorkingSet\":  20439040,\r\n        \"StartTime\":  \"\\/Date(1763309988214)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"Docker Desktop\",\r\n        \"Id\":  6372,\r\n        \"CPU\":  4.3125,\r\n        \"WorkingSet\":  49991680,\r\n        \"StartTime\":  \"\\/Date(1763146179879)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"Docker Desktop\",\r\n        \"Id\":  16828,\r\n        \"CPU\":  9170.515625,\r\n        \"WorkingSet\":  348979200,\r\n        \"StartTime\":  \"\\/Date(1763146200472)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"Docker Desktop\",\r\n        \"Id\":  67728,\r\n        \"CPU\":  715.390625,\r\n        \"WorkingSet\":  136482816,\r\n        \"StartTime\":  \"\\/Date(1763146178448)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"Docker Desktop\",\r\n        \"Id\":  70044,\r\n        \"CPU\":  21.703125,\r\n        \"WorkingSet\":  104939520,\r\n        \"StartTime\":  \"\\/Date(1763146179794)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"docker-buildx\",\r\n        \"Id\":  50868,\r\n        \"CPU\":  2.453125,\r\n        \"WorkingSet\":  27246592,\r\n        \"StartTime\":  \"\\/Date(1763247347536)\\/\"\r\n    },\r\n    {\r\n        \"ProcessName\":  \"docker-compose\",\r\n        \"Id\":  97668,\r\n        \"CPU\":  21.984375,\r\n        \"WorkingSet\":  31260672,\r\n        \"StartTime\":  \"\\/Date(1763247344885)\\/\"\r\n    }\r\n]"
+                        }
+}

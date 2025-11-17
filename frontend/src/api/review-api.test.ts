@@ -30,9 +30,9 @@ describe('ReviewApiClient', () => {
             total_items: 0,
             total_pages: 0,
             has_next: false,
-            has_previous: false
-          }
-        }
+            has_previous: false,
+          },
+        },
       };
 
       vi.spyOn(apiClient, 'get').mockResolvedValueOnce(mockResponse);
@@ -51,7 +51,7 @@ describe('ReviewApiClient', () => {
         limit: 25,
         offset: 50,
         sort_by: 'momentum_score',
-        order: 'desc'
+        order: 'desc',
       };
 
       const mockResponse = {
@@ -64,9 +64,9 @@ describe('ReviewApiClient', () => {
             total_items: 0,
             total_pages: 0,
             has_next: false,
-            has_previous: false
-          }
-        }
+            has_previous: false,
+          },
+        },
       };
 
       vi.spyOn(apiClient, 'get').mockResolvedValueOnce(mockResponse);
@@ -85,8 +85,8 @@ describe('ReviewApiClient', () => {
       const mockResponse = {
         success: true,
         data: {
-          suggestions: []
-        }
+          suggestions: [],
+        },
       };
 
       vi.spyOn(apiClient, 'get').mockResolvedValueOnce(mockResponse);
@@ -102,14 +102,14 @@ describe('ReviewApiClient', () => {
       const params: SuggestionParams = {
         limit: 20,
         venture: 'SWS',
-        domain: 'test'
+        domain: 'test',
       };
 
       const mockResponse = {
         success: true,
         data: {
-          suggestions: []
-        }
+          suggestions: [],
+        },
       };
 
       vi.spyOn(apiClient, 'get').mockResolvedValueOnce(mockResponse);
@@ -122,4 +122,3 @@ describe('ReviewApiClient', () => {
     });
   });
 });
-

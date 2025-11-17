@@ -1,12 +1,12 @@
 /**
  * API Error Handling
  * Centralized error parsing and handling utilities
- * 
+ *
  * Responsibilities:
  * - Parse error responses from API
  * - Provide error handling utilities
  * - Map error codes to user-friendly messages
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - error handling
  * - OCP: Open for extension via error handlers
@@ -53,10 +53,9 @@ export function parseApiError(response: unknown): ApiError {
   return {
     code: 'UNKNOWN_ERROR',
     message: 'Unknown error occurred',
-    details: {}
+    details: {},
   };
 }
-
 
 /**
  * API Error Handler
@@ -70,7 +69,7 @@ export class ApiErrorHandler {
    */
   static handle(error: ApiError, customHandler?: ErrorHandler): void {
     const errorType = this.getErrorType(error.code);
-    
+
     if (customHandler) {
       customHandler(errorType, error);
       return;
@@ -107,28 +106,21 @@ export class ApiErrorHandler {
       case 'auth':
         console.error('[ApiErrorHandler] Authentication error:', error);
         // Emit event for UI to handle (e.g., show login prompt)
-        window.dispatchEvent(
-          new CustomEvent('api-auth-error', { detail: error })
-        );
+        window.dispatchEvent(new CustomEvent('api-auth-error', { detail: error }));
         break;
       case 'validation':
         console.warn('[ApiErrorHandler] Validation error:', error);
         break;
       case 'rate_limit':
         console.warn('[ApiErrorHandler] Rate limit exceeded:', error);
-        window.dispatchEvent(
-          new CustomEvent('api-rate-limit', { detail: error })
-        );
+        window.dispatchEvent(new CustomEvent('api-rate-limit', { detail: error }));
         break;
       case 'not_found':
         console.warn('[ApiErrorHandler] Resource not found:', error);
         break;
       default:
         console.error('[ApiErrorHandler] Error:', error);
-        window.dispatchEvent(
-          new CustomEvent('api-error', { detail: error })
-        );
+        window.dispatchEvent(new CustomEvent('api-error', { detail: error }));
     }
   }
 }
-

@@ -1,11 +1,11 @@
 /**
  * Notes API Client
  * Client for note-related API endpoints
- * 
+ *
  * Responsibilities:
  * - Provide typed methods for note operations
  * - Handle note CRUD operations
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - notes API endpoints
  * - DIP: Depends on ApiClient interface
@@ -19,7 +19,7 @@ import type {
   NoteUpdateRequest,
   NoteUpdateResponse,
   BatchUpdateRequest,
-  BatchUpdateResponse
+  BatchUpdateResponse,
 } from './types';
 
 export class NotesApiClient {
@@ -39,10 +39,7 @@ export class NotesApiClient {
     noteId: string,
     request: StatusUpdateRequest
   ): Promise<ApiResponse<StatusUpdateResponse>> {
-    return this.apiClient.put<StatusUpdateResponse>(
-      `/api/v1/notes/${noteId}/status`,
-      request
-    );
+    return this.apiClient.put<StatusUpdateResponse>(`/api/v1/notes/${noteId}/status`, request);
   }
 
   /**
@@ -52,23 +49,13 @@ export class NotesApiClient {
     noteId: string,
     request: NoteUpdateRequest
   ): Promise<ApiResponse<NoteUpdateResponse>> {
-    return this.apiClient.put<NoteUpdateResponse>(
-      `/api/v1/notes/${noteId}`,
-      request
-    );
+    return this.apiClient.put<NoteUpdateResponse>(`/api/v1/notes/${noteId}`, request);
   }
 
   /**
    * Batch update multiple notes
    */
-  async batchUpdate(
-    request: BatchUpdateRequest
-  ): Promise<ApiResponse<BatchUpdateResponse>> {
-    return this.apiClient.post<BatchUpdateResponse>(
-      '/api/v1/notes/batch-update',
-      request
-    );
+  async batchUpdate(request: BatchUpdateRequest): Promise<ApiResponse<BatchUpdateResponse>> {
+    return this.apiClient.post<BatchUpdateResponse>('/api/v1/notes/batch-update', request);
   }
 }
-
-

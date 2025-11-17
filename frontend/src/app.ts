@@ -92,9 +92,11 @@ export class App {
     this.reviewQueue = new ReviewQueue(queueContainer, this.reviewApi, this.apiClient);
     this.reviewQueue.render();
 
-    // Listen for item selection events
+    // Listen for item selection events (navigation to detail view)
+    // Event bubbles from ReviewItem -> itemsContainer -> queueContainer
     queueContainer.addEventListener('item:select', ((e: CustomEvent) => {
       const { note_id } = e.detail;
+      // Navigate to detail view
       this.stateManager.navigateTo('detail', note_id);
     }) as EventListener);
 
