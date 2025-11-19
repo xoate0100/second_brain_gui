@@ -9,7 +9,7 @@ test.describe('Visible Action Hints', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to home page
     await page.goto('http://localhost:3000');
-    
+
     // Wait for review queue to load
     await page.waitForSelector('.review-queue', { timeout: 10000 });
   });
@@ -38,7 +38,7 @@ test.describe('Visible Action Hints', () => {
     // Reload to trigger API call
     await page.reload();
     await page.waitForSelector('.review-queue', { timeout: 10000 });
-    
+
     // Verify first_action is visible
     const firstAction = page.locator('.review-item__first-action');
     await expect(firstAction).toBeVisible({ timeout: 5000 });
@@ -69,7 +69,7 @@ test.describe('Visible Action Hints', () => {
     // Reload to trigger API call
     await page.reload();
     await page.waitForSelector('.review-queue', { timeout: 10000 });
-    
+
     // Verify resume_hint is visible
     const resumeHint = page.locator('.review-item__resume-hint');
     await expect(resumeHint).toBeVisible({ timeout: 5000 });
@@ -101,7 +101,7 @@ test.describe('Visible Action Hints', () => {
     // Reload to trigger API call
     await page.reload();
     await page.waitForSelector('.review-queue', { timeout: 10000 });
-    
+
     // Verify both are visible
     const firstAction = page.locator('.review-item__first-action');
     const resumeHint = page.locator('.review-item__resume-hint');
