@@ -9,7 +9,7 @@ test.describe('Quick Status Transitions', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to home page
     await page.goto('http://localhost:3000');
-    
+
     // Wait for review queue to load
     await page.waitForSelector('.review-queue', { timeout: 10000 });
   });
@@ -37,11 +37,11 @@ test.describe('Quick Status Transitions', () => {
     // Reload to trigger API call
     await page.reload();
     await page.waitForSelector('.review-queue', { timeout: 10000 });
-    
+
     // Verify quick action buttons are visible
     const quickActions = page.locator('.review-item__quick-action');
     await expect(quickActions.first()).toBeVisible({ timeout: 5000 });
-    
+
     // Verify "Ready" button exists for inbox status
     const readyButton = page.locator('.review-item__quick-action[data-status="ready"]');
     await expect(readyButton).toBeVisible();
@@ -70,7 +70,7 @@ test.describe('Quick Status Transitions', () => {
     // Reload to trigger API call
     await page.reload();
     await page.waitForSelector('.review-queue', { timeout: 10000 });
-    
+
     // Verify "Start" button exists for ready status
     const startButton = page.locator('.review-item__quick-action[data-status="in-progress"]');
     await expect(startButton).toBeVisible({ timeout: 5000 });
@@ -78,7 +78,7 @@ test.describe('Quick Status Transitions', () => {
 
   test('should update status when quick action button clicked', async ({ page }) => {
     let statusUpdateCalled = false;
-    
+
     // Mock status update API
     await page.route('**/api/v1/notes/test-note-1/status**', route => {
       statusUpdateCalled = true;
@@ -116,18 +116,18 @@ test.describe('Quick Status Transitions', () => {
     // Reload to trigger API call
     await page.reload();
     await page.waitForSelector('.review-queue', { timeout: 10000 });
-    
+
     // Click quick action button
     const readyButton = page.locator('.review-item__quick-action[data-status="ready"]');
     await expect(readyButton).toBeVisible({ timeout: 5000 });
     await readyButton.click();
-    
+
     // Wait for API call
     await page.waitForTimeout(1000);
-    
+
     // Verify status update was called
     expect(statusUpdateCalled).toBe(true);
-    
+
     // Verify success toast appears
     const successToast = page.locator('.toast--success');
     await expect(successToast).toBeVisible({ timeout: 5000 });
