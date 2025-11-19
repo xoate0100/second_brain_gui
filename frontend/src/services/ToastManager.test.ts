@@ -65,16 +65,16 @@ describe('ToastManager', () => {
     manager.success('Message 1');
     manager.error('Message 2');
     manager.info('Message 3');
-    
+
     const toasts = container.querySelectorAll('.toast');
     expect(toasts.length).toBe(3);
   });
 
   it('should auto-dismiss toasts after duration', async () => {
     manager.success('Test message', 100);
-    
+
     await new Promise(resolve => setTimeout(resolve, 150));
-    
+
     const toasts = container.querySelectorAll('.toast');
     expect(toasts.length).toBe(0);
   });
@@ -83,9 +83,9 @@ describe('ToastManager', () => {
     manager.success('Message 1');
     manager.error('Message 2');
     manager.info('Message 3');
-    
+
     expect(container.querySelectorAll('.toast').length).toBe(3);
-    
+
     manager.clear();
     expect(container.querySelectorAll('.toast').length).toBe(0);
   });
@@ -93,12 +93,12 @@ describe('ToastManager', () => {
   it('should limit maximum number of toasts', () => {
     // Set max toasts to 3
     manager.setMaxToasts(3);
-    
+
     manager.success('Message 1');
     manager.error('Message 2');
     manager.info('Message 3');
     manager.warning('Message 4'); // Should remove oldest
-    
+
     const toasts = container.querySelectorAll('.toast');
     expect(toasts.length).toBe(3);
     // Message 1 should be removed

@@ -38,17 +38,17 @@ export class BatchActions extends Component {
     const hasSelection = this.selectedIds.length > 0;
 
     actions.innerHTML = `
-      <button type="button" class="btn btn--primary" data-action="update-status" 
+      <button type="button" class="btn btn--primary" data-action="update-status"
               ${hasSelection ? '' : 'disabled'}
               aria-label="Update status for selected items">
         Update Status
       </button>
-      <button type="button" class="btn btn--primary" data-action="update-metadata" 
+      <button type="button" class="btn btn--primary" data-action="update-metadata"
               ${hasSelection ? '' : 'disabled'}
               aria-label="Update metadata for selected items">
         Update Metadata
       </button>
-      <button type="button" class="btn btn--danger" data-action="archive" 
+      <button type="button" class="btn btn--danger" data-action="archive"
               ${hasSelection ? '' : 'disabled'}
               aria-label="Archive selected items">
         Archive

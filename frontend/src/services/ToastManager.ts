@@ -46,7 +46,7 @@ export class ToastManager {
   show(message: string, type: ToastType = 'info', duration: number = 5000): void {
     const toast = new Toast(this.container, message, type, duration);
     const element = toast.render();
-    
+
     // Add dismiss listener to remove from array
     element.addEventListener('toast:dismiss', () => {
       this.toasts = this.toasts.filter(t => t !== toast);

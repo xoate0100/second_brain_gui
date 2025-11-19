@@ -98,7 +98,7 @@ ToastManager.getInstance().success('Quick message', 2000);
 
 ## Testing
 
-**Unit Tests:** 
+**Unit Tests:**
 - `frontend/src/components/common/Toast.test.ts`
 - `frontend/src/services/ToastManager.test.ts`
 
