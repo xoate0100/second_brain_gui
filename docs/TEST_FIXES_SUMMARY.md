@@ -10,7 +10,7 @@
 // Before
 'X-API-Key': apiKey
 
-// After  
+// After
 'Authorization': `Bearer ${apiKey}`
 ```
 

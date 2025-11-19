@@ -14,24 +14,24 @@ exit 0
 # if [ ! -d "frontend" ]; then
 #   exit 0
 # fi
-# 
+#
 # if [ ! -f "frontend/package.json" ]; then
 #   exit 0
 # fi
-# 
+#
 # # Check if Playwright is configured
 # if ! grep -q "playwright" frontend/package.json && ! grep -q "@playwright" frontend/package.json; then
 #   echo "[e2e] Playwright not configured, skipping E2E tests"
 #   exit 0
 # fi
-# 
+#
 # cd frontend
-# 
+#
 # # Install dependencies if needed
 # if [ ! -d "node_modules" ]; then
 #   npm ci --silent 2>/dev/null || echo "[e2e] Warning: Could not install dependencies"
 # fi
-# 
+#
 # # Run E2E tests
 # if npm run test:e2e 2>/dev/null || npx playwright test 2>/dev/null; then
 #   echo "[e2e] E2E tests passed"

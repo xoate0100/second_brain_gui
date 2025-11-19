@@ -170,7 +170,7 @@ export class NoteDetail extends ApiComponent {
       }
       const rendered = this.render();
       this.element.appendChild(rendered);
-      
+
       // Update markdown renderer if it exists
       if (this.markdownRenderer && this.noteData) {
         this.markdownRenderer.update(this.noteData.body);

@@ -15,12 +15,12 @@ Fixed E2E tests to align with actual application behavior and improved test reli
 ### 2. Navigation Tests - Note Detail Not Appearing
 **Problem**: Tests were immediately checking for `.note-detail` after clicking, but the app uses state management that triggers asynchronous re-rendering.
 
-**Fix**: 
+**Fix**:
 - Added wait for `.app-view--detail` class (indicates navigation occurred)
 - Increased timeout to 10 seconds for navigation
 - Then wait for `.note-detail` component to load
 
-**Files**: 
+**Files**:
 - `frontend/e2e/review-queue.spec.ts`
 - `frontend/e2e/status-update.spec.ts`
 
