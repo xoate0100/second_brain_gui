@@ -15,4 +15,5 @@
   - Toast Notifications: docs/TOAST_NOTIFICATIONS_IMPLEMENTATION.md
   - Inline Editing: docs/INLINE_EDITING_IMPLEMENTATION.md
   - Launchpad Limits: docs/LAUNCHPAD_LIMITS_IMPLEMENTATION.md
+  - Visible Action Hints: docs/VISIBLE_ACTION_HINTS_IMPLEMENTATION.md
 
