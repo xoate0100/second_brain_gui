@@ -131,7 +131,7 @@ export class InlineEditor extends Component {
     }
 
     const newValue = input.value.trim();
-    
+
     // Don't save if value hasn't changed
     if (newValue === this.value) {
       this.exitEditMode();
