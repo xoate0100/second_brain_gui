@@ -7,4 +7,8 @@
 - Plans: 6_ai_runtime_context/ACTIVE_PLAN.yaml
 - Architecture: 5_reference_architectures/LAYER_RULES.yaml
 - Integration Guides: docs/FRONTEND_REVIEW_WORKFLOW_INTEGRATION.md
+- User Experience Analysis: docs/VOC_CTQ_ANALYSIS.md
+- Frontend Enhancement Plan: docs/FRONTEND_ENHANCEMENT_PLAN.md
+- Implementation Guides:
+  - Markdown Rendering: docs/MARKDOWN_RENDERING_IMPLEMENTATION.md
 
