@@ -48,7 +48,7 @@ export class OverflowIndicator extends Component {
 
   update(data: number): void {
     this.hiddenCount = data || 0;
-
+    
     if (!this.element) {
       return;
     }

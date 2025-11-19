@@ -39,7 +39,7 @@ describe('OverflowIndicator', () => {
   it('should emit show-all event when button clicked', () => {
     indicator = new OverflowIndicator(container, 3);
     const element = indicator.render();
-
+    
     let showAllEmitted = false;
     element.addEventListener('overflow:show-all', () => {
       showAllEmitted = true;
@@ -47,7 +47,7 @@ describe('OverflowIndicator', () => {
 
     const showAllButton = element.querySelector('.overflow-indicator__show-all') as HTMLButtonElement;
     showAllButton.click();
-
+    
     expect(showAllEmitted).toBe(true);
   });
 
@@ -61,7 +61,7 @@ describe('OverflowIndicator', () => {
     indicator = new OverflowIndicator(container, 5);
     const element = indicator.render();
     expect(element.textContent).toContain('5');
-
+    
     indicator.update(10);
     expect(element.textContent).toContain('10');
   });

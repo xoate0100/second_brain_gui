@@ -37,9 +37,9 @@ describe('InlineEditor', () => {
   it('should switch to edit mode when clicked', () => {
     const element = editor.render();
     const display = element.querySelector('.inline-editor__display') as HTMLElement;
-    
+
     display.click();
-    
+
     const input = element.querySelector('.inline-editor__input') as HTMLInputElement;
     expect(input).toBeTruthy();
     expect(input.value).toBe(initialValue);
@@ -49,11 +49,11 @@ describe('InlineEditor', () => {
     const element = editor.render();
     const display = element.querySelector('.inline-editor__display') as HTMLElement;
     display.click();
-    
+
     const input = element.querySelector('.inline-editor__input') as HTMLInputElement;
     input.value = 'Updated Value';
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    
+
     expect(onSave).toHaveBeenCalledWith('Updated Value');
   });
 
@@ -61,11 +61,11 @@ describe('InlineEditor', () => {
     const element = editor.render();
     const display = element.querySelector('.inline-editor__display') as HTMLElement;
     display.click();
-    
+
     const input = element.querySelector('.inline-editor__input') as HTMLInputElement;
     input.value = 'Changed Value';
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    
+
     expect(onCancel).toHaveBeenCalled();
     expect(onSave).not.toHaveBeenCalled();
   });
@@ -74,11 +74,11 @@ describe('InlineEditor', () => {
     const element = editor.render();
     const display = element.querySelector('.inline-editor__display') as HTMLElement;
     display.click();
-    
+
     const input = element.querySelector('.inline-editor__input') as HTMLInputElement;
     input.value = 'Blur Value';
     input.dispatchEvent(new Event('blur'));
-    
+
     expect(onSave).toHaveBeenCalledWith('Blur Value');
   });
 
@@ -86,11 +86,11 @@ describe('InlineEditor', () => {
     const element = editor.render();
     const display = element.querySelector('.inline-editor__display') as HTMLElement;
     display.click();
-    
+
     const input = element.querySelector('.inline-editor__input') as HTMLInputElement;
     input.value = 'New Value';
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    
+
     // Display should show new value
     expect(display.textContent).toContain('New Value');
   });
@@ -101,15 +101,15 @@ describe('InlineEditor', () => {
     const element = editor.render();
     const display = element.querySelector('.inline-editor__display') as HTMLElement;
     display.click();
-    
+
     const input = element.querySelector('.inline-editor__input') as HTMLInputElement;
     input.value = 'Loading Test';
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    
+
     // Check for loading indicator
     const loading = element.querySelector('.inline-editor__loading');
     expect(loading).toBeTruthy();
-    
+
     await new Promise(resolve => setTimeout(resolve, 150));
   });
 });
