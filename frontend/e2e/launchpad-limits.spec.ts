@@ -9,7 +9,7 @@ test.describe('Launchpad Limits', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to home page
     await page.goto('http://localhost:3000');
-    
+
     // Wait for review queue to load
     await page.waitForSelector('.review-queue', { timeout: 10000 });
   });
@@ -38,12 +38,12 @@ test.describe('Launchpad Limits', () => {
     // Reload page to trigger new API call
     await page.reload();
     await page.waitForSelector('.review-queue', { timeout: 10000 });
-    
+
     // Verify only 20 items are displayed
     const items = page.locator('.review-item');
     const itemCount = await items.count();
     expect(itemCount).toBeLessThanOrEqual(20);
-    
+
     // Verify overflow indicator is shown
     const overflowIndicator = page.locator('.overflow-indicator');
     await expect(overflowIndicator).toBeVisible({ timeout: 5000 });
@@ -73,17 +73,17 @@ test.describe('Launchpad Limits', () => {
     // Apply venture filter
     const ventureFilter = page.locator('[name="venture"]');
     await ventureFilter.selectOption('SWS');
-    
+
     const applyButton = page.locator('button:has-text("Apply Filters")');
     await applyButton.click();
-    
+
     await page.waitForTimeout(1000);
-    
+
     // Verify only 8 items are displayed
     const items = page.locator('.review-item');
     const itemCount = await items.count();
     expect(itemCount).toBeLessThanOrEqual(8);
-    
+
     // Verify overflow indicator is shown
     const overflowIndicator = page.locator('.overflow-indicator');
     await expect(overflowIndicator).toBeVisible({ timeout: 5000 });
@@ -113,15 +113,15 @@ test.describe('Launchpad Limits', () => {
     // Reload page
     await page.reload();
     await page.waitForSelector('.review-queue', { timeout: 10000 });
-    
+
     // Click "Show All" button
     const showAllButton = page.locator('.overflow-indicator__show-all');
     await expect(showAllButton).toBeVisible({ timeout: 5000 });
     await showAllButton.click();
-    
+
     // Wait for reload
     await page.waitForTimeout(1000);
-    
+
     // Verify overflow indicator is hidden
     const overflowIndicator = page.locator('.overflow-indicator');
     await expect(overflowIndicator).not.toBeVisible();

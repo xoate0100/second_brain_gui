@@ -61,11 +61,29 @@ export class ReviewItem extends Component {
       );
     }
 
+    // Build ADHD-critical action hints (visible in queue)
+    const actionHints: string[] = [];
+    if (this.itemData.first_action) {
+      actionHints.push(
+        `<div class="review-item__action-hint review-item__first-action" title="First Action">
+          <strong>Start:</strong> ${this.escapeHtml(this.itemData.first_action)}
+        </div>`
+      );
+    }
+    if (this.itemData.resume_hint) {
+      actionHints.push(
+        `<div class="review-item__action-hint review-item__resume-hint" title="Resume Hint">
+          <strong>Resume:</strong> ${this.escapeHtml(this.itemData.resume_hint)}
+        </div>`
+      );
+    }
+
     item.innerHTML = `
       <input type="checkbox" class="review-item__checkbox" ${this.selected ? 'checked' : ''}
              aria-label="Select ${this.itemData.title}">
       <div class="review-item__content">
         <div class="review-item__title">${this.escapeHtml(this.itemData.title)}</div>
+        ${actionHints.length > 0 ? `<div class="review-item__action-hints">${actionHints.join('')}</div>` : ''}
         <div class="review-item__meta">
           <span class="review-item__meta-item">
             <strong>Venture:</strong> ${this.escapeHtml(this.itemData.venture)}
