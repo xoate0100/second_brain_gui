@@ -229,6 +229,47 @@ export class NoteDetail extends ApiComponent {
     });
   }
 
+  private showBodyEditor(): void {
+    if (!this.noteData) {
+      return;
+    }
+
+    const container = this.element.querySelector('.note-detail__body-editor-container');
+    const bodyContainer = this.element.querySelector('.note-detail__body-container');
+    if (!container || !bodyContainer) {
+      return;
+    }
+
+    // Hide markdown renderer, show editor
+    bodyContainer.style.display = 'none';
+    container.innerHTML = '';
+
+    this.bodyEditor = new NoteBodyEditor(container as HTMLElement, this.notesApi, this.noteId);
+    this.bodyEditor.update(this.noteData.body);
+    container.appendChild(this.bodyEditor.render());
+
+    // Listen for save/cancel events
+    container.addEventListener('editor:save', async () => {
+      // Reload note to get updated body
+      await this.loadNote();
+      this.hideBodyEditor();
+    });
+
+    container.addEventListener('editor:cancel', () => {
+      this.hideBodyEditor();
+    });
+  }
+
+  private hideBodyEditor(): void {
+    const container = this.element.querySelector('.note-detail__body-editor-container');
+    const bodyContainer = this.element.querySelector('.note-detail__body-container');
+    if (container && bodyContainer) {
+      container.innerHTML = '';
+      bodyContainer.style.display = '';
+      this.bodyEditor = null;
+    }
+  }
+
   private showStatusUpdater(): void {
     if (!this.noteData) {
       return;
