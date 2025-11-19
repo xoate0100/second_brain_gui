@@ -68,7 +68,7 @@ export class NoteBodyEditor extends Component {
     }
 
     this.editorElement.value = this.content;
-    
+
     // Add keyboard shortcuts
     this.editorElement.addEventListener('keydown', (e: KeyboardEvent) => {
       // Ctrl+S to save

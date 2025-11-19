@@ -57,7 +57,7 @@ describe('NoteBodyEditor', () => {
   it('should emit save event when save button is clicked', async () => {
     editor.update(initialBody);
     const element = editor.render();
-    
+
     let saveEmitted = false;
     element.addEventListener('editor:save', () => {
       saveEmitted = true;
@@ -65,7 +65,7 @@ describe('NoteBodyEditor', () => {
 
     const saveButton = element.querySelector('.note-body-editor__save') as HTMLButtonElement;
     expect(saveButton).toBeTruthy();
-    
+
     // Mock API call
     vi.spyOn(notesApi, 'updateNote').mockResolvedValue({
       success: true,
@@ -81,14 +81,14 @@ describe('NoteBodyEditor', () => {
 
     saveButton.click();
     await new Promise(resolve => setTimeout(resolve, 100));
-    
+
     expect(saveEmitted).toBe(true);
   });
 
   it('should emit cancel event when cancel button is clicked', () => {
     editor.update(initialBody);
     const element = editor.render();
-    
+
     let cancelEmitted = false;
     element.addEventListener('editor:cancel', () => {
       cancelEmitted = true;
@@ -97,21 +97,21 @@ describe('NoteBodyEditor', () => {
     const cancelButton = element.querySelector('.note-body-editor__cancel') as HTMLButtonElement;
     expect(cancelButton).toBeTruthy();
     cancelButton.click();
-    
+
     expect(cancelEmitted).toBe(true);
   });
 
   it('should save content on Ctrl+S keyboard shortcut', async () => {
     editor.update(initialBody);
     const element = editor.render();
-    
+
     let saveEmitted = false;
     element.addEventListener('editor:save', () => {
       saveEmitted = true;
     });
 
     const editorElement = element.querySelector('.note-body-editor__editor') as HTMLElement;
-    
+
     // Mock API call
     vi.spyOn(notesApi, 'updateNote').mockResolvedValue({
       success: true,
@@ -132,7 +132,7 @@ describe('NoteBodyEditor', () => {
       bubbles: true,
     });
     editorElement.dispatchEvent(ctrlS);
-    
+
     await new Promise(resolve => setTimeout(resolve, 100));
     expect(saveEmitted).toBe(true);
   });
@@ -140,30 +140,30 @@ describe('NoteBodyEditor', () => {
   it('should cancel editing on Esc keyboard shortcut', () => {
     editor.update(initialBody);
     const element = editor.render();
-    
+
     let cancelEmitted = false;
     element.addEventListener('editor:cancel', () => {
       cancelEmitted = true;
     });
 
     const editorElement = element.querySelector('.note-body-editor__editor') as HTMLElement;
-    
+
     // Simulate Esc
     const esc = new KeyboardEvent('keydown', {
       key: 'Escape',
       bubbles: true,
     });
     editorElement.dispatchEvent(esc);
-    
+
     expect(cancelEmitted).toBe(true);
   });
 
   it('should show loading state while saving', async () => {
     editor.update(initialBody);
     const element = editor.render();
-    
+
     // Mock slow API call
-    vi.spyOn(notesApi, 'updateNote').mockImplementation(() => 
+    vi.spyOn(notesApi, 'updateNote').mockImplementation(() =>
       new Promise(resolve => setTimeout(() => resolve({
         success: true,
         data: {
@@ -179,18 +179,18 @@ describe('NoteBodyEditor', () => {
 
     const saveButton = element.querySelector('.note-body-editor__save') as HTMLButtonElement;
     saveButton.click();
-    
+
     // Check for loading state
     const loadingIndicator = element.querySelector('.note-body-editor__loading');
     expect(loadingIndicator).toBeTruthy();
-    
+
     await new Promise(resolve => setTimeout(resolve, 150));
   });
 
   it('should handle save errors gracefully', async () => {
     editor.update(initialBody);
     const element = editor.render();
-    
+
     let errorEmitted = false;
     element.addEventListener('editor:error', () => {
       errorEmitted = true;
@@ -208,7 +208,7 @@ describe('NoteBodyEditor', () => {
 
     const saveButton = element.querySelector('.note-body-editor__save') as HTMLButtonElement;
     saveButton.click();
-    
+
     await new Promise(resolve => setTimeout(resolve, 100));
     expect(errorEmitted).toBe(true);
   });
