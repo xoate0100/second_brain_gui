@@ -15,7 +15,9 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
   },
   "dependencies": {
+    "@types/marked": "^5.0.2",
     "date-fns": "^3.0.0",
+    "marked": "^17.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

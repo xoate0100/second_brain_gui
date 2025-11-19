@@ -40,15 +40,25 @@ export class ReviewItem extends Component {
     const reviewIndicators: string[] = [];
     if (this.itemData.review_stage) {
       const stageClass = `review-item__stage--${this.itemData.review_stage.replace('_', '-')}`;
-      const stageLabel = this.itemData.review_stage === 'in_progress' ? 'In Progress' : 
-                        this.itemData.review_stage === 'complete' ? 'Complete' : 'Unreviewed';
-      reviewIndicators.push(`<span class="review-item__stage ${stageClass}" title="Review Stage: ${stageLabel}">${stageLabel}</span>`);
+      const stageLabel =
+        this.itemData.review_stage === 'in_progress'
+          ? 'In Progress'
+          : this.itemData.review_stage === 'complete'
+            ? 'Complete'
+            : 'Unreviewed';
+      reviewIndicators.push(
+        `<span class="review-item__stage ${stageClass}" title="Review Stage: ${stageLabel}">${stageLabel}</span>`
+      );
     }
     if (this.itemData.needs_review) {
-      reviewIndicators.push('<span class="review-item__needs-review" title="Needs Review">⚠️</span>');
+      reviewIndicators.push(
+        '<span class="review-item__needs-review" title="Needs Review">⚠️</span>'
+      );
     }
     if (this.itemData.review_fields && this.itemData.review_fields.length > 0) {
-      reviewIndicators.push(`<span class="review-item__fields-count" title="Fields to review: ${this.itemData.review_fields.join(', ')}">${this.itemData.review_fields.length} fields</span>`);
+      reviewIndicators.push(
+        `<span class="review-item__fields-count" title="Fields to review: ${this.itemData.review_fields.join(', ')}">${this.itemData.review_fields.length} fields</span>`
+      );
     }
 
     item.innerHTML = `
@@ -112,9 +122,9 @@ export class ReviewItem extends Component {
       checkbox.addEventListener('change', () => {
         this.toggleSelection();
         // Emit selection change event (not item:select, which is for navigation)
-        this.emit('item:selection-change', { 
+        this.emit('item:selection-change', {
           note_id: this.itemData.note_id,
-          selected: this.selected 
+          selected: this.selected,
         });
       });
     }

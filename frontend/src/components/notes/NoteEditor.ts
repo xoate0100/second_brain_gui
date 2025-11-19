@@ -246,8 +246,8 @@ export class NoteEditor extends ValidatedComponent {
     if (reviewFieldsStr) {
       request.review_fields = reviewFieldsStr
         .split(',')
-        .map(f => f.trim())
-        .filter(f => f.length > 0);
+        .map((f) => f.trim())
+        .filter((f) => f.length > 0);
     }
 
     const reviewNotes = formData.get('review_notes') as string;

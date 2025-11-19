@@ -75,7 +75,7 @@ test.describe('Status Update Workflow', () => {
 
     // Wait for review queue to load
     await expect(page.locator('.review-queue')).toBeVisible();
-    
+
     // Click on review item title to navigate to detail (avoids checkbox)
     const reviewItem = page.locator('.review-item').first();
     await reviewItem.locator('.review-item__title').click();
@@ -83,10 +83,10 @@ test.describe('Status Update Workflow', () => {
     // Wait for note detail API call and component to load
     await page.waitForResponse('**/api/v1/notes/test-note-1**', { timeout: 5000 });
     await expect(page.locator('.note-detail')).toBeVisible({ timeout: 5000 });
-    
+
     // Click "Update Status" button to show status updater
     await page.locator('.update-status-button').click();
-    
+
     // Wait for status updater to appear
     await expect(page.locator('.status-updater')).toBeVisible({ timeout: 2000 });
   });
@@ -162,10 +162,10 @@ test.describe('Status Update Workflow', () => {
     // Wait for note detail API call and component to load
     await page.waitForResponse('**/api/v1/notes/test-note-1**', { timeout: 5000 });
     await expect(page.locator('.note-detail')).toBeVisible({ timeout: 5000 });
-    
+
     // Click "Update Status" button
     await page.locator('.update-status-button').click();
-    
+
     // Wait for status updater
     await expect(page.locator('.status-updater')).toBeVisible({ timeout: 2000 });
 
@@ -192,7 +192,9 @@ test.describe('Status Update Workflow', () => {
 
     // Submit status update
     // Set up response listener before clicking
-    const responsePromise = page.waitForResponse('**/api/v1/notes/test-note-1/status**', { timeout: 10000 });
+    const responsePromise = page.waitForResponse('**/api/v1/notes/test-note-1/status**', {
+      timeout: 10000,
+    });
     await page.locator('.status-updater button[type="submit"]').click();
 
     // Wait for API call
@@ -301,7 +303,9 @@ test.describe('Status Update Workflow', () => {
     await reviewNotes.fill('Starting review workflow');
 
     // Submit status update
-    const responsePromise = page.waitForResponse('**/api/v1/notes/test-note-1/status**', { timeout: 10000 });
+    const responsePromise = page.waitForResponse('**/api/v1/notes/test-note-1/status**', {
+      timeout: 10000,
+    });
     await page.locator('.status-updater button[type="submit"]').click();
 
     // Wait for API call
@@ -352,10 +356,10 @@ test.describe('Status Update Workflow', () => {
     // Wait for note detail API call and component to load
     await page.waitForResponse('**/api/v1/notes/test-note-1**', { timeout: 5000 });
     await expect(page.locator('.note-detail')).toBeVisible({ timeout: 5000 });
-    
+
     // Click "Update Status" button
     await page.locator('.update-status-button').click();
-    
+
     // Wait for status updater
     await expect(page.locator('.status-updater')).toBeVisible({ timeout: 2000 });
 

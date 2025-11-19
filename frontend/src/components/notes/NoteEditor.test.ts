@@ -92,13 +92,21 @@ describe('NoteEditor', () => {
       };
       component.update(noteDataWithReview);
       const element = component.render();
-      const reviewStageSelect = element.querySelector('select[name="review_stage"]') as HTMLSelectElement;
+      const reviewStageSelect = element.querySelector(
+        'select[name="review_stage"]'
+      ) as HTMLSelectElement;
       expect(reviewStageSelect.value).toBe('in_progress');
-      const needsReviewCheckbox = element.querySelector('input[name="needs_review"]') as HTMLInputElement;
+      const needsReviewCheckbox = element.querySelector(
+        'input[name="needs_review"]'
+      ) as HTMLInputElement;
       expect(needsReviewCheckbox.checked).toBe(true);
-      const reviewFieldsInput = element.querySelector('input[name="review_fields"]') as HTMLInputElement;
+      const reviewFieldsInput = element.querySelector(
+        'input[name="review_fields"]'
+      ) as HTMLInputElement;
       expect(reviewFieldsInput.value).toBe('venture, tags');
-      const reviewNotesTextarea = element.querySelector('textarea[name="review_notes"]') as HTMLTextAreaElement;
+      const reviewNotesTextarea = element.querySelector(
+        'textarea[name="review_notes"]'
+      ) as HTMLTextAreaElement;
       expect(reviewNotesTextarea.value.trim()).toBe('Reviewing classification');
     });
   });

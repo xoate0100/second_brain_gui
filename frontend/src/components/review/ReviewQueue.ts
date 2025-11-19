@@ -206,7 +206,7 @@ export class ReviewQueue extends ApiComponent {
     itemsContainer.addEventListener('item:selection-change', ((e: CustomEvent) => {
       const noteId = e.detail.note_id as string;
       const selected = e.detail.selected as boolean;
-      
+
       if (selected) {
         this.selectedItemIds.add(noteId);
       } else {
@@ -214,7 +214,7 @@ export class ReviewQueue extends ApiComponent {
       }
       this.emit('selection:change', { selected: this.getSelectedItems() });
     }) as EventListener);
-    
+
     // Allow 'item:select' events to bubble for navigation (handled by App)
   }
 

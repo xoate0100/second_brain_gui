@@ -113,7 +113,7 @@ test.describe('Batch Operations Workflow', () => {
     // NOTE: This test documents expected behavior when batch operations are fully implemented
     // Currently, BatchActions is not integrated into ReviewQueue
     // This test verifies that items can be selected (prerequisite for batch operations)
-    
+
     await page.goto('/');
 
     // Select items
@@ -138,7 +138,7 @@ test.describe('Batch Operations Workflow', () => {
   test('should display batch operation results', async ({ page }) => {
     // NOTE: This test documents expected behavior when batch operations are fully implemented
     // Currently, BatchActions and BatchResults are not integrated into ReviewQueue
-    
+
     await page.goto('/');
 
     // Select items
@@ -162,7 +162,7 @@ test.describe('Batch Operations Workflow', () => {
   test('should close batch results modal', async ({ page }) => {
     // NOTE: This test documents expected behavior when batch operations are fully implemented
     // Currently, BatchResults is not integrated into ReviewQueue
-    
+
     await page.goto('/');
 
     // Select item

@@ -16,6 +16,7 @@
 import { ApiComponent } from '../base/ApiComponent';
 import { NoteEditor } from './NoteEditor';
 import { StatusUpdater } from './StatusUpdater';
+import { MarkdownRenderer } from '../common/MarkdownRenderer';
 import { NotesApiClient } from '../../api/notes-api';
 import { ApiErrorHandler } from '../../api/errors';
 import type { ApiClient, ApiResponse } from '../../types/api';
@@ -28,6 +29,7 @@ export class NoteDetail extends ApiComponent {
   private loading = false;
   private editor: NoteEditor | null = null;
   private statusUpdater: StatusUpdater | null = null;
+  private markdownRenderer: MarkdownRenderer | null = null;
 
   constructor(
     container: HTMLElement,
@@ -74,7 +76,7 @@ export class NoteDetail extends ApiComponent {
       <div class="note-detail__content">
         <div class="note-detail__body">
           <h2>Content</h2>
-          <pre class="note-detail__body-text">${this.escapeHtml(body)}</pre>
+          <div class="note-detail__body-container"></div>
         </div>
         <div class="note-detail__frontmatter">
           <h2>Metadata</h2>
@@ -111,6 +113,14 @@ export class NoteDetail extends ApiComponent {
       updateStatusButton.addEventListener('click', () => {
         this.showStatusUpdater();
       });
+    }
+
+    // Render markdown content
+    const bodyContainer = detail.querySelector('.note-detail__body-container') as HTMLElement;
+    if (bodyContainer) {
+      this.markdownRenderer = new MarkdownRenderer(bodyContainer);
+      this.markdownRenderer.render();
+      this.markdownRenderer.update(body);
     }
 
     return detail;
@@ -158,7 +168,13 @@ export class NoteDetail extends ApiComponent {
       if (existingDetail) {
         existingDetail.remove();
       }
-      this.element.appendChild(this.render());
+      const rendered = this.render();
+      this.element.appendChild(rendered);
+      
+      // Update markdown renderer if it exists
+      if (this.markdownRenderer && this.noteData) {
+        this.markdownRenderer.update(this.noteData.body);
+      }
     } catch (error) {
       this.loading = false;
       this.handleError({

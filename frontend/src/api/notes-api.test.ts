@@ -157,7 +157,13 @@ describe('NotesApiClient', () => {
         success: true,
         data: {
           note_id: noteId,
-          updated_fields: ['venture', 'review_stage', 'needs_review', 'review_fields', 'review_notes'],
+          updated_fields: [
+            'venture',
+            'review_stage',
+            'needs_review',
+            'review_fields',
+            'review_notes',
+          ],
           updated_at: '2025-01-31T00:00:00Z',
           review_stage: 'complete',
           needs_review: false,

@@ -86,7 +86,7 @@ test.describe('Review Queue Workflow', () => {
 
   test('should navigate to note detail when clicking review item', async ({ page }) => {
     let noteDetailApiCalled = false;
-    
+
     // Mock note detail API
     await page.route('**/api/v1/notes/test-note-1**', async (route) => {
       noteDetailApiCalled = true;
@@ -132,7 +132,7 @@ test.describe('Review Queue Workflow', () => {
     // The route mock will fulfill the request, so we just wait for the UI
     await expect(page.locator('.note-detail')).toBeVisible({ timeout: 10000 });
     await expect(page.locator('.note-detail__title')).toContainText('Test Note 1');
-    
+
     // Verify API was called (route mock should have been triggered)
     expect(noteDetailApiCalled).toBe(true);
   });

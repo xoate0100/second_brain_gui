@@ -246,8 +246,8 @@ export class StatusUpdater extends ValidatedComponent {
       // Parse comma-separated fields
       request.review_fields = reviewFieldsStr
         .split(',')
-        .map(f => f.trim())
-        .filter(f => f.length > 0);
+        .map((f) => f.trim())
+        .filter((f) => f.length > 0);
     }
 
     await this.submitStatusUpdate(request);

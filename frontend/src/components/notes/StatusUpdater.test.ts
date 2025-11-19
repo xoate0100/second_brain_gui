@@ -195,7 +195,9 @@ describe('StatusUpdater', () => {
         },
       };
 
-      const updateStatusSpy = vi.spyOn(notesApi, 'updateStatus').mockResolvedValueOnce(mockResponse);
+      const updateStatusSpy = vi
+        .spyOn(notesApi, 'updateStatus')
+        .mockResolvedValueOnce(mockResponse);
 
       let validationErrorEmitted = false;
       container.addEventListener('status:validation-error', () => {
