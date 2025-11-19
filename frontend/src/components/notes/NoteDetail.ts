@@ -30,6 +30,7 @@ export class NoteDetail extends ApiComponent {
   private editor: NoteEditor | null = null;
   private statusUpdater: StatusUpdater | null = null;
   private markdownRenderer: MarkdownRenderer | null = null;
+  private bodyEditor: NoteBodyEditor | null = null;
 
   constructor(
     container: HTMLElement,
@@ -75,8 +76,12 @@ export class NoteDetail extends ApiComponent {
       </div>
       <div class="note-detail__content">
         <div class="note-detail__body">
-          <h2>Content</h2>
+          <div class="note-detail__body-header">
+            <h2>Content</h2>
+            <button type="button" class="edit-body-button">Edit Body</button>
+          </div>
           <div class="note-detail__body-container"></div>
+          <div class="note-detail__body-editor-container"></div>
         </div>
         <div class="note-detail__frontmatter">
           <h2>Metadata</h2>
@@ -121,6 +126,14 @@ export class NoteDetail extends ApiComponent {
       this.markdownRenderer = new MarkdownRenderer(bodyContainer);
       this.markdownRenderer.render();
       this.markdownRenderer.update(body);
+    }
+
+    // Setup edit body button
+    const editBodyButton = detail.querySelector('.edit-body-button') as HTMLButtonElement;
+    if (editBodyButton) {
+      editBodyButton.addEventListener('click', () => {
+        this.showBodyEditor();
+      });
     }
 
     return detail;
@@ -214,6 +227,47 @@ export class NoteDetail extends ApiComponent {
         container.removeChild(container.firstChild);
       }
     });
+  }
+
+  private showBodyEditor(): void {
+    if (!this.noteData) {
+      return;
+    }
+
+    const container = this.element.querySelector('.note-detail__body-editor-container');
+    const bodyContainer = this.element.querySelector('.note-detail__body-container');
+    if (!container || !bodyContainer) {
+      return;
+    }
+
+    // Hide markdown renderer, show editor
+    bodyContainer.style.display = 'none';
+    container.innerHTML = '';
+
+    this.bodyEditor = new NoteBodyEditor(container as HTMLElement, this.notesApi, this.noteId);
+    this.bodyEditor.update(this.noteData.body);
+    container.appendChild(this.bodyEditor.render());
+
+    // Listen for save/cancel events
+    container.addEventListener('editor:save', async () => {
+      // Reload note to get updated body
+      await this.loadNote();
+      this.hideBodyEditor();
+    });
+
+    container.addEventListener('editor:cancel', () => {
+      this.hideBodyEditor();
+    });
+  }
+
+  private hideBodyEditor(): void {
+    const container = this.element.querySelector('.note-detail__body-editor-container');
+    const bodyContainer = this.element.querySelector('.note-detail__body-container');
+    if (container && bodyContainer) {
+      container.innerHTML = '';
+      bodyContainer.style.display = '';
+      this.bodyEditor = null;
+    }
   }
 
   private showStatusUpdater(): void {

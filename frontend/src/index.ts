@@ -11,6 +11,7 @@ import './styles/base.css';
 import './styles/layout.css';
 import './styles/components.css';
 import './styles/markdown.css';
+import './styles/toast.css';
 
 import { App } from './app';
 

@@ -15,6 +15,7 @@
 import { ValidatedComponent } from '../base/ValidatedComponent';
 import { NotesApiClient } from '../../api/notes-api';
 import { ApiErrorHandler } from '../../api/errors';
+import { ToastManager } from '../../services/ToastManager';
 import type { NoteDetailResponse, NoteUpdateRequest, NoteUpdateResponse } from '../../api/types';
 import type { ApiResponse } from '../../types/api';
 
@@ -174,11 +175,13 @@ export class NoteEditor extends ValidatedComponent {
           message: 'Failed to update note',
           details: {},
         };
+        ToastManager.getInstance().error(error.message);
         ApiErrorHandler.handle(error);
         this.emit('editor:error', { error });
         return;
       }
 
+      ToastManager.getInstance().success('Note updated successfully');
       this.emit('editor:updated', {
         note_id: response.data.note_id,
         updated_fields: response.data.updated_fields,

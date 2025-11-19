@@ -119,6 +119,7 @@ export interface NoteUpdateRequest {
   resume_hint?: string;
   review_notes?: string;
   follow_up_date?: string;
+  body?: string;
   // Review workflow fields
   review_stage?: 'unreviewed' | 'in_progress' | 'complete';
   needs_review?: boolean;

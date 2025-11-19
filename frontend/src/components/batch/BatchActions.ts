@@ -15,6 +15,7 @@
 import { Component } from '../base/Component';
 import { NotesApiClient } from '../../api/notes-api';
 import { ApiErrorHandler } from '../../api/errors';
+import { ToastManager } from '../../services/ToastManager';
 import type { BatchUpdateRequest, BatchUpdateResponse } from '../../api/types';
 import type { ApiResponse } from '../../types/api';
 
@@ -37,17 +38,17 @@ export class BatchActions extends Component {
     const hasSelection = this.selectedIds.length > 0;
 
     actions.innerHTML = `
-      <button type="button" class="btn btn--primary" data-action="update-status" 
+      <button type="button" class="btn btn--primary" data-action="update-status"
               ${hasSelection ? '' : 'disabled'}
               aria-label="Update status for selected items">
         Update Status
       </button>
-      <button type="button" class="btn btn--primary" data-action="update-metadata" 
+      <button type="button" class="btn btn--primary" data-action="update-metadata"
               ${hasSelection ? '' : 'disabled'}
               aria-label="Update metadata for selected items">
         Update Metadata
       </button>
-      <button type="button" class="btn btn--danger" data-action="archive" 
+      <button type="button" class="btn btn--danger" data-action="archive"
               ${hasSelection ? '' : 'disabled'}
               aria-label="Archive selected items">
         Archive
@@ -105,15 +106,23 @@ export class BatchActions extends Component {
           message: 'Failed to execute batch update',
           details: {},
         };
+        ToastManager.getInstance().error(error.message);
         ApiErrorHandler.handle(error);
         this.emit('batch:error', { error });
         return null;
       }
 
+      const { total, succeeded, failed } = response.data;
+      if (failed > 0) {
+        ToastManager.getInstance().warning(`Batch update completed: ${succeeded} succeeded, ${failed} failed`);
+      } else {
+        ToastManager.getInstance().success(`Batch update completed: ${succeeded} items updated`);
+      }
+
       this.emit('batch:complete', {
-        total: response.data.total,
-        succeeded: response.data.succeeded,
-        failed: response.data.failed,
+        total,
+        succeeded,
+        failed,
         results: response.data.results,
       });
 
