@@ -12,6 +12,7 @@ import './styles/layout.css';
 import './styles/components.css';
 import './styles/markdown.css';
 import './styles/toast.css';
+import './styles/inline-editor.css';
 
 import { App } from './app';
 

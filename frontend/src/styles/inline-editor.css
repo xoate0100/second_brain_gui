@@ -1,0 +1,45 @@
+/**
+ * Inline Editor Styles
+ * Styles for inline editing components
+ */
+
+.inline-editor {
+  display: inline-block;
+  position: relative;
+}
+
+.inline-editor__display {
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm, 0.25rem);
+  transition: background-color 0.2s;
+}
+
+.inline-editor__display:hover {
+  background-color: var(--color-bg-alt, #f9fafb);
+}
+
+.inline-editor__input {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-primary, #2563eb);
+  border-radius: var(--radius-sm, 0.25rem);
+  font-size: inherit;
+  font-family: inherit;
+  width: 100%;
+  min-width: 150px;
+}
+
+.inline-editor__input:focus {
+  outline: 2px solid var(--color-primary, #2563eb);
+  outline-offset: 2px;
+}
+
+.inline-editor__loading {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-light, #6b7280);
+  margin-top: 0.25rem;
+}
+

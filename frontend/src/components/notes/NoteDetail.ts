@@ -17,6 +17,9 @@ import { ApiComponent } from '../base/ApiComponent';
 import { NoteEditor } from './NoteEditor';
 import { StatusUpdater } from './StatusUpdater';
 import { MarkdownRenderer } from '../common/MarkdownRenderer';
+import { NoteBodyEditor } from './NoteBodyEditor';
+import { InlineEditor } from '../common/InlineEditor';
+import { ToastManager } from '../../services/ToastManager';
 import { NotesApiClient } from '../../api/notes-api';
 import { ApiErrorHandler } from '../../api/errors';
 import type { ApiClient, ApiResponse } from '../../types/api';
@@ -31,6 +34,7 @@ export class NoteDetail extends ApiComponent {
   private statusUpdater: StatusUpdater | null = null;
   private markdownRenderer: MarkdownRenderer | null = null;
   private bodyEditor: NoteBodyEditor | null = null;
+  private inlineEditors: Map<string, InlineEditor> = new Map();
 
   constructor(
     container: HTMLElement,
@@ -87,9 +91,9 @@ export class NoteDetail extends ApiComponent {
           <h2>Metadata</h2>
           <dl class="note-detail__metadata-list">
             <dt>Tags:</dt>
-            <dd>${(frontmatter.tags || []).map((t) => this.escapeHtml(t)).join(', ')}</dd>
+            <dd><span class="inline-editor-container" data-field="tags"></span></dd>
             <dt>AI Summary:</dt>
-            <dd>${this.escapeHtml(frontmatter.ai_summary || '')}</dd>
+            <dd><span class="inline-editor-container" data-field="ai_summary"></span></dd>
             <dt>Created:</dt>
             <dd>${new Date(this.noteData.created_at).toLocaleString()}</dd>
             <dt>Updated:</dt>
