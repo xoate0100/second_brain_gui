@@ -11,4 +11,5 @@
 - Frontend Enhancement Plan: docs/FRONTEND_ENHANCEMENT_PLAN.md
 - Implementation Guides:
   - Markdown Rendering: docs/MARKDOWN_RENDERING_IMPLEMENTATION.md
+  - Note Body Editor: docs/NOTE_BODY_EDITOR_IMPLEMENTATION.md
 
