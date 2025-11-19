@@ -16,6 +16,7 @@
 import { ValidatedComponent } from '../base/ValidatedComponent';
 import { NotesApiClient } from '../../api/notes-api';
 import { ApiErrorHandler } from '../../api/errors';
+import { ToastManager } from '../../services/ToastManager';
 import type { NoteStatus, StatusUpdateRequest, StatusUpdateResponse } from '../../api/types';
 import type { ApiResponse } from '../../types/api';
 

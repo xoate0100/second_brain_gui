@@ -15,6 +15,7 @@
 import { Component } from '../base/Component';
 import { NotesApiClient } from '../../api/notes-api';
 import { ApiErrorHandler } from '../../api/errors';
+import { ToastManager } from '../../services/ToastManager';
 import type { BatchUpdateRequest, BatchUpdateResponse } from '../../api/types';
 import type { ApiResponse } from '../../types/api';
 
@@ -105,15 +106,23 @@ export class BatchActions extends Component {
           message: 'Failed to execute batch update',
           details: {},
         };
+        ToastManager.getInstance().error(error.message);
         ApiErrorHandler.handle(error);
         this.emit('batch:error', { error });
         return null;
       }
 
+      const { total, succeeded, failed } = response.data;
+      if (failed > 0) {
+        ToastManager.getInstance().warning(`Batch update completed: ${succeeded} succeeded, ${failed} failed`);
+      } else {
+        ToastManager.getInstance().success(`Batch update completed: ${succeeded} items updated`);
+      }
+
       this.emit('batch:complete', {
-        total: response.data.total,
-        succeeded: response.data.succeeded,
-        failed: response.data.failed,
+        total,
+        succeeded,
+        failed,
         results: response.data.results,
       });
 

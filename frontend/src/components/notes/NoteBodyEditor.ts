@@ -15,6 +15,7 @@
 
 import { Component } from '../base/Component';
 import { NotesApiClient } from '../../api/notes-api';
+import { ToastManager } from '../../services/ToastManager';
 
 export class NoteBodyEditor extends Component {
   private notesApi: NotesApiClient;
@@ -120,11 +121,14 @@ export class NoteBodyEditor extends Component {
       });
 
       if (response.success) {
+        ToastManager.getInstance().success('Note body saved successfully');
         this.emit('editor:save', { content: this.content });
       } else {
+        const errorMessage = response.error?.message || 'Failed to save';
+        ToastManager.getInstance().error(errorMessage);
         this.emit('editor:error', {
           code: response.error?.code || 'UNKNOWN_ERROR',
-          message: response.error?.message || 'Failed to save',
+          message: errorMessage,
         });
       }
     } catch (error) {
