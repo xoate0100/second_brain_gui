@@ -17,4 +17,5 @@
   - Launchpad Limits: docs/LAUNCHPAD_LIMITS_IMPLEMENTATION.md
   - Visible Action Hints: docs/VISIBLE_ACTION_HINTS_IMPLEMENTATION.md
   - Quick Status Transitions: docs/QUICK_STATUS_TRANSITIONS_IMPLEMENTATION.md
+  - Momentum Visualization: docs/MOMENTUM_VISUALIZATION_IMPLEMENTATION.md
 
