@@ -1,0 +1,204 @@
+/**
+ * Markdown Renderer Styles
+ * Styles for rendered markdown content
+ */
+
+.markdown-renderer {
+  line-height: 1.6;
+  color: var(--color-text, #1f2937);
+}
+
+.markdown-renderer h1,
+.markdown-renderer h2,
+.markdown-renderer h3,
+.markdown-renderer h4,
+.markdown-renderer h5,
+.markdown-renderer h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-renderer h1 {
+  font-size: 2em;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  padding-bottom: 0.3em;
+}
+
+.markdown-renderer h2 {
+  font-size: 1.5em;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  padding-bottom: 0.3em;
+}
+
+.markdown-renderer h3 {
+  font-size: 1.25em;
+}
+
+.markdown-renderer h4 {
+  font-size: 1em;
+}
+
+.markdown-renderer h5 {
+  font-size: 0.875em;
+}
+
+.markdown-renderer h6 {
+  font-size: 0.85em;
+  color: var(--color-text-light, #6b7280);
+}
+
+.markdown-renderer p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.markdown-renderer ul,
+.markdown-renderer ol {
+  margin-top: 0;
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+
+.markdown-renderer li {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.markdown-renderer li > p {
+  margin-top: 1em;
+}
+
+.markdown-renderer li > p:first-child {
+  margin-top: 0;
+}
+
+.markdown-renderer code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: var(--color-bg-alt, #f9fafb);
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.markdown-renderer pre {
+  padding: 1em;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: var(--color-bg-alt, #f9fafb);
+  border-radius: 6px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.markdown-renderer pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-renderer pre > code {
+  display: block;
+  padding: 0;
+  margin: 0;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-renderer blockquote {
+  padding: 0 1em;
+  color: var(--color-text-light, #6b7280);
+  border-left: 0.25em solid var(--color-border, #e5e7eb);
+  margin: 0;
+  margin-bottom: 1em;
+}
+
+.markdown-renderer blockquote > :first-child {
+  margin-top: 0;
+}
+
+.markdown-renderer blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-renderer table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: block;
+  width: 100%;
+  overflow: auto;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.markdown-renderer table th {
+  font-weight: 600;
+  padding: 0.5em 1em;
+  border: 1px solid var(--color-border, #e5e7eb);
+  background-color: var(--color-bg-alt, #f9fafb);
+}
+
+.markdown-renderer table td {
+  padding: 0.5em 1em;
+  border: 1px solid var(--color-border, #e5e7eb);
+}
+
+.markdown-renderer table tr {
+  background-color: var(--color-bg, #ffffff);
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+.markdown-renderer table tr:nth-child(2n) {
+  background-color: var(--color-bg-alt, #f9fafb);
+}
+
+.markdown-renderer a {
+  color: var(--color-primary, #2563eb);
+  text-decoration: none;
+}
+
+.markdown-renderer a:hover {
+  text-decoration: underline;
+}
+
+.markdown-renderer img {
+  max-width: 100%;
+  box-sizing: content-box;
+  background-color: var(--color-bg, #ffffff);
+}
+
+.markdown-renderer hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 1.5em 0;
+  background-color: var(--color-border, #e5e7eb);
+  border: 0;
+}
+
+.markdown-renderer strong {
+  font-weight: 600;
+}
+
+.markdown-renderer em {
+  font-style: italic;
+}
+
+.markdown-renderer .markdown-error {
+  color: var(--color-error, #ef4444);
+  padding: 1em;
+  background-color: var(--color-bg-alt, #f9fafb);
+  border-radius: 6px;
+  border: 1px solid var(--color-error, #ef4444);
+}
+

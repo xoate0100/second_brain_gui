@@ -1,11 +1,11 @@
 /**
  * API-Aware Component Base Class
  * Extends Component with API client integration
- * 
+ *
  * Responsibilities:
  * - Provides API client to subclasses
  * - Centralizes API error handling
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - API integration
  * - OCP: Open for extension via abstract methods
@@ -30,9 +30,8 @@ export abstract class ApiComponent extends Component {
    */
   protected async handleApiError(error: ApiError): Promise<void> {
     console.error('[ApiComponent] API Error:', error);
-    
+
     // Emit error event for parent components to handle
     this.emit('api-error', { error });
   }
 }
-

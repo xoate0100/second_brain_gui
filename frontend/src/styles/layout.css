@@ -1,0 +1,95 @@
+/**
+ * Layout Styles
+ * Header, sidebar, main content, and footer layouts
+ */
+
+/* App Layout Container */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-fixed);
+  height: var(--header-height);
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-header h1 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+  color: var(--color-text);
+}
+
+.app-header nav {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+/* Main Content Area */
+.app-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+}
+
+/* Review Queue View */
+.app-view--queue {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Detail View */
+.app-view--detail {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-detail-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 var(--spacing-md);
+  }
+
+  .app-header h1 {
+    font-size: var(--font-size-lg);
+  }
+
+  .app-main-content {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .app-main-content {
+    padding: var(--spacing-lg);
+  }
+}
+
+@media (min-width: 1025px) {
+  .app-main-content {
+    padding: var(--spacing-xl);
+  }
+}

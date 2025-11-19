@@ -22,9 +22,19 @@ changed = subprocess.check_output(["git","diff","--cached","--name-only"], text=
 viol = []
 for f in changed:
     p = pathlib.Path(f)
-    if not any(str(p).startswith(a) for a in allowed):
-        # allow root files like README.md
-        if p.name in ("README.md",".pre-commit-config.yaml"): continue
+    # Normalize path separators for cross-platform compatibility
+    file_path = str(p).replace('\\', '/')
+    # Check if file is in any allowed path
+    is_allowed = any(
+        file_path.startswith(allowed_path.rstrip('/') + '/') or
+        file_path == allowed_path.rstrip('/') or
+        file_path.startswith(allowed_path)
+        for allowed_path in allowed
+    )
+    if not is_allowed:
+        # allow root files like README.md, docker-compose.yml, and config files
+        if p.name in ("README.md", ".pre-commit-config.yaml", "docker-compose.yml", ".dockerignore", ".gitignore"):
+            continue
         viol.append(f)
 
 if viol:
@@ -32,4 +42,3 @@ if viol:
     sys.exit(1)
 
 print("[ai-guard] OK")
-

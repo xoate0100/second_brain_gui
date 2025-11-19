@@ -44,6 +44,9 @@ logs/
 .env
 .env.local
 
+# Runtime configuration (contains API keys - DO NOT COMMIT)
+frontend/public/config.js
+
 # OS
 .DS_Store
 Thumbs.db
@@ -60,3 +63,6 @@ ai_reports/
 
 # Initialization marker (should be committed for tracking)
 # .initialized
+
+# Root directory placeholder files (should not be committed)
+root/

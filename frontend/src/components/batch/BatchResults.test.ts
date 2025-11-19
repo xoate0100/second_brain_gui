@@ -17,8 +17,8 @@ describe('BatchResults', () => {
     results: [
       { note_id: 'note1', success: true },
       { note_id: 'note2', success: true },
-      { note_id: 'note3', success: false, error: 'Not found' }
-    ]
+      { note_id: 'note3', success: false, error: 'Not found' },
+    ],
   };
 
   beforeEach(() => {
@@ -65,8 +65,8 @@ describe('BatchResults', () => {
         failed: 0,
         results: [
           { note_id: 'note1', success: true },
-          { note_id: 'note2', success: true }
-        ]
+          { note_id: 'note2', success: true },
+        ],
       };
 
       component.update(newResults);
@@ -92,4 +92,3 @@ describe('BatchResults', () => {
     });
   });
 });
-

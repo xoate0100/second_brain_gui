@@ -1,12 +1,12 @@
 /**
  * BatchSelector Component
  * Multi-select checkbox component for batch operations
- * 
+ *
  * Responsibilities:
  * - Track selected items
  * - Provide select all/deselect all functionality
  * - Emit selection change events
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - item selection tracking
  * - OCP: Extensible via Component base class
@@ -131,4 +131,3 @@ export class BatchSelector extends Component {
     }
   }
 }
-

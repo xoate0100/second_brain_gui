@@ -1,13 +1,13 @@
 /**
  * BatchResults Component
  * Results display modal for batch operations
- * 
+ *
  * Responsibilities:
  * - Display batch operation results
  * - Show success/failure counts
  * - List individual item results
  * - Emit close events
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - results display
  * - OCP: Extensible via Component base class
@@ -43,16 +43,16 @@ export class BatchResults extends Component {
       </div>
       <div class="batch-results__summary">
         <div class="batch-results__stat">
-          <span class="label">Total:</span>
-          <span class="value">${total}</span>
+          <span class="batch-results__stat-label">Total:</span>
+          <span class="batch-results__stat-value">${total}</span>
         </div>
-        <div class="batch-results__stat batch-results__stat--success">
-          <span class="label">Succeeded:</span>
-          <span class="value">${succeeded}</span>
+        <div class="batch-results__stat">
+          <span class="batch-results__stat-label">Succeeded:</span>
+          <span class="batch-results__stat-value batch-results__stat-value--success">${succeeded}</span>
         </div>
-        <div class="batch-results__stat batch-results__stat--failed">
-          <span class="label">Failed:</span>
-          <span class="value">${failed}</span>
+        <div class="batch-results__stat">
+          <span class="batch-results__stat-label">Failed:</span>
+          <span class="batch-results__stat-value batch-results__stat-value--error">${failed}</span>
         </div>
       </div>
       <div class="batch-results__list">
@@ -62,7 +62,7 @@ export class BatchResults extends Component {
         </ul>
       </div>
       <div class="batch-results__actions">
-        <button type="button" data-action="close">Close</button>
+        <button type="button" class="btn btn--secondary" data-action="close">Close</button>
       </div>
     `;
 
@@ -134,4 +134,3 @@ export class BatchResults extends Component {
     );
   }
 }
-

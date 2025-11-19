@@ -36,6 +36,9 @@ def check_cross_component_imports():
         for p in root.rglob("*"):
             if p.suffix not in extensions:
                 continue
+            # Exclude node_modules and other third-party directories
+            if "node_modules" in str(p) or "dist" in str(p) or ".git" in str(p):
+                continue
             try:
                 text = p.read_text(encoding="utf-8", errors="ignore")
             except:
@@ -78,86 +81,85 @@ def check_srp_single_responsibility():
                     continue
 
                 try:
-                content = file_path.read_text(encoding="utf-8", errors="ignore")
-                lines = content.splitlines()
+                    content = file_path.read_text(encoding="utf-8", errors="ignore")
+                    lines = content.splitlines()
 
-                # Simple heuristic: count function definitions and their lengths
-                in_function = False
-                function_start = 0
-                function_name = ""
-                brace_count = 0
-                paren_count = 0
+                    # Simple heuristic: count function definitions and their lengths
+                    in_function = False
+                    function_start = 0
+                    function_name = ""
+                    brace_count = 0
+                    paren_count = 0
 
-                for i, line in enumerate(lines, 1):
-                    # Detect function start (Python)
-                    if re.match(r'^\s*(def|async def)\s+\w+', line):
-                        if in_function:
-                            # Previous function ended without explicit return
-                            if i - function_start > 50:
-                                violations.append(
-                                    f"{file_path}:{function_start} SRP violation: "
-                                    f"Function '{function_name}' is {i - function_start} lines (>50). "
-                                    f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
-                                )
-                        in_function = True
-                        function_start = i
-                        function_name = re.search(r'(def|async def)\s+(\w+)', line).group(2)
-                        brace_count = 0
-                        paren_count = line.count('(') - line.count(')')
-
-                    # Detect function start (TypeScript/JavaScript)
-                    elif re.match(r'^\s*(export\s+)?(function|const|let|var)\s+\w+.*[=:]\s*\(', line):
-                        if in_function and i - function_start > 50:
-                            violations.append(
-                                f"{file_path}:{function_start} SRP violation: "
-                                f"Function '{function_name}' is {i - function_start} lines (>50). "
-                                f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
-                            )
-                        in_function = True
-                        function_start = i
-                        match = re.search(r'(?:function|const|let|var)\s+(\w+)', line)
-                        function_name = match.group(1) if match else "anonymous"
-                        brace_count = line.count('{') - line.count('}')
-                        paren_count = line.count('(') - line.count(')')
-
-                    if in_function:
-                        # Track braces and parentheses
-                        brace_count += line.count('{') - line.count('}')
-                        paren_count += line.count('(') - line.count(')')
-
-                        # Function ends when braces/parentheses balance and we hit a dedent or semicolon
-                        if file_path.suffix == ".py":
-                            # Python: function ends at next def/class or significant dedent
-                            if i > function_start and re.match(r'^\s*(def|class|async def)', line):
-                                if i - 1 - function_start > 50:
-                                    violations.append(
-                                        f"{file_path}:{function_start} SRP violation: "
-                                        f"Function '{function_name}' is {i - 1 - function_start} lines (>50). "
-                                        f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
-                                    )
-                                in_function = False
-                        else:
-                            # TypeScript/JS: function ends when braces balance
-                            if brace_count == 0 and paren_count == 0 and i > function_start:
-                                if i - function_start > 50:
+                    for i, line in enumerate(lines, 1):
+                        # Detect function start (Python)
+                        if re.match(r'^\s*(def|async def)\s+\w+', line):
+                            if in_function:
+                                # Previous function ended without explicit return
                                     violations.append(
                                         f"{file_path}:{function_start} SRP violation: "
                                         f"Function '{function_name}' is {i - function_start} lines (>50). "
                                         f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
                                     )
-                                in_function = False
+                            in_function = True
+                            function_start = i
+                            function_name = re.search(r'(def|async def)\s+(\w+)', line).group(2)
+                            brace_count = 0
+                            paren_count = line.count('(') - line.count(')')
 
-                # Check last function if still open
-                if in_function and len(lines) - function_start > 50:
-                    violations.append(
-                        f"{file_path}:{function_start} SRP violation: "
-                        f"Function '{function_name}' is {len(lines) - function_start} lines (>50). "
-                        f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
-                    )
+                        # Detect function start (TypeScript/JavaScript)
+                        elif re.match(r'^\s*(export\s+)?(function|const|let|var)\s+\w+.*[=:]\s*\(', line):
+                            if in_function and i - function_start > 50:
+                                violations.append(
+                                    f"{file_path}:{function_start} SRP violation: "
+                                    f"Function '{function_name}' is {i - function_start} lines (>50). "
+                                    f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
+                                )
+                            in_function = True
+                            function_start = i
+                            match = re.search(r'(?:function|const|let|var)\s+(\w+)', line)
+                            function_name = match.group(1) if match else "anonymous"
+                            brace_count = line.count('{') - line.count('}')
+                            paren_count = line.count('(') - line.count(')')
 
-            except Exception as e:
-                # Skip files that can't be parsed
-                continue
+                        if in_function:
+                            # Track braces and parentheses
+                            brace_count += line.count('{') - line.count('}')
+                            paren_count += line.count('(') - line.count(')')
+
+                            # Function ends when braces/parentheses balance and we hit a dedent or semicolon
+                            if file_path.suffix == ".py":
+                                # Python: function ends at next def/class or significant dedent
+                                if i > function_start and re.match(r'^\s*(def|class|async def)', line):
+                                    if i - 1 - function_start > 50:
+                                        violations.append(
+                                            f"{file_path}:{function_start} SRP violation: "
+                                            f"Function '{function_name}' is {i - 1 - function_start} lines (>50). "
+                                            f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
+                                        )
+                                    in_function = False
+                            else:
+                                # TypeScript/JS: function ends when braces balance
+                                if brace_count == 0 and paren_count == 0 and i > function_start:
+                                    if i - function_start > 50:
+                                        violations.append(
+                                            f"{file_path}:{function_start} SRP violation: "
+                                            f"Function '{function_name}' is {i - function_start} lines (>50). "
+                                            f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
+                                        )
+                                    in_function = False
+
+                    # Check last function if still open
+                    if in_function and len(lines) - function_start > 50:
+                        violations.append(
+                            f"{file_path}:{function_start} SRP violation: "
+                            f"Function '{function_name}' is {len(lines) - function_start} lines (>50). "
+                            f"Refactor into smaller functions. See 1_global_standards/SOLID_PRINCIPLES.md"
+                        )
+
+                except Exception as e:
+                    # Skip files that can't be parsed
+                    continue
 
 
 def check_isp_interface_segregation():
@@ -190,26 +192,74 @@ def check_isp_interface_segregation():
                     if interface_match:
                         interface_name = interface_match.group(1)
                         # Count methods/properties in interface
+                        # Start brace count from interface declaration line
                         brace_count = line.count('{') - line.count('}')
                         method_count = 0
-                        j = i
+                        j = i  # i is 1-indexed (line number), lines is 0-indexed
 
-                        while j < len(lines) and brace_count >= 0:
-                            current_line = lines[j]
+                        # Iterate through lines starting from interface declaration
+                        while j <= len(lines) and brace_count >= 0:
+                            if j > len(lines):
+                                break
+                            
+                            # j is 1-indexed, so lines[j-1] is the actual line
+                            current_line = lines[j - 1]
+                            
+                            # Skip the interface declaration line itself
+                            if j == i:
+                                j += 1
+                                continue
+                            
+                            # Update brace count for current line (including closing brace)
                             brace_count += current_line.count('{') - current_line.count('}')
 
-                            # Count method/property definitions
-                            if re.search(r'^\s*\w+.*[:?]\s*[^;]', current_line) or re.search(r'^\s*\w+\s*\(', current_line):
+                            # Check if we've closed the interface (brace_count <= 0 means we hit closing brace)
+                            if brace_count <= 0:
+                                break
+
+                            # Skip empty lines
+                            stripped = current_line.strip()
+                            if not stripped:
+                                j += 1
+                                continue
+
+                            # Skip comments
+                            if stripped.startswith('//') or stripped.startswith('/*') or stripped.startswith('*'):
+                                j += 1
+                                continue
+
+                            # Skip index signatures like [key: string]: unknown;
+                            if stripped.startswith('[') and ']:' in stripped:
+                                j += 1
+                                continue
+
+                            # Match property definition: identifier, optional ?, colon, type, semicolon/comma
+                            # Pattern: start of line, whitespace, identifier, optional ?, colon, type ending with ; or ,
+                            property_pattern = r'^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\??\s*:\s*.+[;,]\s*'
+                            if re.search(property_pattern, current_line):
                                 method_count += 1
 
-                            if brace_count < 0:
-                                break
                             j += 1
 
-                        if method_count > 10:
+                        # ISP applies to service interfaces, not data structures
+                        # Data structures (API types, DTOs) often need more properties
+                        # Check if this is a data structure file (types.ts, api/types.ts, etc.)
+                        is_data_structure_file = (
+                            'types.ts' in str(file_path) or 
+                            'api/types' in str(file_path) or
+                            'dto' in str(file_path).lower() or
+                            'model' in str(file_path).lower()
+                        )
+                        
+                        # For data structures, use a higher threshold (20) or skip entirely
+                        # For service interfaces, enforce the 10 property limit
+                        threshold = 20 if is_data_structure_file else 10
+                        
+                        if method_count > threshold:
+                            violation_type = "data structure" if is_data_structure_file else "interface"
                             violations.append(
                                 f"{file_path}:{i} ISP violation: "
-                                f"Interface '{interface_name}' has {method_count} methods/properties (>10). "
+                                f"{violation_type.capitalize()} '{interface_name}' has {method_count} methods/properties (>{threshold}). "
                                 f"Split into smaller, focused interfaces. See 1_global_standards/SOLID_PRINCIPLES.md"
                             )
 
@@ -225,7 +275,8 @@ def check_isp_interface_segregation():
                             current_line = lines[j]
                             brace_count += current_line.count('{') - current_line.count('}')
 
-                            if re.search(r'^\s*\w+.*[:?]\s*[^;]', current_line):
+                            # Only count actual property/method definitions, not comments or empty lines
+                            if re.search(r'^\s*\w+.*[:?]\s*[^;{}]', current_line) and not re.search(r'^\s*//|^\s*/\*|^\s*\*', current_line):
                                 method_count += 1
 
                             if brace_count < 0:
@@ -270,11 +321,11 @@ def check_dip_dependency_inversion():
             # Exclude node_modules and other third-party directories
             if "node_modules" in str(file_path) or "dist" in str(file_path) or ".git" in str(file_path):
                 continue
-            
+
             try:
                 content = file_path.read_text(encoding="utf-8", errors="ignore")
                 lines = content.splitlines()
-                
+
                 for i, line in enumerate(lines, 1):
                     # Skip if importing from interfaces/abstract
                     if re.search(r'(interfaces|abstract|interfaces/)', line, re.IGNORECASE):

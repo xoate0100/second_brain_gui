@@ -1,13 +1,13 @@
 /**
  * API Client Implementation
  * HTTP client for backend API communication
- * 
+ *
  * Responsibilities:
  * - Make HTTP requests to backend API
  * - Handle authentication (API key, JWT)
  * - Generate request IDs for idempotency
  * - Parse responses and errors
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - API communication
  * - DIP: Implements ApiClient interface
@@ -89,27 +89,29 @@ export class ApiClientImpl implements ApiClient {
   /**
    * Make HTTP request
    */
-  private async request<T>(
-    method: string,
-    url: string,
-    data?: unknown
-  ): Promise<ApiResponse<T>> {
+  private async request<T>(method: string, url: string, data?: unknown): Promise<ApiResponse<T>> {
     const fullUrl = url.startsWith('http') ? url : `${this.baseUrl}${url}`;
     const requestId = uuidv4();
 
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
-      'X-API-Key': this.apiKey,
-      'X-Request-ID': requestId
+      'X-Request-ID': requestId,
     };
 
+    // Backend expects Authorization header with Bearer token format
+    // API key should be sent as: Authorization: Bearer <api_key>
+    if (this.apiKey) {
+      headers['Authorization'] = `Bearer ${this.apiKey}`;
+    }
+
+    // JWT token takes precedence if both are provided
     if (this.jwtToken) {
       headers['Authorization'] = `Bearer ${this.jwtToken}`;
     }
 
     const options: RequestInit = {
       method,
-      headers
+      headers,
     };
 
     if (data && (method === 'POST' || method === 'PUT')) {
@@ -127,8 +129,8 @@ export class ApiClientImpl implements ApiClient {
           error: {
             code: 'UNKNOWN_ERROR',
             message: `Unexpected content type: ${contentType}`,
-            details: {}
-          }
+            details: {},
+          },
         };
       }
 
@@ -142,11 +144,11 @@ export class ApiClientImpl implements ApiClient {
           : {
               code: getErrorCodeFromStatus(response.status),
               message: response.statusText || jsonData.message || 'Request failed',
-              details: jsonData.details || {}
+              details: jsonData.details || {},
             };
         return {
           success: false,
-          error
+          error,
         };
       }
 
@@ -155,7 +157,7 @@ export class ApiClientImpl implements ApiClient {
         const error = parseApiError(jsonData);
         return {
           success: false,
-          error
+          error,
         };
       }
 
@@ -167,10 +169,9 @@ export class ApiClientImpl implements ApiClient {
         error: {
           code: 'UNKNOWN_ERROR',
           message: error instanceof Error ? error.message : 'Network error',
-          details: {}
-        }
+          details: {},
+        },
       };
     }
   }
 }
-

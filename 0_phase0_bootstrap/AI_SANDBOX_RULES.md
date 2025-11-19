@@ -18,7 +18,7 @@ You are the single authorized agent (Cursor Code). You may execute multi-step pl
   2. **Green**: Implement minimal code to pass test
   3. **Refactor**: Improve code while keeping tests green
   4. **Document**: Update documentation as needed
-- **Test File Patterns**: 
+- **Test File Patterns**:
   - Python: `*_test.py`, `test_*.py`, files in `tests/` directories
   - TypeScript/JavaScript: `*.test.ts`, `*.test.tsx`, `*.spec.ts`, `*.spec.tsx`, files in `test/` directories
 - **Reference**: See `1_global_standards/TEST_STRATEGY_TDD.md` for detailed guidance.
@@ -42,6 +42,26 @@ You are the single authorized agent (Cursor Code). You may execute multi-step pl
 - **Large Changeset Warning**: If >20 files changed since last commit, pre-commit hook will warn (non-blocking)
 - **Commit Message Format**: MUST include `plan:<plan_id> component:<component> task:<id>`
 - **Reference**: See `docs/COMMIT_STRATEGY.md` for detailed commit frequency best practices
+
+### PowerShell and Docker Execution - BEST PRACTICES
+- **PowerShell Version**: Always use PowerShell 7+ (`pwsh`) for scripts, not PowerShell 5.1 (`powershell`)
+  - Verify with: `$PSVersionTable.PSVersion.Major -ge 7`
+  - Configure Cursor IDE to use PowerShell 7 as default terminal
+- **Docker Commands in PowerShell**: Use CMD wrapper method for reliable output capture
+  - Preferred: `cmd /c "docker <command> 2>&1"` for critical commands
+  - Alternative: Use Job method with proper error handling
+  - Avoid: Direct process execution with async event handlers (runspace issues)
+- **Output Handling**:
+  - Use synchronous output reading for process execution
+  - Explicitly convert collections to strings: `$output -join "`n"`
+  - Handle silent output scenarios (commands that complete but produce no output)
+- **Timeout Protection**: All Docker commands should have timeout protection (default: 90 seconds)
+  - Commands exceeding timeout should be logged and script should continue
+- **Error Handling**:
+  - Always check Docker daemon status before executing commands
+  - Use try-catch blocks for all Docker command execution
+  - Log all errors with context for troubleshooting
+- **Reference**: See `docs/DOCKER_TROUBLESHOOTING_POWERSHELL.md` and `docs/POWERSHELL_VERSION_CONFIGURATION.md`
 
 ### Other Requirements
 - Every commit message MUST include: `plan:<plan_id> component:<component> task:<id>`.

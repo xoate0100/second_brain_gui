@@ -1,0 +1,13 @@
+// Runtime configuration - EXAMPLE FILE
+// Copy this to config.js and fill in your values
+//
+// ⚠️ SECURITY WARNING: This file contains API keys in plain text.
+// - For DEVELOPMENT/LOCALHOST: This is acceptable
+// - For PRODUCTION: DO NOT use this approach. Use backend proxy or OAuth instead.
+// - Never commit config.js with real keys to version control.
+//
+window.__APP_CONFIG__ = {
+  apiBaseUrl: 'http://localhost:8080',
+  apiKey: 'YOUR_API_KEY_HERE',
+  jwtToken: null
+};

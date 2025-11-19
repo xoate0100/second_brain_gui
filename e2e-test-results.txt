@@ -1,0 +1,172 @@
+
+Running 14 tests using 2 workers
+
+  Γ£ô   2 [chromium] ΓÇ║ e2e\batch-operations.spec.ts:61:3 ΓÇ║ Batch Operations Workflow ΓÇ║ should display batch selector (990ms)
+  Γ£ô   1 [chromium] ΓÇ║ e2e\batch-operations.spec.ts:73:3 ΓÇ║ Batch Operations Workflow ΓÇ║ should select multiple items for batch operations (1.3s)
+  Γ£ô   3 [chromium] ΓÇ║ e2e\batch-operations.spec.ts:94:3 ΓÇ║ Batch Operations Workflow ΓÇ║ should display batch actions when items are selected (999ms)
+  Γ£ô   4 [chromium] ΓÇ║ e2e\batch-operations.spec.ts:112:3 ΓÇ║ Batch Operations Workflow ΓÇ║ should perform batch status update (797ms)
+  Γ£ô   6 [chromium] ΓÇ║ e2e\batch-operations.spec.ts:162:3 ΓÇ║ Batch Operations Workflow ΓÇ║ should close batch results modal (865ms)
+  Γ£ô   5 [chromium] ΓÇ║ e2e\batch-operations.spec.ts:138:3 ΓÇ║ Batch Operations Workflow ΓÇ║ should display batch operation results (1.2s)
+  Γ£ô   8 [chromium] ΓÇ║ e2e\review-queue.spec.ts:60:3 ΓÇ║ Review Queue Workflow ΓÇ║ should display review item details (562ms)
+  Γ£ô   7 [chromium] ΓÇ║ e2e\review-queue.spec.ts:52:3 ΓÇ║ Review Queue Workflow ΓÇ║ should display review queue on page load (1.3s)
+  Γ£ÿ   9 [chromium] ΓÇ║ e2e\review-queue.spec.ts:69:3 ΓÇ║ Review Queue Workflow ΓÇ║ should filter review queue by venture (1.2s)
+  Γ£ô  11 [chromium] ΓÇ║ e2e\review-queue.spec.ts:127:3 ΓÇ║ Review Queue Workflow ΓÇ║ should paginate review queue (565ms)
+  Γ£ÿ  10 [chromium] ΓÇ║ e2e\review-queue.spec.ts:86:3 ΓÇ║ Review Queue Workflow ΓÇ║ should navigate to note detail when clicking review item (5.7s)
+  Γ£ÿ  12 [chromium] ΓÇ║ e2e\status-update.spec.ts:41:3 ΓÇ║ Status Update Workflow ΓÇ║ should display status updater component (5.5s)
+  Γ£ÿ  13 [chromium] ΓÇ║ e2e\status-update.spec.ts:92:3 ΓÇ║ Status Update Workflow ΓÇ║ should update status from inbox to ready (5.7s)
+  Γ£ÿ  14 [chromium] ΓÇ║ e2e\status-update.spec.ts:179:3 ΓÇ║ Status Update Workflow ΓÇ║ should show validation errors for invalid status transitions (5.6s)
+
+
+  1) [chromium] ΓÇ║ e2e\review-queue.spec.ts:69:3 ΓÇ║ Review Queue Workflow ΓÇ║ should filter review queue by venture 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('.review-item')
+    Expected: visible
+    Error: strict mode violation: locator('.review-item') resolved to 2 elements:
+        1) <div tabindex="0" role="button" class="review-item" data-note-id="test-note-1" aria-label="Review item: Test Note 1">ΓÇª</div> aka getByRole('button', { name: 'Review item: Test Note 1' })
+        2) <div tabindex="0" role="button" class="review-item" data-note-id="test-note-2" aria-label="Review item: Test Note 2">ΓÇª</div> aka getByRole('button', { name: 'Review item: Test Note 2' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('.review-item')[22m
+
+
+      81 |
+      82 |     // Verify filtered results (mock should return filtered data)
+    > 83 |     await expect(page.locator('.review-item')).toBeVisible();
+         |                                                ^
+      84 |   });
+      85 |
+      86 |   test('should navigate to note detail when clicking review item', async ({ page }) => {
+        at C:\Users\Andy\source\repos\second_brain_gui\frontend\e2e\review-queue.spec.ts:83:48
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\review-queue-Review-Queue--8ae69-ter-review-queue-by-venture-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\review-queue-Review-Queue--8ae69-ter-review-queue-by-venture-chromium\error-context.md
+
+  2) [chromium] ΓÇ║ e2e\review-queue.spec.ts:86:3 ΓÇ║ Review Queue Workflow ΓÇ║ should navigate to note detail when clicking review item 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('.note-detail')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('.note-detail')[22m
+
+
+      121 |
+      122 |     // Wait for note detail to load
+    > 123 |     await expect(page.locator('.note-detail')).toBeVisible();
+          |                                                ^
+      124 |     await expect(page.locator('.note-detail__title')).toContainText('Test Note 1');
+      125 |   });
+      126 |
+        at C:\Users\Andy\source\repos\second_brain_gui\frontend\e2e\review-queue.spec.ts:123:48
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\review-queue-Review-Queue--18b81-l-when-clicking-review-item-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\review-queue-Review-Queue--18b81-l-when-clicking-review-item-chromium\error-context.md
+
+  3) [chromium] ΓÇ║ e2e\status-update.spec.ts:41:3 ΓÇ║ Status Update Workflow ΓÇ║ should display status updater component 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('.note-detail')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('.note-detail')[22m
+
+
+      81 |
+      82 |     // Wait for note detail to load
+    > 83 |     await expect(page.locator('.note-detail')).toBeVisible({ timeout: 5000 });
+         |                                                ^
+      84 |     
+      85 |     // Click "Update Status" button to show status updater
+      86 |     await page.locator('.update-status-button').click();
+        at C:\Users\Andy\source\repos\second_brain_gui\frontend\e2e\status-update.spec.ts:83:48
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\status-update-Status-Updat-ddd48-ay-status-updater-component-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\status-update-Status-Updat-ddd48-ay-status-updater-component-chromium\error-context.md
+
+  4) [chromium] ΓÇ║ e2e\status-update.spec.ts:92:3 ΓÇ║ Status Update Workflow ΓÇ║ should update status from inbox to ready 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('.note-detail')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('.note-detail')[22m
+
+
+      151 |
+      152 |     // Wait for note detail
+    > 153 |     await expect(page.locator('.note-detail')).toBeVisible({ timeout: 5000 });
+          |                                                ^
+      154 |     
+      155 |     // Click "Update Status" button
+      156 |     await page.locator('.update-status-button').click();
+        at C:\Users\Andy\source\repos\second_brain_gui\frontend\e2e\status-update.spec.ts:153:48
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\status-update-Status-Updat-a1044--status-from-inbox-to-ready-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\status-update-Status-Updat-a1044--status-from-inbox-to-ready-chromium\error-context.md
+
+  5) [chromium] ΓÇ║ e2e\status-update.spec.ts:179:3 ΓÇ║ Status Update Workflow ΓÇ║ should show validation errors for invalid status transitions 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('.note-detail')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('.note-detail')[22m
+
+
+      217 |
+      218 |     // Wait for note detail
+    > 219 |     await expect(page.locator('.note-detail')).toBeVisible({ timeout: 5000 });
+          |                                                ^
+      220 |     
+      221 |     // Click "Update Status" button
+      222 |     await page.locator('.update-status-button').click();
+        at C:\Users\Andy\source\repos\second_brain_gui\frontend\e2e\status-update.spec.ts:219:48
+
+    attachment #1: screenshot (image/png) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\status-update-Status-Updat-3e4f3--invalid-status-transitions-chromium\test-failed-1.png
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error Context: test-results\status-update-Status-Updat-3e4f3--invalid-status-transitions-chromium\error-context.md
+
+  5 failed
+    [chromium] ΓÇ║ e2e\review-queue.spec.ts:69:3 ΓÇ║ Review Queue Workflow ΓÇ║ should filter review queue by venture 
+    [chromium] ΓÇ║ e2e\review-queue.spec.ts:86:3 ΓÇ║ Review Queue Workflow ΓÇ║ should navigate to note detail when clicking review item 
+    [chromium] ΓÇ║ e2e\status-update.spec.ts:41:3 ΓÇ║ Status Update Workflow ΓÇ║ should display status updater component 
+    [chromium] ΓÇ║ e2e\status-update.spec.ts:92:3 ΓÇ║ Status Update Workflow ΓÇ║ should update status from inbox to ready 
+    [chromium] ΓÇ║ e2e\status-update.spec.ts:179:3 ΓÇ║ Status Update Workflow ΓÇ║ should show validation errors for invalid status transitions 
+  9 passed (26.7s)

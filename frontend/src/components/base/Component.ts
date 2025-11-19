@@ -1,12 +1,12 @@
 /**
  * Base Component Class
  * Abstract base class for all UI components following SOLID principles
- * 
+ *
  * Responsibilities:
  * - Provides common component lifecycle (render, update, destroy)
  * - Manages component state
  * - Handles event emission
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - component lifecycle management
  * - OCP: Open for extension via abstract methods
@@ -40,8 +40,13 @@ export abstract class Component {
    * @param data - Event data
    */
   protected emit(event: string, data: unknown): void {
+    // CustomEvent bubbles by default, but explicitly set it for clarity
     this.element.dispatchEvent(
-      new CustomEvent(event, { detail: data })
+      new CustomEvent(event, {
+        detail: data,
+        bubbles: true,
+        cancelable: true,
+      })
     );
   }
 
@@ -52,4 +57,3 @@ export abstract class Component {
     this.element.remove();
   }
 }
-

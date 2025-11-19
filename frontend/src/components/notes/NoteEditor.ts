@@ -1,12 +1,12 @@
 /**
  * NoteEditor Component
  * Form component for editing note metadata
- * 
+ *
  * Responsibilities:
  * - Display and edit note metadata fields
  * - Submit metadata updates via API
  * - Emit events for updates
- * 
+ *
  * SOLID Principles:
  * - SRP: Single responsibility - note metadata editing
  * - DIP: Depends on NotesApiClient interface
@@ -35,7 +35,18 @@ export class NoteEditor extends ValidatedComponent {
     form.setAttribute('role', 'form');
     form.setAttribute('aria-label', 'Edit note metadata');
 
-    const frontmatter = this.noteData?.frontmatter || {};
+    const frontmatter = this.noteData?.frontmatter || {
+      id: '',
+      title: '',
+      status: '',
+      venture: '',
+      domain: '',
+      tags: [],
+      ai_summary: '',
+      momentum_score: 0,
+      age_days: 0,
+      aging_stage: '',
+    };
 
     form.innerHTML = `
       <div class="note-editor__field">
@@ -45,7 +56,7 @@ export class NoteEditor extends ValidatedComponent {
           <option value="CRL" ${frontmatter.venture === 'CRL' ? 'selected' : ''}>CRL</option>
           <option value="ERA" ${frontmatter.venture === 'ERA' ? 'selected' : ''}>ERA</option>
           <option value="SAE" ${frontmatter.venture === 'SAE' ? 'selected' : ''}>SAE</option>
-          <option value="Personal" 
+          <option value="Personal"
                   ${frontmatter.venture === 'Personal' ? 'selected' : ''}>
             Personal
           </option>
@@ -53,26 +64,26 @@ export class NoteEditor extends ValidatedComponent {
       </div>
       <div class="note-editor__field">
         <label for="domain">Domain</label>
-        <input type="text" id="domain" name="domain" 
+        <input type="text" id="domain" name="domain"
                value="${this.escapeHtml(frontmatter.domain || '')}"
                aria-label="Domain">
       </div>
       <div class="note-editor__field">
         <label for="tags">Tags (comma-separated)</label>
-        <input type="text" id="tags" name="tags" 
-               value="${this.escapeHtml((frontmatter.tags || []).join(', '))}" 
+        <input type="text" id="tags" name="tags"
+               value="${this.escapeHtml((frontmatter.tags || []).join(', '))}"
                aria-label="Tags">
       </div>
       <div class="note-editor__field">
         <label for="first-action">First Action</label>
-        <input type="text" id="first-action" name="first_action" 
-               value="${this.escapeHtml(frontmatter.first_action || '')}" 
+        <input type="text" id="first-action" name="first_action"
+               value="${this.escapeHtml(frontmatter.first_action || '')}"
                aria-label="First action">
       </div>
       <div class="note-editor__field">
         <label for="effort-estimate">Effort Estimate (min)</label>
-        <input type="number" id="effort-estimate" name="effort_estimate_min" 
-               value="${frontmatter.effort_estimate_min || ''}" 
+        <input type="number" id="effort-estimate" name="effort_estimate_min"
+               value="${frontmatter.effort_estimate_min || ''}"
                min="0" aria-label="Effort estimate in minutes">
       </div>
       <div class="note-editor__field">
@@ -82,9 +93,41 @@ export class NoteEditor extends ValidatedComponent {
           ${this.escapeHtml(frontmatter.resume_hint || '')}
         </textarea>
       </div>
+      <div class="note-editor__section">
+        <h3>Review Workflow</h3>
+        <div class="note-editor__field">
+          <label for="review-stage">Review Stage</label>
+          <select id="review-stage" name="review_stage" aria-label="Review stage (optional)">
+            <option value="">-- No change --</option>
+            <option value="unreviewed" ${frontmatter.review_stage === 'unreviewed' ? 'selected' : ''}>Unreviewed</option>
+            <option value="in_progress" ${frontmatter.review_stage === 'in_progress' ? 'selected' : ''}>In Progress</option>
+            <option value="complete" ${frontmatter.review_stage === 'complete' ? 'selected' : ''}>Complete</option>
+          </select>
+        </div>
+        <div class="note-editor__field">
+          <label for="needs-review">
+            <input type="checkbox" id="needs-review" name="needs_review" value="true"
+                   ${frontmatter.needs_review ? 'checked' : ''}>
+            Needs Review
+          </label>
+        </div>
+        <div class="note-editor__field">
+          <label for="review-fields">Review Fields (comma-separated)</label>
+          <input type="text" id="review-fields" name="review_fields"
+                 value="${this.escapeHtml((frontmatter.review_fields || []).join(', '))}"
+                 placeholder="e.g., venture, tags, domain" aria-label="Fields requiring review (optional)">
+        </div>
+        <div class="note-editor__field">
+          <label for="review-notes">Review Notes</label>
+          <textarea id="review-notes" name="review_notes" rows="3"
+                    aria-label="Review notes (optional)">
+            ${this.escapeHtml(frontmatter.review_notes || '')}
+          </textarea>
+        </div>
+      </div>
       <div class="note-editor__actions">
-        <button type="submit">Save Changes</button>
-        <button type="button" class="cancel-button">Cancel</button>
+        <button type="submit" class="btn btn--primary">Save Changes</button>
+        <button type="button" class="btn btn--secondary">Cancel</button>
       </div>
       <div class="note-editor__validation" role="alert" aria-live="polite"></div>
     `;
@@ -96,7 +139,7 @@ export class NoteEditor extends ValidatedComponent {
     });
 
     // Add cancel handler
-    const cancelButton = form.querySelector('.cancel-button') as HTMLButtonElement;
+    const cancelButton = form.querySelector('.btn.btn--secondary') as HTMLButtonElement;
     if (cancelButton) {
       cancelButton.addEventListener('click', () => {
         this.emit('editor:cancel', {});
@@ -129,7 +172,7 @@ export class NoteEditor extends ValidatedComponent {
         const error = response.error || {
           code: 'UNKNOWN_ERROR',
           message: 'Failed to update note',
-          details: {}
+          details: {},
         };
         ApiErrorHandler.handle(error);
         this.emit('editor:error', { error });
@@ -139,13 +182,13 @@ export class NoteEditor extends ValidatedComponent {
       this.emit('editor:updated', {
         note_id: response.data.note_id,
         updated_fields: response.data.updated_fields,
-        updated_at: response.data.updated_at
+        updated_at: response.data.updated_at,
       });
     } catch (error) {
       const apiError = {
         code: 'UNKNOWN_ERROR',
         message: error instanceof Error ? error.message : 'Network error',
-        details: {}
+        details: {},
       };
       ApiErrorHandler.handle(apiError);
       this.emit('editor:error', { error: apiError });
@@ -168,7 +211,10 @@ export class NoteEditor extends ValidatedComponent {
 
     const tags = formData.get('tags') as string;
     if (tags) {
-      request.tags = tags.split(',').map((t) => t.trim()).filter((t) => t.length > 0);
+      request.tags = tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
     }
 
     const firstAction = formData.get('first_action') as string;
@@ -184,6 +230,29 @@ export class NoteEditor extends ValidatedComponent {
     const resumeHint = formData.get('resume_hint') as string;
     if (resumeHint) {
       request.resume_hint = resumeHint;
+    }
+
+    // Review workflow fields
+    const reviewStage = formData.get('review_stage') as string;
+    if (reviewStage) {
+      request.review_stage = reviewStage as 'unreviewed' | 'in_progress' | 'complete';
+    }
+
+    if (formData.has('needs_review')) {
+      request.needs_review = formData.get('needs_review') === 'true';
+    }
+
+    const reviewFieldsStr = formData.get('review_fields') as string;
+    if (reviewFieldsStr) {
+      request.review_fields = reviewFieldsStr
+        .split(',')
+        .map((f) => f.trim())
+        .filter((f) => f.length > 0);
+    }
+
+    const reviewNotes = formData.get('review_notes') as string;
+    if (reviewNotes) {
+      request.review_notes = reviewNotes;
     }
 
     await this.submitUpdate(request);
@@ -202,7 +271,7 @@ export class NoteEditor extends ValidatedComponent {
           return 'Effort estimate must be a number';
         }
         return null;
-      }
+      },
     };
   }
 
@@ -226,4 +295,3 @@ export class NoteEditor extends ValidatedComponent {
     );
   }
 }
-

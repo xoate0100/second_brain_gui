@@ -22,4 +22,3 @@ export interface ApiClient {
   put<T>(url: string, data: unknown): Promise<ApiResponse<T>>;
   delete<T>(url: string): Promise<ApiResponse<T>>;
 }
-

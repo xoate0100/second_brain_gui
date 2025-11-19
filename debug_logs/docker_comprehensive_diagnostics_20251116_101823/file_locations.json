@@ -1,0 +1,7 @@
+﻿{
+    "docker.exe":  {
+                       "Found":  true,
+                       "Path":  "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+                       "Type":  "PATH"
+                   }
+}

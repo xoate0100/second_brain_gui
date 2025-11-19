@@ -14,12 +14,12 @@ describe('parseApiError', () => {
         code: 'VALIDATION_ERROR',
         message: 'Invalid input',
         details: { field: 'status' },
-        trace_id: 'trace-123'
-      }
+        trace_id: 'trace-123',
+      },
     };
 
     const error = parseApiError(errorResponse);
-    
+
     expect(error.code).toBe('VALIDATION_ERROR');
     expect(error.message).toBe('Invalid input');
     expect(error.details).toEqual({ field: 'status' });
@@ -31,12 +31,12 @@ describe('parseApiError', () => {
       success: false,
       error: {
         code: 'VALIDATION_ERROR',
-        message: 'Invalid input'
-      }
+        message: 'Invalid input',
+      },
     };
 
     const error = parseApiError(errorResponse);
-    
+
     expect(error.code).toBe('VALIDATION_ERROR');
     expect(error.message).toBe('Invalid input');
   });
@@ -44,7 +44,7 @@ describe('parseApiError', () => {
   it('should create generic error for unknown format', () => {
     const unknown = { something: 'wrong' };
     const error = parseApiError(unknown);
-    
+
     expect(error.code).toBe('UNKNOWN_ERROR');
     expect(error.message).toContain('Unknown error');
   });
@@ -55,12 +55,12 @@ describe('ApiErrorHandler', () => {
     const error = {
       code: 'AUTHENTICATION_ERROR',
       message: 'Invalid API key',
-      details: {}
+      details: {},
     };
 
     const handler = vi.fn();
     ApiErrorHandler.handle(error, handler);
-    
+
     expect(handler).toHaveBeenCalledWith('auth', error);
   });
 
@@ -68,12 +68,12 @@ describe('ApiErrorHandler', () => {
     const error = {
       code: 'VALIDATION_ERROR',
       message: 'Invalid input',
-      details: { field: 'status' }
+      details: { field: 'status' },
     };
 
     const handler = vi.fn();
     ApiErrorHandler.handle(error, handler);
-    
+
     expect(handler).toHaveBeenCalledWith('validation', error);
   });
 
@@ -81,12 +81,12 @@ describe('ApiErrorHandler', () => {
     const error = {
       code: 'RATE_LIMIT_EXCEEDED',
       message: 'Too many requests',
-      details: { retry_after: 60 }
+      details: { retry_after: 60 },
     };
 
     const handler = vi.fn();
     ApiErrorHandler.handle(error, handler);
-    
+
     expect(handler).toHaveBeenCalledWith('rate_limit', error);
   });
 
@@ -94,13 +94,12 @@ describe('ApiErrorHandler', () => {
     const error = {
       code: 'INTERNAL_ERROR',
       message: 'Server error',
-      details: {}
+      details: {},
     };
 
     const handler = vi.fn();
     ApiErrorHandler.handle(error, handler);
-    
+
     expect(handler).toHaveBeenCalledWith('generic', error);
   });
 });
-

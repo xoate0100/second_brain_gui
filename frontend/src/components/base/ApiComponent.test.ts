@@ -60,18 +60,15 @@ describe('ApiComponent', () => {
     const error: ApiError = {
       code: 'TEST_ERROR',
       message: 'Test error message',
-      details: { field: 'value' }
+      details: { field: 'value' },
     };
 
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    
+
     await component['handleApiError'](error);
-    
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      '[ApiComponent] API Error:',
-      error
-    );
-    
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith('[ApiComponent] API Error:', error);
+
     consoleErrorSpy.mockRestore();
   });
 
@@ -81,4 +78,3 @@ describe('ApiComponent', () => {
     expect(rendered.className).toBe('test-api-component');
   });
 });
-
