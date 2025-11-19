@@ -16,10 +16,11 @@ export interface ReviewQueueParams {
   stage?: 'unreviewed' | 'in_progress' | 'complete';
   venture?: 'SWS' | 'CRL' | 'ERA' | 'SAE' | 'Personal';
   domain?: string;
-  limit?: number; // default: 50, max: 100
+  limit?: number; // default: 50, max: 100 (launchpad limits: 20 all-venture, 8 per-venture)
   offset?: number; // default: 0
   sort_by?: 'momentum_score' | 'created' | 'age_days';
   order?: 'asc' | 'desc'; // default: 'desc'
+  show_all?: boolean; // Override launchpad limits
 }
 
 export interface ReviewItem {

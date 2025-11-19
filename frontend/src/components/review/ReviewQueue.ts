@@ -17,6 +17,7 @@ import { ApiComponent } from '../base/ApiComponent';
 import { ReviewItem } from './ReviewItem';
 import { ReviewFilters } from './ReviewFilters';
 import { ReviewPagination } from './ReviewPagination';
+import { OverflowIndicator } from './OverflowIndicator';
 import { ReviewApiClient } from '../../api/review-api';
 import { ApiErrorHandler } from '../../api/errors';
 import type { ApiClient, ApiResponse } from '../../types/api';
@@ -34,6 +35,9 @@ export class ReviewQueue extends ApiComponent {
   private currentFilters: ReviewQueueParams = {};
   private currentPagination: Pagination | null = null;
   private loading = false;
+  private showAllItems: boolean = false;
+  private maxItemsAllVenture: number = 20;
+  private maxItemsPerVenture: number = 8;
 
   constructor(container: HTMLElement, reviewApi: ReviewApiClient, apiClient: ApiClient) {
     super(container, apiClient);
