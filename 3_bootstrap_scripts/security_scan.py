@@ -11,12 +11,12 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from pre_commit_utils import (
+from pre_commit_utils import (  # noqa: E402
     MAX_FILE_SIZE,
     files_from_argv_or_staged,
     norm_path,
     run_subprocess,
-)  # noqa: E402
+)
 
 SECRET_PATTERN = re.compile(
     r"(AWS_SECRET|BEGIN RSA PRIVATE KEY|password\s*=|api_key\s*=)",
