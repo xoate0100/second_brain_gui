@@ -37,7 +37,8 @@ def _is_pattern_definition(fwd: str) -> bool:
     if posix in PATTERN_DEFINITION_FILES:
         return True
     return any(
-        posix.endswith("/" + name) or posix.endswith(name) for name in PATTERN_DEFINITION_FILES
+        posix.endswith("/" + name) or posix.endswith(name)
+        for name in PATTERN_DEFINITION_FILES
     )
 
 
@@ -71,7 +72,10 @@ def main() -> int:
             print(f"  - {hit}")
         return 1
 
-    if os.environ.get("RUN_NPM_AUDIT") == "1" and Path("frontend/package.json").is_file():
+    if (
+        os.environ.get("RUN_NPM_AUDIT") == "1"
+        and Path("frontend/package.json").is_file()
+    ):
         audit = run_subprocess(
             ["npm", "audit", "--audit-level=high"],
             cwd="frontend",
