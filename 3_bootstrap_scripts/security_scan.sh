@@ -11,6 +11,7 @@ if git grep -nE "(AWS_SECRET|BEGIN RSA PRIVATE KEY|password[[:space:]]*=|api_key
   echo "Secret-like patterns found."
   STATUS=1
 fi
+# Node audit (best-effort)
 if [ -f "frontend/package.json" ]; then
   (cd frontend && npm audit --audit-level=high || true)
 fi
